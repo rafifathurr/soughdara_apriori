@@ -1,0 +1,141 @@
+html{
+    width: 100%;
+    height: 100%;
+   }
+   body{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-image: url(../img/bg_login.jpg) ;
+    background-size:cover;
+    background-repeat: no-repeat;
+   }
+
+   label{
+    margin-bottom:20px;
+   }
+   .halaman{
+    width: 100%;
+    height: 100%;
+    display: flex;
+   }
+   .gambar{
+    width: 50%;
+    display: flex;
+    border: 0 solid #e5e7eb;;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #232130; */
+   }
+   .hal-login{
+    width: 35%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+    background-color: #FEF3EA;
+   }
+   .container{
+    width: 70%;
+    height: 100%;
+    background-color: #FEF3EA;
+    position: absolute;
+    margin:auto;
+    left: 0;
+    right: 0;
+   }
+   .detail-cont{
+    width: 80%;
+    padding-top: 50px;
+ 
+    
+   }
+   .detail-cont h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: #FF9688;
+   }
+   .detail-cont p{
+    font-size: .875rem;
+    font-weight: 500px;
+    color: #FF9688;
+   }
+   .form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+   }
+ 
+   .input-icon {
+    margin: 10px 0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: white;
+    outline: none;
+    border: 1px solid #FF9688;
+    color: black;
+    display: flex;
+    flex-direction: row-reverse;
+   }
+   .input-icon:focus-within{
+    border: 1px solid #f55945;
+   }
+   .input-icon input{
+    width: 100%;
+    border: 0;
+    margin-left: 20px;
+    font-size: 15px;
+    color: black;
+   }
+   .form label{
+    font-size: 20px;
+    font-weight: 450px;
+    color: #FF9688;
+    padding: 20px 0px;
+   }
+   .form a{
+    float: right;
+    font-size: 15px;
+    font-weight: 400px;
+    color: grey;
+    text-align: right;
+    text-decoration: none;
+    transition: all 0.2s;
+    
+   }
+   .form a:hover{
+    color: rgb(172, 169, 169);
+    font-weight: 500;
+    text-decoration: none;
+   }
+   button{
+    width: 100%;
+    padding: 20px 0px ;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #F9A5C9 ;
+    color: white;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    transition: all 0.5s ;
+   }
+   button:hover{
+    background-color: #FF83B9;
+   }
+   .detail-regis{
+    width: 100%;
+    font-size: 15px ;
+    color: grey;
+    padding: 10px 0px;
+   }
+   .detail-regis a{
+    color: #00b887 ;
+    text-decoration: none;
+    font-weight: 600;
+   }
+   a:hover{
+    text-decoration: underline;
+   }
