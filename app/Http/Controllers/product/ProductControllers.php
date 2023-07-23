@@ -27,7 +27,7 @@ class ProductControllers extends Controller
     {
         return view('product.index', [
             "title" => "List Products",
-            "products" => Product::all()->where('is_deleted',null)
+            "products" => Product::where('deleted_at',null)->get()
         ]);
     }
 
@@ -38,7 +38,6 @@ class ProductControllers extends Controller
         $data['url'] = 'store';
         $data['disabled_'] = '';
         $data['categories'] = Category::orderBy('category', 'asc')->get();
-        $data['suppliers'] = Supplier::all();
         return view('product.create', $data);
     }
 
@@ -50,19 +49,14 @@ class ProductControllers extends Controller
 
         $product_pay = Product::create([
             'product_name' => $req->name,
-            'code' => $req->code,
-            'status' => $req->status,
-            'stock' => $req->stock,
-            'base_price' => $req->base_price,
-            'selling_price' => $req->selling_price,
+            'category_id' => $req->category,    
+            'price' => $req->price,
             'desc' => $req->desc,
-            'category_id' => $req->category,
-            'supplier_id' => $req->supplier,
             'created_at' => $datenow,
-            'created_by' => Auth::user()->username
+            'created_by' => Auth::user()->id
         ]);
 
-        $destination='Uploads/Product/'.$product_pay->id.'/uploads\\';
+        $destination='Uploads/Product/'.$product_pay->id;
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
@@ -87,7 +81,6 @@ class ProductControllers extends Controller
         $data['url'] = 'create';
         $data['products'] = Product::where('id', $id)->first();
         $data['categories'] = Category::all();
-        $data['suppliers'] = Supplier::all();
         return view('product.create', $data);
     }
 
@@ -99,7 +92,6 @@ class ProductControllers extends Controller
         $data['url'] = 'update';
         $data['products'] = Product::where('id', $id)->first();
         $data['categories'] = Category::all();
-        $data['suppliers'] = Supplier::all();
         return view('product.create', $data);
     }
 
@@ -110,16 +102,11 @@ class ProductControllers extends Controller
         $datenow = date('Y-m-d H:i:s');
         $product_pay = Product::where('id', $req->id)->update([
             'product_name' => $req->name,
-            'code' => $req->code,
-            'status' => $req->status,
-            'stock' => $req->stock,
-            'base_price' => $req->base_price,
-            'selling_price' => $req->selling_price,
+            'category_id' => $req->category,    
+            'price' => $req->price,
             'desc' => $req->desc,
-            'category_id' => $req->category,
-            'supplier_id' => $req->supplier,
             'updated_at' => $datenow,
-            'updated_by' => Auth::user()->username
+            'updated_by' => Auth::user()->id
         ]);
 
         $destination='Uploads/Product/'.$req->id.'/uploads\\';
@@ -140,11 +127,12 @@ class ProductControllers extends Controller
     // Delete Data Function
     public function delete(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $exec = Product::where('id', $req->id )->update([
-            'is_deleted'=>1,
+            'deleted_at'=>$datenow,
             'updated_at'=>$datenow,
-            'updated_by'=>Auth::user()->username
+            'updated_by'=>Auth::user()->id
         ]);
 
         if ($exec) {

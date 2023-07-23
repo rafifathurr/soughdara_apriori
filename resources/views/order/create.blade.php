@@ -48,7 +48,7 @@
                                                                 echo 'selected';
                                                             } ?> @endisset
                                                             value="{{ $prod->id }}">{{ $prod->product_name }}</option>
-                                                    @endforeach
+                                                        @endforeach
                                                     </select>
                                                 @else
                                                     <select name="prods" id="prods" onchange="getProds()" class="form-control"
@@ -109,25 +109,25 @@
                                                     <input type="text" name="sell_price" id="sell_price" class="form-control numeric"
                                                         @if (isset($orders)) value="{{ $orders->sell_price_product * $orders->qty }}" @endisset autocomplete="off" required="" style="width:100%" {{ $disabled_ }} readonly>
                                                 </div> @endif
-                                                    </div>
-                                            </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-6">
-                                                    <label class="col-md-6">Source Payment <span
-                                                            style="color: red;">*</span></label>
-                                                    <div class="col-md-12">
-                                                        <select name="source_pay" id="source_pay" class="form-control"
-                                                            required {{ $disabled_ }}>
-                                                            <option value="" style="display: none;"
-                                                                selected="">- Choose Sources -
-                                                            </option>
-                                                            @foreach ($sources as $source)
-                                                                <option
-                                                                    @if (isset($orders)) <?php if ($orders->source_id == $source->id) {
-                                                                        echo 'selected';
-                                                                    } ?> @endisset
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-6">
+                                            <label class="col-md-6">Source Payment <span
+                                                    style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="source_pay" id="source_pay" class="form-control"
+                                                    required {{ $disabled_ }}>
+                                                    <option value="" style="display: none;"
+                                                        selected="">- Choose Sources -
+                                                    </option>
+                                                    @foreach ($sources as $source)
+                                                        <option
+                                                            @if (isset($orders)) <?php if ($orders->source_id == $source->id) {
+                                                                echo 'selected';
+                                                            } ?> @endisset
                                                         value="{{ $source->id }}">{{ $source->source }}</option>
                                                     @endforeach
                                                 </select>
@@ -143,56 +143,56 @@
                                             </div>
                                         </div>
                                     </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-11">
-                                        <label class="col-md-6">Note </label>
-                                        <div class="col-md-12">
-                                            <textarea class="form-control" name="note" id="note" rows="5" cols="10" style="width:100%" {{ $disabled_ }}>@if (isset($orders)) {{ $orders->desc }} @endisset</textarea>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-11">
+                                            <label class="col-md-6">Note </label>
+                                            <div class="col-md-12">
+                                                <textarea class="form-control" name="note" id="note" rows="5" cols="10" style="width:100%" {{ $disabled_ }}>@if (isset($orders)) {{ $orders->desc }} @endisset</textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-6">
-                                        <label class="col-md-6">Platform Fee<span style="color: red;">*</span></label>
-                                        <div class="col-md-12">
-                                            <input type="text" name="cal_tax" id="cal_tax" class="form-control numeric"
-                                                @if (isset($orders)) value="{{ $orders->tax }}" @endisset autocomplete="off" required {{ $disabled_ }} readonly>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-6">
+                                            <label class="col-md-6">Platform Fee<span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="cal_tax" id="cal_tax" class="form-control numeric"
+                                                    @if (isset($orders)) value="{{ $orders->tax }}" @endisset autocomplete="off" required {{ $disabled_ }} readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="col-md-6">Calculation Profit <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="cal_profit" id="cal_profit"
+                                                    @if (isset($orders)) value="{{ $orders->profit }}" @endisset class="form-control numeric" autocomplete="off" required {{ $disabled_ }} readonly>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <label class="col-md-6">Calculation Profit <span style="color: red;">*</span></label>
-                                        <div class="col-md-12">
-                                            <input type="text" name="cal_profit" id="cal_profit"
-                                                @if (isset($orders)) value="{{ $orders->profit }}" @endisset class="form-control numeric" autocomplete="off" required {{ $disabled_ }} readonly>
+                                    <br>
+                                    @if (isset($orders))
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-11">
+                                            <div class="col-md-2"></div>
+                                            <label class="col-md-2"> <i><b>Created By</b></i> </label>
+                                            <div class="col-md-2">
+                                                <label for=""><i><b>{{ $orders->createdby->name }}</b></i></label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for=""><i><b>{{ $orders->created_at }}</b></i></label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br>
-                                @if (isset($orders))
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-11">
-                                        <div class="col-md-2"></div>
-                                        <label class="col-md-2"> <i><b>Created By</b></i> </label>
-                                        <div class="col-md-2">
-                                            <label for=""><i><b>{{ $orders->createdby->name }}</b></i></label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for=""><i><b>{{ $orders->created_at }}</b></i></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-11">
-                                        <div class="col-md-2"></div>
-                                        <label class="col-md-2"> <i><b>Updated By</b></i> </label>
-                                        @if ($orders->updated_by != null)
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-11">
+                                            <div class="col-md-2"></div>
+                                            <label class="col-md-2"> <i><b>Updated By</b></i> </label>
+                                            @if ($orders->updated_by != null)
                                             <div class="col-md-2">
                                                 <label for=""><i><b>{{ $orders->updatedby->name }}</b></i></label>
                                             </div>
@@ -206,88 +206,88 @@
                                             <div class="col-md-4">
                                                 <label for=""><i><b>-</b></i></label>
                                             </div> @endif
-                                                                    </div>
-                                                    </div>
-                                                    <br>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    @endif
+                                    <div class="modal-footer">
+                                        <div style="float:right;">
+                                            @if ($title == 'Add Order')
+                                                <div class="col-md-10" style="margin-right: 20px;">
+                                                    @if (Auth::guard('admin')->check())
+                                                        <a href="{{ route('admin.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                        <button id="save_data" type="submit"
+                                                            class="btn btn-primary"
+                                                            style="margin-left:10px;">
+                                                            <i class="fa fa-check"></i>&nbsp;
+                                                            Save
+                                                        </button>
+                                                    @else
+                                                        <a href="{{ route('user.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            style="margin-left:10px;">
+                                                            <i class="fa fa-check"></i>&nbsp;
+                                                            Save
+                                                        </button>
                                                     @endif
-                                                    <div class="modal-footer">
-                                                        <div style="float:right;">
-                                                            @if ($title == 'Add Order')
-                                                                <div class="col-md-10" style="margin-right: 20px;">
-                                                                    @if (Auth::guard('admin')->check())
-                                                                        <a href="{{ route('admin.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                        <button id="save_data" type="submit"
-                                                                            class="btn btn-primary"
-                                                                            style="margin-left:10px;">
-                                                                            <i class="fa fa-check"></i>&nbsp;
-                                                                            Save
-                                                                        </button>
-                                                                    @else
-                                                                        <a href="{{ route('user.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                        <button type="submit" class="btn btn-primary"
-                                                                            style="margin-left:10px;">
-                                                                            <i class="fa fa-check"></i>&nbsp;
-                                                                            Save
-                                                                        </button>
-                                                                    @endif
-                                                                </div>
-                                                            @elseif ($title == 'Edit Order')
-                                                                <div class="col-md-10" style="margin-right: 20px;">
-                                                                    @if (Auth::guard('admin')->check())
-                                                                        <a href="{{ route('admin.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                        <button type="submit" class="btn btn-primary"
-                                                                            style="margin-left:10px;">
-                                                                            <i class="fa fa-check"></i>&nbsp;
-                                                                            Save
-                                                                        </button>
-                                                                    @else
-                                                                        <a href="{{ route('user.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                        <button id="save_data" type="submit"
-                                                                            class="btn btn-primary"
-                                                                            style="margin-left:10px;">
-                                                                            <i class="fa fa-check"></i>&nbsp;
-                                                                            Save
-                                                                        </button>
-                                                                    @endif
-                                                                </div>
-                                                            @else
-                                                                <div class="col-md-10" style="margin-right: 20px;">
-                                                                    @if (Auth::guard('admin')->check())
-                                                                        <a href="{{ route('admin.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                    @else
-                                                                        <a href="{{ route('user.order.index') }}"
-                                                                            type="button" class="btn btn-danger">
-                                                                            <i class="fa fa-arrow-left"></i>&nbsp;
-                                                                            Back
-                                                                        </a>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    </form>
                                                 </div>
-                                            </div>
+                                            @elseif ($title == 'Edit Order')
+                                                <div class="col-md-10" style="margin-right: 20px;">
+                                                    @if (Auth::guard('admin')->check())
+                                                        <a href="{{ route('admin.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            style="margin-left:10px;">
+                                                            <i class="fa fa-check"></i>&nbsp;
+                                                            Save
+                                                        </button>
+                                                    @else
+                                                        <a href="{{ route('user.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                        <button id="save_data" type="submit"
+                                                            class="btn btn-primary"
+                                                            style="margin-left:10px;">
+                                                            <i class="fa fa-check"></i>&nbsp;
+                                                            Save
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <div class="col-md-10" style="margin-right: 20px;">
+                                                    @if (Auth::guard('admin')->check())
+                                                        <a href="{{ route('admin.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('user.order.index') }}"
+                                                            type="button" class="btn btn-danger">
+                                                            <i class="fa fa-arrow-left"></i>&nbsp;
+                                                            Back
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </section>
                 </section>
             </div>

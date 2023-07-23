@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 23/07/2023 07:43:40
+ Date: 23/07/2023 16:52:30
 */
 
 SET NAMES utf8mb4;
@@ -34,10 +34,28 @@ CREATE TABLE `category_prod`  (
 -- ----------------------------
 -- Records of category_prod
 -- ----------------------------
-INSERT INTO `category_prod` VALUES (1, 'Real OG', NULL, '2023-07-23 07:25:17', NULL, NULL);
+INSERT INTO `category_prod` VALUES (1, 'The OG', NULL, '2023-07-23 07:25:17', '2023-07-23 16:21:10', NULL);
 INSERT INTO `category_prod` VALUES (2, 'Signature', NULL, '2023-07-23 07:41:57', NULL, NULL);
 INSERT INTO `category_prod` VALUES (3, 'Package', NULL, '2023-07-23 07:42:12', NULL, NULL);
 INSERT INTO `category_prod` VALUES (4, 'Seasonal Menu', NULL, '2023-07-23 07:42:25', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for details_order
+-- ----------------------------
+DROP TABLE IF EXISTS `details_order`;
+CREATE TABLE `details_order`  (
+  `id` int NOT NULL,
+  `product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `qty` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of details_order
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -98,10 +116,37 @@ CREATE TABLE `orders`  (
   `created_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `updated_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for orders_new
+-- ----------------------------
+DROP TABLE IF EXISTS `orders_new`;
+CREATE TABLE `orders_new`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` date NULL DEFAULT NULL,
+  `time` time NOT NULL,
+  `product` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `refund` int NULL DEFAULT NULL,
+  `discount` int NULL DEFAULT NULL,
+  `total_amount` int NULL DEFAULT NULL,
+  `payment_method` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `event_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of orders_new
 -- ----------------------------
 
 -- ----------------------------
@@ -176,22 +221,21 @@ CREATE TABLE `product`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `product_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `category_id` int NULL DEFAULT NULL,
-  `selling_price` int NULL DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `stock` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `price` int NULL DEFAULT NULL,
   `upload` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `desc` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `updated_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
+INSERT INTO `product` VALUES (1, 'Real OG', 1, 11000, '1690104983_og.png', 'Real OG Doughnut', '2023-07-23 16:36:23', '2023-07-23 16:52:09', '2023-07-23 16:52:09', 1, 1);
 
 -- ----------------------------
 -- Table structure for users

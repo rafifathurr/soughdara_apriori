@@ -56,7 +56,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
             Route::post('export', 'OrderControllers@export')->name('export');
         });
 
-        // ROUTE TO PRODUCT CONTROLLERS
+        // ROUTE TO PRODUCTS CONTROLLERS
         Route::namespace('product')->prefix('product')->name('product.')->group(function () {
             Route::get('/', 'ProductControllers@index')->name('index');
             Route::get('create', 'ProductControllers@create')->name('create');
@@ -67,7 +67,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
             Route::post('delete', 'ProductControllers@delete')->name('delete');
         });
 
-        // ROUTE TO SOURCE PAYMENT CONTROLLERS
+        // ROUTE TO PAYMENT METHOD CONTROLLERS
         Route::namespace('payment_method')->prefix('payment-method')->name('payment_method.')->group(function () {
             Route::get('/', 'PaymentMethodController@index')->name('index');
             Route::get('create', 'PaymentMethodController@create')->name('create');
@@ -76,17 +76,6 @@ Route::namespace('App\Http\Controllers')->group(function (){
             Route::get('edit/{id}', 'PaymentMethodController@edit')->name('edit');
             Route::post('update', 'PaymentMethodController@update')->name('update');
             Route::post('delete', 'PaymentMethodController@delete')->name('delete');
-        });
-
-        // ROUTE TO SUPPLIER CONTROLLERS
-        Route::namespace('supplier')->prefix('supplier')->name('supplier.')->group(function () {
-            Route::get('/', 'SupplierControllers@index')->name('index');
-            Route::get('create', 'SupplierControllers@create')->name('create');
-            Route::post('store', 'SupplierControllers@store')->name('store');
-            Route::get('detail/{id}', 'SupplierControllers@detail')->name('detail');
-            Route::get('edit/{id}', 'SupplierControllers@edit')->name('edit');
-            Route::post('update', 'SupplierControllers@update')->name('update');
-            Route::post('delete', 'SupplierControllers@delete')->name('delete');
         });
 
         // ROUTE TO CATEGORY CONTROLLERS

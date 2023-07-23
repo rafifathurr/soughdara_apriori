@@ -42,132 +42,6 @@
                                         </div>
                                     </div>
                                     <br>
-                                    @if(Auth::guard('admin')->check())
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-6">Part Code <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="code" id="code" class="form-control"
-                                                    step="1" @if (isset($products)) value="{{ $products->code }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-6">Status <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <select class="form-control selectpicker" id="status"
-                                                    name="status" data-size="8" data-show-subtext="true"
-                                                    data-live-search="true" @if(isset($products)) @endisset autocomplete="off" required {{ $disabled_ }}>
-                                                    <option value="" disabled hidden>- Select Status -</option>
-                                                    @if(isset($products))
-                                                        <option selected value="{{$products->status}}" hidden>{{$products->status}}</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="Inactive">Inactive</option>
-                                                    @else
-                                                        <option value="Active" selected>Active</option>
-                                                        <option value="Inactive">Inactive</option>
-                                                    @endisset
-                                                </select>
-                                            </div>  
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="col-md-6">Stock <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="number" style="text-align:center;" name="stock" id="stock" class="form-control"
-                                                    step="1" @if (isset($products)) value="{{ $products->stock }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @else
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-6">Part Code <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="code" id="code" class="form-control"
-                                                    step="1" @if (isset($products)) value="{{ $products->code }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label class="col-md-6">Status <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <select class="form-control selectpicker" id="status"
-                                                    name="status" data-size="8" data-show-subtext="true"
-                                                    data-live-search="true" @if(isset($products)) @endisset autocomplete="off" required {{ $disabled_ }}>
-                                                    <option value="" disabled hidden>- Select Status -</option>
-                                                    @if(isset($products))
-                                                        <option selected value="{{$products->status}}" hidden>{{$products->status}}</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="Inactive">Inactive</option>
-                                                    @else
-                                                        <option value="Active" selected>Active</option>
-                                                        <option value="Inactive">Inactive</option>
-                                                    @endisset
-                                                </select>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                    @endif
-                                    <br>
-                                    @if(Auth::guard('admin')->check())
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-6">Base Price <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="base_price" id="base_price" class="form-control numeric"
-                                                    step="1" @if (isset($products)) value="{{ $products->base_price }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label class="col-md-6">Selling Price <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="selling_price" id="selling_price" class="form-control numeric"
-                                                    step="1" @if (isset($products)) value="{{ $products->selling_price }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @else
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-7">
-                                            <input type="hidden" name="base_price" id="base_price" class="form-control numeric"
-                                                step="1" @if (isset($products)) value="{{ $products->base_price }}" @endisset autocomplete="off" required
-                                                {{ $disabled_ }} style="width:100%;">
-                                            <label class="col-md-6">Selling Price <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="selling_price" id="selling_price" class="form-control numeric"
-                                                    step="1" @if (isset($products)) value="{{ $products->selling_price }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-6">Stock <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="number" style="text-align:center;" name="stock" id="stock" class="form-control"
-                                                    step="1" @if (isset($products)) value="{{ $products->stock }}" @endisset autocomplete="off" required
-                                                    {{ $disabled_ }} style="width:100%;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-11">
-                                            <label class="col-md-6">Description </label>
-                                            <div class="col-md-12">
-                                                <textarea class="form-control" name="desc" id="desc" rows="5" cols="10" autocomplete="off"
-                                                    {{ $disabled_ }} style="width:100%">@if (isset($products)) {{ $products->desc }} @endisset</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
                                     <div class="row">
                                         <div class="col-md-1"></div>
                                         <div class="col-md-6">
@@ -184,16 +58,22 @@
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <label class="col-md-6">Supplier <span style="color: red;">*</span></label>
+                                            <label class="col-md-6">Price <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <select class="form-control selectpicker" id="supplier"
-                                                    name="supplier" data-size="8" data-show-subtext="true"
-                                                    data-live-search="true" @if(isset($products)) @endisset autocomplete="off" required {{ $disabled_ }}>
-                                                    <option value="" selected disabled hidden>- Select Supplier -</option>
-                                                    @foreach($suppliers as $sup)
-                                                        <option  @if(isset($products)) <?php if($products->supplier_id == $sup->id){echo 'selected';}?> @endisset value="{{$sup->id}}">{{$sup->supplier}}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" name="price" id="price" class="form-control numeric"
+                                                    step="1" @if (isset($products)) value="{{ $products->price }}" @endisset autocomplete="off" required
+                                                    {{ $disabled_ }} style="width:100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-11">
+                                            <label class="col-md-6">Description </label>
+                                            <div class="col-md-12">
+                                                <textarea class="form-control" name="desc" id="desc" rows="5" cols="10" autocomplete="off"
+                                                    {{ $disabled_ }} style="width:100%">@if (isset($products)) {{ $products->desc }} @endisset</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +85,7 @@
                                             <div class="col-md-12">
                                                 @if ($title == 'Add Products' || $title == 'Edit Products')
                                                     <input type="file" id="uploads" name="uploads" class="form-control"
-                                                        accept=".doc, .docx, .pdf, .png, .jpg, .jpeg">
+                                                        accept=".png, .jpg, .jpeg">
                                                     <br>
                                                     @if(isset($products))    
                                                         @if($products->upload != null)
@@ -217,12 +97,12 @@
                                                             ?>
                                                             <a href="{{url('/').'/Uploads/Product/'.$products->id.'/uploads/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a>
                                                             <br>
-                                                            <span style="font-size: 13px;color: red">*) .doc .docx .pdf .png .jpg .jpeg</span>
+                                                            <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                         @else
-                                                            <span style="font-size: 13px;color: red">*) .doc .docx .pdf .png .jpg .jpeg</span>
+                                                            <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                         @endif
                                                     @else
-                                                        <span style="font-size: 13px;color: red">*) .doc .docx .pdf .png .jpg .jpeg</span>
+                                                        <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                     @endif
                                                 @else
                                                     @if(isset($products))    
@@ -235,7 +115,7 @@
                                                             ?>
                                                             <a href="{{url('/').'/Uploads/Product/'.$products->id.'/uploads/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a><br>
                                                         @else
-                                                            <span style="font-size: 13px;color: red">*) .doc .docx .pdf .png .jpg .jpeg</span>
+                                                            <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                         @endif
                                                     @endif
                                                 @endif

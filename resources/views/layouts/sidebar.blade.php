@@ -92,18 +92,18 @@
                             <p>Order</p>
                         </a>
                     </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">Master Data</h4>
+                    </li>
                     <li
                         class="nav-item {{ $title === 'List Products' || $title === 'Add Products' || $title === 'Edit Products' || $title === 'Detail Products' ? 'active' : '' }}">
                         <a href="{{ route('admin.product.index') }}" class="collapsed" aria-expanded="false">
                             <i class="fas fa-boxes"></i>
                             <p>Product</p>
                         </a>
-                    </li>
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon">
-                            <i class="fa fa-ellipsis-h"></i>
-                        </span>
-                        <h4 class="text-section">Master Data</h4>
                     </li>
                     <li
                         class="nav-item {{ $title === 'List Category Product' || $title === 'Add Category Product' || $title === 'Edit Category Product' || $title === 'Detail Category Product' ? 'active' : '' }}">

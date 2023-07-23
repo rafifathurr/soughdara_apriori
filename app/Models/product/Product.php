@@ -20,18 +20,13 @@ class Product extends Model
         return $this->belongsTo('App\Models\category\Category', 'category_id', 'id');
       }
 
-      public function supplier()
-      {
-        return $this->belongsTo('App\Models\supplier\Supplier', 'supplier_id', 'id');
-      }
-
       public function createdby()
       {
-        return $this->belongsTo('App\Models\users\User', 'created_by', 'username');
+        return $this->belongsTo('App\Models\users\User', 'created_by', 'id');
       }
 
       public function updatedby()
       {
-        return $this->belongsTo('App\Models\users\User', 'updated_by', 'username');
+        return $this->belongsTo('App\Models\users\User', 'updated_by', 'id');
       }
   }

@@ -107,7 +107,7 @@
                                         </thead>
                                         <tbody>
                                             <?php $num = 0; ?>
-                                            @foreach ($orders as $order)
+                                            {{-- @foreach ($orders as $order)
                                                 <tr role="row" class="odd">
                                                     <td>
                                                         <center>{{ $num = $num + 1 }}</center>
@@ -185,7 +185,7 @@
                                                         </center>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>

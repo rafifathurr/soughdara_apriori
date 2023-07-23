@@ -24,7 +24,7 @@ class RoleControllers extends Controller
     {
         return view('role.index', [
             "title" => "List User Roles",
-            "roles" => Role::all()->where('is_deleted',null)
+            "roles" => Role::all()->where('deleted_at',null)
         ]);
     }
 
@@ -88,10 +88,11 @@ class RoleControllers extends Controller
     // Delete Data Function
     public function delete(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $exec = Role::where('id', $req->id )->update([
             'updated_at'=> $datenow,
-            'is_deleted'=> 1
+            'deleted_at'=> $datenow
         ]);
 
         if ($exec) {
