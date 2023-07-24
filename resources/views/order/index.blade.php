@@ -56,51 +56,25 @@
                                         style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting_asc" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1" aria-sort="ascending"
-                                                    aria-label="Name: activate to sort column descending">
+                                                <th width="10%">
                                                     <center>No</center>
                                                 </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="font-weight:900;">
+                                                <th width="15%">
+                                                    <center>Receipt Number</center>
+                                                </th>
+                                                <th width="15%">
                                                     <center>Date</center>
                                                 </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="font-weight:900;">
-                                                    <center>Product</center>
+                                                <th width="15%">
+                                                    <center>Time</center>
                                                 </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="width: 15%; font-weight:900;">
-                                                    <center>Code</center>
+                                                <th width="15%">
+                                                    <center>Type</center>
                                                 </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="width: 15%; font-weight:900;">
-                                                    <center>Source Payment</center>
+                                                <th width="15%">
+                                                    <center>Total Amount</center>
                                                 </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="font-weight:900;">
-                                                    <center>Qty</center>
-                                                </th>
-                                                <th width:"25%" class="sorting" tabindex="0" aria-controls="add-row"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="font-weight:900;">
-                                                    <center>Profit</center>
-                                                </th>
-                                                <th width="15%" class="sorting" tabindex="0"
-                                                    aria-controls="add-row" rowspan="1" colspan="1"
-                                                    aria-label="Action: activate to sort column ascending"
-                                                    style="font-weight:900;">
+                                                <th width="15%">
                                                     <center>Action</center>
                                                 </th>
                                             </tr>

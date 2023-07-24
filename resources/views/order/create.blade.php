@@ -28,7 +28,7 @@
                                             enctype="multipart/form-data">
                                 @endif
                                 {{ csrf_field() }}
-                                <br>
+                                {{-- <br>
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-8">
@@ -75,12 +75,30 @@
                                                 @if (isset($orders)) value="{{ $orders->qty }}" @endisset step="1" required="" style="width:35%" {{ $disabled__ }} {{ $disabled_ }}>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <br>
                                     <div class="row">
                                         <div class="col-md-1"></div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-6">Entry Price <span style="color: red;">*</span></label>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Receipt Number <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
+                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
+                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
+                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
+                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <input type="hidden" name="sell_price_old" id="sell_price_old"
                                                     @if (isset($orders)) value="{{ $orders->sell_price_product }}" @endisset class="form-control" required {{ $disabled_ }}
@@ -88,58 +106,6 @@
                                                 <input type="text" name="entry_price" id="entry_price"
                                                     @if (isset($orders)) value="{{ $orders->entry_price }}" @endisset class="form-control numeric" autocomplete="off" required="" {{ $disabled_ }}
                                                     style="width:100%">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            @if (Auth::guard('admin')->check())
-                                                <label class="col-md-6">Base Price <span style="color: red;">*</span></label>
-                                                <div class="col-md-12">
-                                                    <input type="hidden" name="base_price_old" id="base_price_old" class="form-control"
-                                                        @if (isset($orders)) value="{{ $orders->base_price_product }}" @endisset readonly>
-                                                    <input type="text" name="base_price" id="base_price" class="form-control numeric"
-                                                        @if (isset($orders)) value="{{ $orders->base_price_product * $orders->qty }}" @endisset autocomplete="off" required="" style="width:100%" {{ $disabled_ }} readonly>
-                                                </div>
-                                            @else
-                                                <label class="col-md-6">Sell Price <span style="color: red;">*</span></label>
-                                                <div class="col-md-12">
-                                                    <input type="hidden" name="base_price_old" id="base_price_old" class="form-control"
-                                                        @if (isset($orders)) value="{{ $orders->base_price_product }}" @endisset readonly>
-                                                    <input type="hidden" name="base_price" id="base_price" class="form-control numeric"
-                                                        @if (isset($orders)) value="{{ $orders->base_price_product * $orders->qty }}" @endisset autocomplete="off" required="" style="width:100%" {{ $disabled_ }} readonly>
-                                                    <input type="text" name="sell_price" id="sell_price" class="form-control numeric"
-                                                        @if (isset($orders)) value="{{ $orders->sell_price_product * $orders->qty }}" @endisset autocomplete="off" required="" style="width:100%" {{ $disabled_ }} readonly>
-                                                </div> @endif
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-6">Source Payment <span
-                                                    style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <select name="source_pay" id="source_pay" class="form-control"
-                                                    required {{ $disabled_ }}>
-                                                    <option value="" style="display: none;"
-                                                        selected="">- Choose Sources -
-                                                    </option>
-                                                    @foreach ($sources as $source)
-                                                        <option
-                                                            @if (isset($orders)) <?php if ($orders->source_id == $source->id) {
-                                                                echo 'selected';
-                                                            } ?> @endisset
-                                                        value="{{ $source->id }}">{{ $source->source }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label class="col-md-6">Date Order <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
-                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
-                                                    @isset($orders) value="{{ $orders->date }}" @endisset
-                                                    required {{ $disabled_ }}>
                                             </div>
                                         </div>
                                     </div>
@@ -150,24 +116,6 @@
                                             <label class="col-md-6">Note </label>
                                             <div class="col-md-12">
                                                 <textarea class="form-control" name="note" id="note" rows="5" cols="10" style="width:100%" {{ $disabled_ }}>@if (isset($orders)) {{ $orders->desc }} @endisset</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-6">Platform Fee<span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="cal_tax" id="cal_tax" class="form-control numeric"
-                                                    @if (isset($orders)) value="{{ $orders->tax }}" @endisset autocomplete="off" required {{ $disabled_ }} readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label class="col-md-6">Calculation Profit <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="text" name="cal_profit" id="cal_profit"
-                                                    @if (isset($orders)) value="{{ $orders->profit }}" @endisset class="form-control numeric" autocomplete="off" required {{ $disabled_ }} readonly>
                                             </div>
                                         </div>
                                     </div>

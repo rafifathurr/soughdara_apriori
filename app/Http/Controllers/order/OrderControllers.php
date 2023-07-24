@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\order;
 
 use App\Http\Controllers\Controller;
-use App\Models\order\Order;
+use App\Models\order\Orders;
 use App\Models\source_payment\Source;
 use App\Models\product\Product;
 use App\Exports\ReportOrderExport;
@@ -29,14 +29,14 @@ class OrderControllers extends Controller
     {
         return view('order.index', [
             "title" => "List Order",
-            "years" => Order::select(DB::raw('YEAR(date) as tahun'))->orderBy(DB::raw('YEAR(date)'))->where('deleted_at',null)->groupBy(DB::raw("YEAR(date)"))->get(),
-            "months" => Order::select(DB::raw('MONTH(date) as bulan'))->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTH(date)"))->get(),
-            "orders" => Order::orderBy('date', 'DESC')->where('deleted_at',null)->get()
+            "years" => Orders::select(DB::raw('YEAR(date) as tahun'))->orderBy(DB::raw('YEAR(date)'))->where('deleted_at',null)->groupBy(DB::raw("YEAR(date)"))->get(),
+            "months" => Orders::select(DB::raw('MONTH(date) as bulan'))->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTH(date)"))->get(),
+            "orders" => Orders::orderBy('date', 'DESC')->where('deleted_at',null)->get()
         ]);
     }
 
     public function getMonth(Request $req){
-        $months = Order::select(DB::raw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan'))->whereYear('date', $req->tahun)->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTHNAME(date)"))->groupBy(DB::raw("MONTH(date)"))->get();
+        $months = Orders::select(DB::raw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan'))->whereYear('date', $req->tahun)->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTHNAME(date)"))->groupBy(DB::raw("MONTH(date)"))->get();
         return json_encode($months);
     }
 
@@ -47,8 +47,7 @@ class OrderControllers extends Controller
         $data['url'] = 'store';
         $data['disabled_'] = '';
         $data['disabled__'] = 'disabled';
-        $data['products'] = Product::orderBy('product_name', 'asc')->where('status', 'Active')->get();
-        $data['sources'] = Source::orderBy('id', 'asc')->get();
+        $data['products'] = Product::orderBy('product_name', 'asc')->where('deleted_at',null)->get();
         return view('order.create', $data);
     }
 
