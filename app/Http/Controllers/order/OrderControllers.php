@@ -47,7 +47,7 @@ class OrderControllers extends Controller
         $data['url'] = 'store';
         $data['disabled_'] = '';
         $data['disabled__'] = 'disabled';
-        $data['products'] = Product::orderBy('product_name', 'asc')->where('deleted_at',null)->get();
+        $data['products'] = Product::where('deleted_at',null)->orderBy('product_name', 'asc')->get();
         return view('order.create', $data);
     }
 
@@ -198,6 +198,6 @@ class OrderControllers extends Controller
             ];
             return Excel::download(new ReportOrderExport($data), 'Reports_Order_'.date("F", mktime(0, 0, 0, $req->month, 10)).'_'.$req->tahun.'.xlsx');
         }
-        
+
     }
 }

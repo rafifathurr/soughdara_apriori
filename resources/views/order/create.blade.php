@@ -21,13 +21,15 @@
                         <div class="box box-primary">
                             <div class="box-body">
                                 @if (Auth::guard('admin')->check())
-                                    <form id="form_add" action="{{ route('admin.order.' . $url) }}" method="POST"
+                                <form id="form_add" action="{{ route('admin.order.' . $url) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                @else
+                                    <form id="form_add" action="{{ route('user.order.' . $url) }}" method="POST"
                                         enctype="multipart/form-data">
-                                    @else
-                                        <form id="form_add" action="{{ route('user.order.' . $url) }}" method="POST"
-                                            enctype="multipart/form-data">
                                 @endif
                                 {{ csrf_field() }}
+                                <input type="hidden" class="form-control" id="id" name="id"
+                                    @if(isset($orders)) value="{{ $orders->id }}" @endisset>
                                 {{-- <br>
                                 <div class="row">
                                     <div class="col-md-1"></div>
@@ -78,41 +80,69 @@
                                     </div> --}}
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-1"></div>
                                         <div class="col-md-4">
                                             <label class="col-md-12">Receipt Number <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
-                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
-                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                <input type="text" name="receipt_number" id="receipt_number" class="form-control"
+                                                    autocomplete="off" data-date=""
+                                                    @isset($orders) value="{{ $orders->receipt_number }}" @endisset
                                                     required {{ $disabled_ }}>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
-                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
+                                                    data-date-format="DD/MM/YYYY"
                                                     @isset($orders) value="{{ $orders->date }}" @endisset
                                                     required {{ $disabled_ }}>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
+                                            <label class="col-md-12">Type <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="hidden" name="sell_price_old" id="sell_price_old"
-                                                    @if (isset($orders)) value="{{ $orders->sell_price_product }}" @endisset class="form-control" required {{ $disabled_ }}
-                                                    style="width:100%">
-                                                <input type="text" name="entry_price" id="entry_price"
-                                                    @if (isset($orders)) value="{{ $orders->entry_price }}" @endisset class="form-control numeric" autocomplete="off" required="" {{ $disabled_ }}
-                                                    style="width:100%">
+                                                <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }}>
+                                                @if(isset($orders))
+                                                    <option value="{{$orders->event_type}}" hidden selected>{{$orders->event_type}}</option>
+                                                    <option value="Payment">Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @else
+                                                    <option value="Payment" selected>Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @endisset
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-11">
+                                        <div class="col-md-7">
+                                            <label class="col-md-12">Product <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="prods" id="prods" class="form-control" {{ $disabled_ }}>
+                                                    <option value="" hidden selected>- Choose Products -
+                                                    </option>
+                                                    @foreach ($products as $prod)
+                                                        <option @isset($orders)
+                                                        @if($orders->product_name == $prod->product_name) selected
+                                                        @endif @endisset value="{{ $prod->product_name }}">
+                                                            {{ $prod->product_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="total_amount" id="total_amount"
+                                                    @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <label class="col-md-6">Note </label>
                                             <div class="col-md-12">
                                                 <textarea class="form-control" name="note" id="note" rows="5" cols="10" style="width:100%" {{ $disabled_ }}>@if (isset($orders)) {{ $orders->desc }} @endisset</textarea>
