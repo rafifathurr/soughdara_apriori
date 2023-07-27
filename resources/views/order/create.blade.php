@@ -30,54 +30,6 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" class="form-control" id="id" name="id"
                                     @if(isset($orders)) value="{{ $orders->id }}" @endisset>
-                                {{-- <br>
-                                <div class="row">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-8">
-                                        <label class="col-md-6">Product <span style="color: red;">*</span></label>
-                                        <div class="col-md-12">
-                                            <input type="hidden" class="form-control" id="id" name="id"
-                                                @if (isset($orders)) value="{{ $orders->id }}" @endisset
-                                                    autocomplete="off" required="">
-                                                @if ($title == 'Edit Order')
-                                                    <select name="prods" id="prods" onchange="getProds()" class="form-control"
-                                                        @if (isset($orders)) @endisset {{ $disabled_ }} readonly>
-                                                        <option value="" style="display: none;" selected="">- Choose Products -
-                                                        </option>
-                                                        @foreach ($products as $prod)
-                                                            <option @if (isset($orders))
-                                                            <?php if ($orders->product_id == $prod->id) {
-                                                                echo 'selected';
-                                                            } ?> @endisset
-                                                            value="{{ $prod->id }}">{{ $prod->product_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                @else
-                                                    <select name="prods" id="prods" onchange="getProds()" class="form-control"
-                                                        @if (isset($orders)) @endisset {{ $disabled_ }}>
-                                                        <option value="" style="display: none;" selected="">- Choose Products -
-                                                        </option>
-                                                        @foreach ($products as $prod)
-                                                            <option @if (isset($orders))
-                                                            <?php if ($orders->product_id == $prod->id) {
-                                                                echo 'selected';
-                                                            } ?> @endisset
-                                                            value="{{ $prod->id }}">{{ $prod->product_name }}</option>
-                                                    @endforeach
-                                                    </select> @endif
-                                                </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="col-md-6">Qty <span style="color: red;">*</span></label>
-                                            <div class="col-md-12">
-                                                <input type="hidden" min="0" name="stock" id="stock"
-                                                    class="form-control"
-                                                    @if (isset($orders)) value="{{ $orders->product->stock }}" @endisset step="1" required="" style="width:35%" {{ $disabled_ }}>
-                                                <input type="number" min="0" name="qty" id="qty" class="form-control"
-                                                @if (isset($orders)) value="{{ $orders->qty }}" @endisset step="1" required="" style="width:35%" {{ $disabled__ }} {{ $disabled_ }}>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                     <br>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -101,7 +53,7 @@
                                         <div class="col-md-4">
                                             <label class="col-md-12">Type <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }}>
+                                                <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
                                                 @if(isset($orders))
                                                     <option value="{{$orders->event_type}}" hidden selected>{{$orders->event_type}}</option>
                                                     <option value="Payment">Payment</option>
@@ -119,7 +71,7 @@
                                         <div class="col-md-7">
                                             <label class="col-md-12">Product <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <select name="prods" id="prods" class="form-control" {{ $disabled_ }}>
+                                                <select name="prods" id="prods" class="form-control" {{ $disabled_ }} required>
                                                     <option value="" hidden selected>- Choose Products -
                                                     </option>
                                                     @foreach ($products as $prod)
@@ -136,7 +88,7 @@
                                             <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <input type="text" name="total_amount" id="total_amount"
-                                                    @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric">
+                                                    @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric" required>
                                             </div>
                                         </div>
                                     </div>

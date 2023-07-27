@@ -64,32 +64,8 @@ class OrderControllers extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
 
-        $get_prods = Product::where('id', $req->prods)->first();
-
-        $new_update_stock = $get_prods->stock - $req->qty;
-
-        if($new_update_stock == 0){
-            Product::where('id', $req->prods)->update([
-                'stock' => $new_update_stock,
-                'status' => 'Inactive',
-                'updated_at' => $datenow,
-                'updated_by' => Auth::user()->username
-            ]);
-        }else{
-            Product::where('id', $req->prods)->update([
-                'stock' => $new_update_stock,
-                'updated_at' => $datenow,
-                'updated_by' => Auth::user()->username
-            ]);
-        }
-
-        $order_pay = Order::create([
-            'product_id' => $req->prods,
-            'qty' => $req->qty,
-            'entry_price' => $req->entry_price,
-            'base_price_product' => $req->base_price_old,
-            'sell_price_product' => $req->sell_price_old,
-            'source_id' => $req->source_pay,
+        $order_pay = Orders::create([
+            'receipt_number' => $req->receipt_number,
             'date' => $req->tgl,
             'note' => $req->note,
             'tax' => $req->cal_tax,
