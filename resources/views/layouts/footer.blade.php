@@ -55,7 +55,10 @@
 <script src="{{ asset('js/demo.js') }}"></script>
 <script src="{{url('js/plugin/inputmask/jquery.inputmask.bundle.js')}}"></script>
 
-<script type="text/javascript"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<script type="text/javascript">
 
                         $('.numeric').inputmask({
                             alias:"numeric",
@@ -76,5 +79,5 @@
                             },
                             removeMaskOnSubmit:true
                         });
-                        
+
 </script>

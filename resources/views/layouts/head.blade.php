@@ -3,7 +3,7 @@
     <title>Soughdara</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('img/soughdara.png') }}" type="image/x-icon" />
     <!-- Fonts and icons -->
@@ -46,4 +46,5 @@
     <link rel="stylesheet" href="{{ asset('dist/atlantis.min.css') }}">
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('dist/demo.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
 </head>

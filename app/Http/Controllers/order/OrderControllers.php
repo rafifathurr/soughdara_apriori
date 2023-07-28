@@ -64,15 +64,29 @@ class OrderControllers extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
 
-        $order_pay = Orders::create([
-            'receipt_number' => $req->receipt_number,
-            'date' => $req->tgl,
-            'note' => $req->note,
-            'tax' => $req->cal_tax,
-            'profit' => $req->cal_profit,
-            'created_at' => $datenow,
-            'created_by' => Auth::user()->username
-        ]);
+        if($req->event_type == "Payment"){
+            $order_pay = Orders::create([
+                'receipt_number' => $req->receipt_number,
+                'date' => $req->tgl,
+                'note' => $req->note,
+                'tax' => $req->cal_tax,
+                'profit' => $req->cal_profit,
+                'created_at' => $datenow,
+                'created_by' => Auth::user()->username
+            ]);
+
+        }else{
+            $order_pay = Orders::create([
+                'receipt_number' => $req->receipt_number,
+                'date' => $req->tgl,
+                'note' => $req->note,
+                'tax' => $req->cal_tax,
+                'profit' => $req->cal_profit,
+                'created_at' => $datenow,
+                'created_by' => Auth::user()->username
+            ]);
+
+        }
 
         if(Auth::guard('admin')->check()){
             return redirect()->route('admin.order.index')->with(['success' => 'Data successfully stored!']);

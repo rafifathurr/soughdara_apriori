@@ -32,16 +32,15 @@
                                     @if(isset($orders)) value="{{ $orders->id }}" @endisset>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Receipt Number <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <input type="text" name="receipt_number" id="receipt_number" class="form-control"
-                                                    autocomplete="off" data-date=""
                                                     @isset($orders) value="{{ $orders->receipt_number }}" @endisset
                                                     required {{ $disabled_ }}>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
@@ -50,7 +49,15 @@
                                                     required {{ $disabled_ }}>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Time <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="time" name="time" id="time" class="form-control"
+                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Type <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
@@ -72,12 +79,10 @@
                                             <label class="col-md-12">Product <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <select name="prods" id="prods" class="form-control" {{ $disabled_ }} required>
-                                                    <option value="" hidden selected>- Choose Products -
-                                                    </option>
                                                     @foreach ($products as $prod)
                                                         <option @isset($orders)
-                                                        @if($orders->product_name == $prod->product_name) selected
-                                                        @endif @endisset value="{{ $prod->product_name }}">
+                                                        @if($orders->id_product == $prod->id) selected
+                                                        @endif @endisset value="{{ $prod->id }}">
                                                             {{ $prod->product_name }}
                                                         </option>
                                                     @endforeach
@@ -264,6 +269,13 @@
     </script>
     <script>
         $(document).ready(function() {
+
+            $("#prods").select2({
+                multiple: true,
+                placeholder:"   Choose Product"
+            });
+
+            $("#prods").val(null),trigger();
 
             $('#qty').on('keyup textInput input', function() {
                 var qty = $("#qty").val();
