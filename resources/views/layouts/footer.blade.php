@@ -20,7 +20,7 @@
             </ul>
         </nav> --}}
         <div class="copyright ml-auto">
-            Copyright ©2022<a class="ml-1 txt-footer" href="#">Soughdara</a>
+            Copyright ©2023<a class="ml-1 txt-footer" href="#">Soughdara</a>
         </div>
     </div>
 </footer>
@@ -53,10 +53,7 @@
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="{{ asset('js/setting-demo.js') }}"></script>
 <script src="{{ asset('js/demo.js') }}"></script>
-<script src="{{url('js/plugin/inputmask/jquery.inputmask.bundle.js')}}"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="{{url('js/plugin/inputmask/jquery.inputmask.bundle.js')}}"></script>   
 
 <script type="text/javascript">
 

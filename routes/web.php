@@ -36,6 +36,15 @@ Route::namespace('App\Http\Controllers')->group(function (){
 });
 
 Route::namespace('App\Http\Controllers')->group(function (){
+
+    Route::middleware('auth:admin')->namespace('product')->prefix('product')->name('product.')->group(function () {
+        Route::get('detailproduct', 'ProductControllers@detailproduct')->name('detailproduct');
+    });
+
+    Route::middleware('auth:user')->namespace('product')->prefix('product')->name('product.')->group(function () {
+        Route::get('detailproduct', 'ProductControllers@detailproduct')->name('detailproduct');
+    });
+    
     Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
         // ROUTE TO DASHBOARD CONTROLLERS
         Route::namespace('dashboard')->name('dashboard.')->group(function () {

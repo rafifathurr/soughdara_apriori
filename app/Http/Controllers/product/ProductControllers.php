@@ -141,4 +141,10 @@ class ProductControllers extends Controller
             Session::flash('gagal', 'Error Data');
           }
     }
+
+    public function detailproduct(Request $req)
+    {
+        $data["prods"] = Product::where("id", $req->id_prod)->first();
+        return $data["prods"];
+    }
 }

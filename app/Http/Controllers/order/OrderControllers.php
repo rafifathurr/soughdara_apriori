@@ -4,6 +4,7 @@ namespace App\Http\Controllers\order;
 
 use App\Http\Controllers\Controller;
 use App\Models\order\Orders;
+use App\Models\order\detail\Details;
 use App\Models\source_payment\Source;
 use App\Models\product\Product;
 use App\Exports\ReportOrderExport;
@@ -64,26 +65,29 @@ class OrderControllers extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
 
+        dd($req->all());
+
         if($req->event_type == "Payment"){
             $order_pay = Orders::create([
                 'receipt_number' => $req->receipt_number,
                 'date' => $req->tgl,
-                'note' => $req->note,
-                'tax' => $req->cal_tax,
-                'profit' => $req->cal_profit,
+                'time' => $req->time,
+                'type' => $req->event_type,
+                'total_amount' => $req->total_amount,
                 'created_at' => $datenow,
-                'created_by' => Auth::user()->username
+                'created_by' => Auth::user()->id
             ]);
 
         }else{
             $order_pay = Orders::create([
                 'receipt_number' => $req->receipt_number,
                 'date' => $req->tgl,
-                'note' => $req->note,
-                'tax' => $req->cal_tax,
-                'profit' => $req->cal_profit,
+                'time' => $req->time,
+                'type' => $req->event_type,
+                'refund' => $req->total_amount,
+                'total_amount' => $req->total_amount,
                 'created_at' => $datenow,
-                'created_by' => Auth::user()->username
+                'created_by' => Auth::user()->id
             ]);
 
         }
