@@ -42,7 +42,7 @@ class PaymentMethodController extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $source_pay = PaymentMethod::create([  
+        $source_pay = PaymentMethod::create([
             'payment_method' => $req->payment_method,
             'note' => $req->note,
             'created_at' => $datenow
@@ -55,8 +55,8 @@ class PaymentMethodController extends Controller
     public function detail($id)
     {
         $data['title'] = "Detail Payment Method";
-        $data['disabled_'] = 'disabled'; 
-        $data['url'] = 'create';   
+        $data['disabled_'] = 'disabled';
+        $data['url'] = 'create';
         $data['payment_methods'] = PaymentMethod::where('id', $id)->first();
         return view('payment_method.create', $data);
     }
@@ -65,8 +65,8 @@ class PaymentMethodController extends Controller
     public function edit($id)
     {
         $data['title'] = "Edit Payment Method";
-        $data['disabled_'] = ''; 
-        $data['url'] = 'update';   
+        $data['disabled_'] = '';
+        $data['url'] = 'update';
         $data['payment_methods'] = PaymentMethod::where('id', $id)->first();
         return view('payment_method.create', $data);
     }
@@ -76,7 +76,7 @@ class PaymentMethodController extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $source_pay = PaymentMethod::where('id', $req->id)->update([  
+        $source_pay = PaymentMethod::where('id', $req->id)->update([
             'payment_method' => $req->payment_method,
             'note' => $req->note,
             'updated_at' => $datenow
@@ -88,6 +88,7 @@ class PaymentMethodController extends Controller
     // Delete Data Function
     public function delete(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $exec = PaymentMethod::where('id', $req->id )->update([
             'updated_at'=> $datenow,

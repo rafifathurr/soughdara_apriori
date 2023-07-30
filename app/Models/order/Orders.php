@@ -14,4 +14,13 @@ class Orders extends Model
       protected $guarded = [];
 
       public $timestamps = false;
+      public function createdby()
+      {
+        return $this->belongsTo('App\Models\users\User', 'created_by', 'id');
+      }
+
+      public function updatedby()
+      {
+        return $this->belongsTo('App\Models\users\User', 'updated_by', 'id');
+      }
   }

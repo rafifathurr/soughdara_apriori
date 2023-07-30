@@ -20,15 +20,15 @@
                     <section class="content container-fluid">
                         <div class="box box-primary">
                             <div class="box-body">
-                                @if (Auth::guard('admin')->check())
-                                    <form id="form_add" action="{{ route('admin.order.' . $url) }}" method="POST"
-                                        enctype="multipart/form-data">
-                                    @else
-                                        <form id="form_add" action="{{ route('user.order.' . $url) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                @endif
-                                {{ csrf_field() }}
-                                <input type="hidden" class="form-control" id="id" name="id"
+
+                            @if(Route::current()->getName() == 'admin.order.create')
+                                {{-- ADD ORDER --}}
+                                <form id="form_add" @if(Auth::guard('admin')->check())
+                                    action="{{ route('admin.order.' . $url) }}" @else
+                                    action="{{ route('user.order.' . $url) }}" @endif method="POST"
+                                    enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" class="form-control" id="id" name="id"
                                     @if (isset($orders)) value="{{ $orders->id }}" @endisset>
                                     <br>
                                     <div class="row">
@@ -64,12 +64,13 @@
                                             <label class="col-md-12">Type <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
+                                                    <option hidden> Choose Type</option>
                                                 @if (isset($orders))
                                                     <option value="{{ $orders->event_type }}" hidden selected>{{ $orders->event_type }}</option>
                                                     <option value="Payment">Payment</option>
                                                     <option value="Refund">Refund</option>
                                                 @else
-                                                    <option value="Payment" selected>Payment</option>
+                                                    <option value="Payment">Payment</option>
                                                     <option value="Refund">Refund</option>
                                                 @endisset
                                                 </select>
@@ -79,6 +80,7 @@
                                             <label class="col-md-12">Payment Method <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <select name="payment_method" id="payment_method" class="form-control" {{ $disabled_ }} required>
+                                                    <option hidden> Choose Method</option>
                                                 @foreach($payment_method as $pay)
                                                     <option  @if(isset($orders))  @if($orders->payment_method == $pay->id) selected @endif @endisset value="{{$pay->id}}">{{$pay->payment_method}}</option>
                                                 @endforeach
@@ -101,21 +103,19 @@
                                         </div>
                                     </div>
                                     <br>
-                                    @if ($title == 'Add Order' || $title == 'Edit Order')
                                     <div class="row">
                                         <div class="col-md-12" >
                                             <div style="float: right; margin-right:20px;">
                                                 <a style="color:white;" class="btn btn-primary" id="btn-collapse"><i class="fa fa-plus"></i> Add Product</a>
                                             </div>
                                         </div>
-                                    </div> @endif
+                                    </div>
                                     <br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="collapse"
-                                            class="panel-collapse collapse @isset($orders) show @endisset">
-                                            <hr><br>
-                                            @if ($title == 'Add Order' || $title == 'Edit Order')
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="collapse"
+                                                class="panel-collapse collapse @isset($orders) show @endisset">
+                                                <hr><br>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label class="col-md-12">Product</label>
@@ -187,8 +187,157 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                            @endif
-                                            <br>
+                                                <br>
+                                                <table id="dt-detail" class="table table-striped table-bordered table-hover"
+                                                    width="100%" style="text-align: center;">
+                                                    <thead style="background-color: #fbfbfb;">
+                                                        <tr>
+                                                            <th style="vertical-align: middle;" width="25%">
+                                                                <center>Products <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Category <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Qty <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Price <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            @if ($title == 'Add Order' || $title == 'Edit Order')
+                                                                <th style="vertical-align: middle;" width="15%">
+                                                                    <center>Action</center>
+                                                                </th>
+                                                            @endif
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table_body">
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colspan="3"><b>TOTAL PRICE</b></td>
+                                                            <td>
+                                                                <input type="text" class="form-control numeric"
+                                                                    style='width:100px !important; height:25px !important; text-align:center;'
+                                                                    id="total_price" readonly>
+                                                            </td>
+                                                            @if ($title == 'Add Order' || $title == 'Edit Order')
+                                                                <td>
+                                                                    <button type='button' class='btn btn-link'
+                                                                        onclick="removedata()">
+                                                                        <i style="color:black; font-weight:bold;"
+                                                                            class="icon-refresh"></i>
+                                                                        </button>
+                                                                    </td>
+                                                            @endif
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <div style="float:right;">
+                                            <a  @if(Auth::guard('admin')->check())
+                                                href="{{ route('admin.order.index') }}" @else
+                                                href="{{ route('user.order.index') }}" @endif
+                                                type="button"
+                                                class="btn btn-danger">
+                                                <i class="fa fa-arrow-left"></i>&nbsp;
+                                                Back
+                                            </a>
+                                            <button id="save_data" type="submit" class="btn btn-primary"
+                                                style="margin-left:10px;">
+                                                <i class="fa fa-check"></i>&nbsp;
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            @elseif(Route::current()->getName() == 'admin.order.detail')
+                                {{-- DETAIL ORDER --}}
+                                <form id="form_add" @if(Auth::guard('admin')->check())
+                                    action="{{ route('admin.order.' . $url) }}" @else
+                                    action="{{ route('user.order.' . $url) }}" @endif method="POST"
+                                    enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" class="form-control" id="id" name="id"
+                                    @if (isset($orders)) value="{{ $orders->id }}" @endisset>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Receipt Number <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="receipt_number" id="receipt_number" class="form-control"
+                                                    @isset($orders) value="{{ $orders->receipt_number }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
+                                                    data-date-format="DD/MM/YYYY"
+                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Time <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="time" name="time" id="time" class="form-control"
+                                                    @isset($orders) value="{{ $orders->time }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Type <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
+                                                @if (isset($orders))
+                                                    <option value="{{ $orders->event_type }}" hidden selected>{{ $orders->event_type }}</option>
+                                                    <option value="Payment">Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @else
+                                                    <option value="Payment" selected>Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @endisset
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Payment Method <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="payment_method" id="payment_method" class="form-control" {{ $disabled_ }} required>
+                                                @foreach($payment_method as $pay)
+                                                    <option  @if(isset($orders))  @if($orders->payment_method == $pay->id) selected @endif @endisset value="{{$pay->id}}">{{$pay->payment_method}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Discount <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="discount" id="discount"
+                                                    @if (isset($orders)) value="{{ $orders->discount }}" @endisset class="form-control numeric" {{ $disabled_ }} required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" oninput="allprice()" name="total_amount" id="total_amount"
+                                                    @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric" {{ $disabled_ }} required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hr><br>
                                             <table id="dt-detail" class="table table-striped table-bordered table-hover"
                                                 width="100%" style="text-align: center;">
                                                 <thead style="background-color: #fbfbfb;">
@@ -202,52 +351,314 @@
                                                         <th style="vertical-align: middle;" width="20%">
                                                             <center>Qty <span style="color: red;">*</span></center>
                                                         </th>
-                                                        <th style="vertical-align: middle;" width="20%">
-                                                            <center>Price <span style="color: red;">*</span></center>
-                                                        </th>
-                                                        @if ($title == 'Add Order' || $title == 'Edit Order')
-                                                            <th style="vertical-align: middle;" width="15%">
-                                                                <center>Action</center>
-                                                            </th>
-                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody id="table_body">
+                                                @isset($orders)
+                                                    @foreach ($details_order as $details)
+                                                        <tr>
+                                                            <td style="text-align:left;">
+                                                                {{ $details->product->product_name }}
+                                                            </td>
+                                                            <td style="text-align:left;">
+                                                                {{ $details->product->category->category }}
+                                                            </td>
+                                                            <td style="text-align:right;">
+                                                               <center> {{ $details->qty }}</center>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endisset
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-2"></div>
+                                                    <label class="col-md-2"> <i><b>Created By</b></i> </label>
+                                                    <div class="col-md-2">
+                                                        <label
+                                                            for=""><i><b>{{ $orders->createdby->name }}</b></i></label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label
+                                                            for=""><i><b>{{ $orders->created_at }}</b></i></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            @isset($orders->updatedby)
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-2"></div>
+                                                    <label class="col-md-2"> <i><b>Updated By</b></i> </label>
+                                                    <div class="col-md-2">
+                                                        <label
+                                                            for=""><i><b>
+                                                                {{ $orders->updatedby->name }}
+                                                            </b></i></label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label
+                                                            for=""><i><b>{{ $orders->updated_at }}</b></i></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endisset
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div style="float:right;">
+                                            <div class="col-md-10" style="margin-right: 20px;">
+                                                <a  @if(Auth::guard('admin')->check())
+                                                    href="{{ route('admin.order.index') }}" @else
+                                                    href="{{ route('user.order.index') }}" @endif
+                                                    type="button"
+                                                    class="btn btn-danger">
+                                                    <i class="fa fa-arrow-left"></i>&nbsp;
+                                                    Back
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            @else
+                                {{-- EDIT ORDER --}}
+                                <form id="form_add" @if(Auth::guard('admin')->check())
+                                    action="{{ route('admin.order.' . $url) }}" @else
+                                    action="{{ route('user.order.' . $url) }}" @endif method="POST"
+                                    enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" class="form-control" id="id" name="id"
+                                    @if (isset($orders)) value="{{ $orders->id }}" @endisset>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Receipt Number <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="receipt_number" id="receipt_number" class="form-control"
+                                                    @isset($orders) value="{{ $orders->receipt_number }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
+                                                    data-date-format="DD/MM/YYYY"
+                                                    @isset($orders) value="{{ $orders->date }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12">Time <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="time" name="time" id="time" class="form-control"
+                                                    @isset($orders) value="{{ $orders->time }}" @endisset
+                                                    required {{ $disabled_ }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Type <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
+                                                @if (isset($orders))
+                                                    <option value="{{ $orders->event_type }}" hidden selected>{{ $orders->event_type }}</option>
+                                                    <option value="Payment">Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @else
+                                                    <option value="Payment" selected>Payment</option>
+                                                    <option value="Refund">Refund</option>
+                                                @endisset
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Payment Method <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="payment_method" id="payment_method" class="form-control" {{ $disabled_ }} required>
+                                                @foreach($payment_method as $pay)
+                                                    <option  @if(isset($orders))  @if($orders->payment_method == $pay->id) selected @endif @endisset value="{{$pay->id}}">{{$pay->payment_method}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Discount <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="discount" id="discount"
+                                                    @if (isset($orders)) value="{{ $orders->discount }}" @endisset class="form-control numeric" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" oninput="allprice()" name="total_amount" id="total_amount"
+                                                    @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="collapse"
+                                                class="panel-collapse collapse @isset($orders) show @endisset">
+                                                <hr><br>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Product</label>
+                                                        <div class="col-md-12">
+                                                            <select id="prods" onchange="getDetails()"
+                                                                class="form-control" {{ $disabled_ }}>
+                                                                <option hidden> Choose Product</option>
+                                                                @foreach ($products as $prod)
+                                                                    <option
+                                                                        value="{{ $prod->id }}">
+                                                                        {{ $prod->product_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Category</label>
+                                                        <div class="col-md-12">
+                                                            <select id="category_prod" class="form-control" disabled>
+                                                                <option value="0" hidden> -</option>
+                                                                @foreach ($category as $cat)
+                                                                    <option value="{{ $cat->id }}">
+                                                                        {{ $cat->category }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Price</label>
+                                                        <div class="col-md-12">
+                                                            <input type="hidden" id="qty">
+                                                            <input type="hidden" id="price_">
+                                                            <input type="text" id="price"
+                                                                class="form-control numeric" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div id="message-container" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card" id="card-container">
+                                                                <div class="card-body justify-content-center">
+                                                                    <center>
+                                                                        <b>
+                                                                            <span id="message">
+                                                                            </span>
+                                                                        </b>
+                                                                        <i id="icon-message" class="fa fa-check"
+                                                                            style="color:green;font-size:25px;margin:10px;"></i>
+                                                                    </center>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="button" id="btn_tambahToTableUser"
+                                                            class="btn btn-primary float-right"
+                                                            style="margin-right:20px;" disabled>
+                                                            <i class="fa fa-save"></i> Save Product
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <table id="dt-detail" class="table table-striped table-bordered table-hover"
+                                                    width="100%" style="text-align: center;">
+                                                    <thead style="background-color: #fbfbfb;">
+                                                        <tr>
+                                                            <th style="vertical-align: middle;" width="25%">
+                                                                <center>Products <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Category <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Qty <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="20%">
+                                                                <center>Price <span style="color: red;">*</span></center>
+                                                            </th>
+                                                            <th style="vertical-align: middle;" width="15%">
+                                                                <center>Action</center>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table_body">
                                                     @isset($orders)
+                                                        <?php $total_amount = 0; ?>
                                                         @foreach ($details_order as $details)
-                                                            <tr>
+                                                            <?php $total_amount += ($details->product->price*$details->qty); ?>
+                                                            <tr id="{{ $details->id_product }}">
                                                                 <td style="text-align:left;">
+                                                                    <input type='hidden' name='product_id[]' id='product_id_{{ $details->id_product }}'
+                                                                    value='{{ $details->id_product }}' readonly>
                                                                     {{ $details->product->product_name }}
                                                                 </td>
+                                                                <td style="text-align:left;">
+                                                                    {{ $details->product->category->category }}
+                                                                </td>
                                                                 <td style="text-align:right;">
-                                                                    {{ $details->qty }}
+                                                                   <center>
+                                                                    <input type='number' style='width:100px !important; height:25px !important; text-align:center;'
+                                                                        min=0 class='form-control' name='qty[]' id='qty_{{$details->id_product}}'
+                                                                        value='{{ $details->qty }}' oninput ='price_update({{$details->id_product}})'>
+                                                                    </center>
+                                                                </td>
+                                                                <input type="hidden" value="{{ $details->product->price }}" id="price_{{ $details->id_product }}">
+                                                                <td>
+                                                                    <center>
+                                                                        <input type='text' name='price_data[]' style='width:100px !important; height:25px !important; text-align:center;'
+                                                                            class='form-control numeric' id='price_show_{{ $details->id_product }}'
+                                                                            value='{{ $details->product->price * $details->qty}}' readonly>
+                                                                    </center>
+                                                                </td>
+                                                                <td>
+                                                                    <center>
+                                                                        <button type='button' class='btn btn-link btn-simple-danger'
+                                                                            onclick='removedata({{ $details->id_product }})'
+                                                                            title='Hapus'>
+                                                                            <i class='fa fa-trash' style='color:red;'></i>
+                                                                        </button>
+                                                                    </center>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                     @endisset
-                                                </tbody>
-                                                <tbody>
-                                                    <tr>
-                                                        <td colspan="3"><b>TOTAL PRICE</b></td>
-                                                        <td>
-                                                            <input type="hidden" class="form-control numeric"
-                                                                style='width:100px !important; height:25px !important; text-align:center;' readonly>
-                                                            <input type="text" class="form-control numeric"
-                                                                style='width:100px !important; height:25px !important; text-align:center;'
-                                                                id="total_price" readonly>
-                                                        </td>
-                                                        @if ($title == 'Add Order' || $title == 'Edit Order')
-                                                            <td><button type='button' class='btn btn-link'
-                                                                    onclick="removedata()"><i
-                                                                        style="color:black; font-weight:bold;"
-                                                                        class="icon-refresh"></i></button></td>
-                                                        @endif
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            @if (isset($orders))
-                                                <br>
-                                                <hr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colspan="3"><b>TOTAL PRICE</b></td>
+                                                            <td>
+                                                                <input type="text" class="form-control numeric"
+                                                                    value="{{ $total_amount }}"
+                                                                    style='width:100px !important; height:25px !important; text-align:center;'
+                                                                    id="total_price" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <button type='button' class='btn btn-link'
+                                                                onclick="removedata()">
+                                                                <i style="color:black; font-weight:bold;"
+                                                                    class="icon-refresh"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="col-md-2"></div>
@@ -263,127 +674,48 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                @if (isset($orders))
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-11">
-                                            <div class="col-md-2"></div>
-                                            <label class="col-md-2"> <i><b>Created By</b></i> </label>
-                                            <div class="col-md-2">
-                                                <label
-                                                    for=""><i><b>{{ $orders->createdby->name }}</b></i></label>
+                                                @isset($orders->updatedby)
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-2"></div>
+                                                        <label class="col-md-2"> <i><b>Updated By</b></i> </label>
+                                                        <div class="col-md-2">
+                                                            <label
+                                                                for=""><i><b>
+                                                                    {{ $orders->updatedby->name }}
+                                                                </b></i></label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label
+                                                                for=""><i><b>{{ $orders->updated_at }}</b></i></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endisset
                                             </div>
-                                            <div class="col-md-4">
-                                                <label for=""><i><b>{{ $orders->created_at }}</b></i></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-11">
-                                            <div class="col-md-2"></div>
-                                            <label class="col-md-2"> <i><b>Updated By</b></i> </label>
-                                            @if ($orders->updated_by != null)
-                                                <div class="col-md-2">
-                                                    <label
-                                                        for=""><i><b>{{ $orders->updatedby->name }}</b></i></label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label
-                                                        for=""><i><b>{{ $orders->updated_at }}</b></i></label>
-                                                </div>
-                                            @else
-                                                <div class="col-md-2">
-                                                    <label for=""><i><b>-</b></i></label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for=""><i><b>-</b></i></label>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
                                     <br>
-                                @endif
-                                <div class="modal-footer">
-                                    <div style="float:right;">
-                                        @if ($title == 'Add Order')
-                                            <div class="col-md-10" style="margin-right: 20px;">
-                                                @if (Auth::guard('admin')->check())
-                                                    <a href="{{ route('admin.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                    <button id="save_data" type="submit" class="btn btn-primary"
-                                                        style="margin-left:10px;">
-                                                        <i class="fa fa-check"></i>&nbsp;
-                                                        Save
-                                                    </button>
-                                                @else
-                                                    <a href="{{ route('user.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        style="margin-left:10px;">
-                                                        <i class="fa fa-check"></i>&nbsp;
-                                                        Save
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        @elseif ($title == 'Edit Order')
-                                            <div class="col-md-10" style="margin-right: 20px;">
-                                                @if (Auth::guard('admin')->check())
-                                                    <a href="{{ route('admin.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        style="margin-left:10px;">
-                                                        <i class="fa fa-check"></i>&nbsp;
-                                                        Save
-                                                    </button>
-                                                @else
-                                                    <a href="{{ route('user.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                    <button id="save_data" type="submit" class="btn btn-primary"
-                                                        style="margin-left:10px;">
-                                                        <i class="fa fa-check"></i>&nbsp;
-                                                        Save
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        @else
-                                            <div class="col-md-10" style="margin-right: 20px;">
-                                                @if (Auth::guard('admin')->check())
-                                                    <a href="{{ route('admin.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('user.order.index') }}" type="button"
-                                                        class="btn btn-danger">
-                                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                                        Back
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        @endif
+                                    <div class="modal-footer">
+                                        <div style="float:right;">
+                                            <a  @if(Auth::guard('admin')->check())
+                                                href="{{ route('admin.order.index') }}" @else
+                                                href="{{ route('user.order.index') }}" @endif
+                                                type="button"
+                                                class="btn btn-danger">
+                                                <i class="fa fa-arrow-left"></i>&nbsp;
+                                                Back
+                                            </a>
+                                            <button id="save_data" type="submit" class="btn btn-primary"
+                                                style="margin-left:10px;">
+                                                <i class="fa fa-check"></i>&nbsp;
+                                                Save
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
                                 </form>
+                            @endif
+
                             </div>
                         </div>
                     </section>
@@ -624,7 +956,7 @@
                         id_product + "' value='" + price_ + "' readonly></center></td>" +
                         "<td><center><button type='button' class='btn btn-link btn-simple-danger' onclick='removedata(" +
                         id_product +
-                        ")' title='Hapus'><i class='fa fa-trash' style='color:red;''></i></button></center></td>" +
+                        ")' title='Hapus'><i class='fa fa-trash' style='color:red;'></i></button></center></td>" +
                         "</tr>");
 
                     $('#prods').val("");

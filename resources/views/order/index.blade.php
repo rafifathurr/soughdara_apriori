@@ -106,7 +106,7 @@
                                                                 @if (Auth::guard('admin')->check())
                                                                     <a href="{{ route('admin.order.detail', $order->id) }}"
                                                                         data-toggle="tooltip" title="Detail"
-                                                                        class="btn btn-link btn-simple-primary btn-lg"
+                                                                        class="btn btn-link btn-icon btn-lg"
                                                                         data-original-title="Detail"
                                                                         control-id="ControlID-16">
                                                                         <i class="fa fa-eye"></i>

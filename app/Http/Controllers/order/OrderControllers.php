@@ -34,7 +34,7 @@ class OrderControllers extends Controller
             "title" => "List Order",
             "years" => Orders::select(DB::raw('YEAR(date) as tahun'))->orderBy(DB::raw('YEAR(date)'))->where('deleted_at',null)->groupBy(DB::raw("YEAR(date)"))->get(),
             "months" => Orders::select(DB::raw('MONTH(date) as bulan'))->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTH(date)"))->get(),
-            "orders" => Orders::orderBy('date', 'DESC')->where('deleted_at',null)->get()
+            "orders" => Orders::orderBy('date', 'DESC')->orderBy('time', 'DESC')->where('deleted_at',null)->get()
         ]);
     }
 
@@ -49,7 +49,6 @@ class OrderControllers extends Controller
         $data['title'] = "Add Order";
         $data['url'] = 'store';
         $data['disabled_'] = '';
-        $data['disabled__'] = 'disabled';
         $data['category'] = Category::where('deleted_at',null)->orderBy('category', 'asc')->get();
         $data['payment_method'] = PaymentMethod::where('deleted_at',null)->orderBy('payment_method', 'asc')->get();
         $data['products'] = Product::where('deleted_at',null)->orderBy('product_name', 'asc')->get();
@@ -104,7 +103,7 @@ class OrderControllers extends Controller
 
             foreach($products as $key=>$prods){
 
-                $order_pay = Details::create([
+                $orders = Details::create([
                     'id_order' => $order_pay->id,
                     'id_product' => $prods,
                     'qty' => $qty[$key],
@@ -112,7 +111,6 @@ class OrderControllers extends Controller
                 ]);
 
             }
-
 
         }
 
@@ -128,10 +126,10 @@ class OrderControllers extends Controller
     {
         $data['title'] = "Detail Order";
         $data['disabled_'] = 'disabled';
-        $data['disabled__'] = '';
         $data['url'] = 'create';
-        $data['orders'] = Orders::where('id', $id)->first();
-        $data['products'] = Product::orderBy('product_name', 'asc')->get();
+        $data['orders'] = Orders::with('createdby', 'updatedby')->where('id', $id)->first();
+        $data['details_order'] = Details::with('product', 'product.category')->where('id_order', $id)->get();
+        $data['payment_method'] = PaymentMethod::where('deleted_at',null)->orderBy('payment_method', 'asc')->get();
         return view('order.create', $data);
     }
 
@@ -140,11 +138,12 @@ class OrderControllers extends Controller
     {
         $data['title'] = "Edit Order";
         $data['disabled_'] = '';
-        $data['disabled__'] = '';
         $data['url'] = 'update';
-        $data['orders'] = Order::where('id', $id)->first();
-        $data['products'] = Product::orderBy('product_name', 'asc')->where('status', 'Active')->get();
-        $data['sources'] = Source::orderBy('id', 'asc')->get();
+        $data['orders'] = Orders::with('createdby', 'updatedby')->where('id', $id)->first();
+        $data['details_order'] = Details::with('product', 'product.category')->where('id_order', $id)->get();
+        $data['category'] = Category::where('deleted_at',null)->orderBy('category', 'asc')->get();
+        $data['payment_method'] = PaymentMethod::where('deleted_at',null)->orderBy('payment_method', 'asc')->get();
+        $data['products'] = Product::where('deleted_at',null)->orderBy('product_name', 'asc')->get();
         return view('order.create', $data);
     }
 
@@ -153,18 +152,57 @@ class OrderControllers extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $order_pay = Order::where('id', $req->id)->update([
-            'product_id' => $req->prods,
-            'qty' => $req->qty,
-            'entry_price' => $req->entry_price,
-            'source_id' => $req->source_pay,
-            'date' => $req->tgl,
-            'note' => $req->note,
-            'tax' => $req->cal_tax,
-            'profit' => $req->cal_profit,
-            'updated_at' => $datenow,
-            'updated_by' => Auth::user()->id
-        ]);
+        if($req->event_type == "Payment"){
+            $order_pay = Orders::where('id', $req->id)
+                        ->update([
+                        'receipt_number' => $req->receipt_number,
+                        'date' => $req->tgl,
+                        'time' => $req->time,
+                        'event_type' => $req->event_type,
+                        'payment_method' => $req->payment_method,
+                        'discount' => $req->discount,
+                        'total_amount' => $req->total_amount,
+                        'updated_at' => $datenow,
+                        'updated_by' => Auth::user()->id
+                    ]);
+
+        }else{
+            $order_pay = Orders::where('id', $req->id)
+                        ->update([
+                            'receipt_number' => $req->receipt_number,
+                            'date' => $req->tgl,
+                            'time' => $req->time,
+                            'event_type' => $req->event_type,
+                            'payment_method' => $req->payment_method,
+                            'refund' => $req->total_amount,
+                            'total_amount' => $req->total_amount,
+                            'updated_at' => $datenow,
+                            'updated_by' => Auth::user()->id
+                        ]);
+
+        }
+
+        if($order_pay){
+
+            $qty = $req->qty;
+            $products = $req->product_id;
+
+            $exec = Details::where('id_order', $req->id )->delete();
+
+            if($exec){
+                foreach($products as $key=>$prods){
+
+                    $orders = Details::create([
+                        'id_order' => $req->id,
+                        'id_product' => $prods,
+                        'qty' => $qty[$key],
+                        'created_at' => $datenow
+                    ]);
+
+                }
+            }
+
+        }
 
         if(Auth::guard('admin')->check()){
             return redirect()->route('admin.order.index')->with(['success' => 'Data successfully updated!']);
@@ -176,6 +214,7 @@ class OrderControllers extends Controller
     // Delete Data Function
     public function delete(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $exec = Orders::where('id', $req->id )->update([
             'deleted_at'=>$datenow,
