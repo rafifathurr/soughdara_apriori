@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 30/07/2023 13:19:10
+ Date: 31/07/2023 06:50:20
 */
 
 SET NAMES utf8mb4;
@@ -52,12 +52,16 @@ CREATE TABLE `details_order`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of details_order
 -- ----------------------------
-INSERT INTO `details_order` VALUES (1, 1, 2, 2, '2023-07-30 11:51:17', '2023-07-30 06:17:54', NULL);
+INSERT INTO `details_order` VALUES (9, 1, 2, 1, '2023-07-31 06:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (10, 1, 4, 2, '2023-07-31 06:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (11, 2, 5, 1, '2023-07-31 06:39:24', NULL, NULL);
+INSERT INTO `details_order` VALUES (12, 2, 3, 1, '2023-07-31 06:39:24', NULL, NULL);
+INSERT INTO `details_order` VALUES (13, 2, 4, 1, '2023-07-31 06:39:24', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -145,12 +149,13 @@ CREATE TABLE `orders_new`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders_new
 -- ----------------------------
-INSERT INTO `orders_new` VALUES (1, '23123123', '2023-07-30', '11:51:00', NULL, 5000, 22000, 'Payment', 6, NULL, '2023-07-30 11:51:17', '2023-07-30 06:17:54', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (1, 'SG325', '2023-07-31', '06:30:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-07-31 06:29:18', '2023-07-31 06:38:50', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (2, 'SG4363', '2023-07-31', '06:29:00', NULL, NULL, 45000, 'Payment', 3, NULL, '2023-07-31 06:29:55', '2023-07-31 06:39:24', NULL, 1, 1);
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -233,13 +238,16 @@ CREATE TABLE `product`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES (1, 'Real OG', 1, 11000, '1690104983_og.png', 'Real OG Doughnut', '2023-07-23 16:36:23', '2023-07-23 16:52:09', '2023-07-23 16:52:09', 1, 1);
 INSERT INTO `product` VALUES (2, 'Real OG', 1, 11000, NULL, NULL, '2023-07-28 00:45:43', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (3, 'Lemon Glaze', 2, 16000, NULL, NULL, '2023-07-31 05:03:04', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (4, 'OG Glaze', 1, 11000, NULL, NULL, '2023-07-31 05:03:57', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (5, 'Chicken Mayo', 2, 18000, NULL, NULL, '2023-07-31 05:04:36', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for users
