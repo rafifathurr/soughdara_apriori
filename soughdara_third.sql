@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Local
+ Source Server         : computer
  Source Server Type    : MySQL
  Source Server Version : 80030 (8.0.30)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 23/07/2023 16:52:30
+ Date: 30/07/2023 13:19:10
 */
 
 SET NAMES utf8mb4;
@@ -44,18 +44,20 @@ INSERT INTO `category_prod` VALUES (4, 'Seasonal Menu', NULL, '2023-07-23 07:42:
 -- ----------------------------
 DROP TABLE IF EXISTS `details_order`;
 CREATE TABLE `details_order`  (
-  `id` int NOT NULL,
-  `product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_order` int NULL DEFAULT NULL,
+  `id_product` int NULL DEFAULT NULL,
   `qty` int NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of details_order
 -- ----------------------------
+INSERT INTO `details_order` VALUES (1, 1, 2, 2, '2023-07-30 11:51:17', '2023-07-30 06:17:54', NULL);
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -128,26 +130,27 @@ CREATE TABLE `orders`  (
 DROP TABLE IF EXISTS `orders_new`;
 CREATE TABLE `orders_new`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `receipt_number` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `date` date NULL DEFAULT NULL,
   `time` time NOT NULL,
-  `product` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `refund` int NULL DEFAULT NULL,
   `discount` int NULL DEFAULT NULL,
   `total_amount` int NULL DEFAULT NULL,
-  `payment_method` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `event_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `payment_method` int NULL DEFAULT NULL,
+  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders_new
 -- ----------------------------
+INSERT INTO `orders_new` VALUES (1, '23123123', '2023-07-30', '11:51:00', NULL, 5000, 22000, 'Payment', 6, NULL, '2023-07-30 11:51:17', '2023-07-30 06:17:54', NULL, 1, 1);
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -230,12 +233,13 @@ CREATE TABLE `product`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES (1, 'Real OG', 1, 11000, '1690104983_og.png', 'Real OG Doughnut', '2023-07-23 16:36:23', '2023-07-23 16:52:09', '2023-07-23 16:52:09', 1, 1);
+INSERT INTO `product` VALUES (2, 'Real OG', 1, 11000, NULL, NULL, '2023-07-28 00:45:43', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for users
