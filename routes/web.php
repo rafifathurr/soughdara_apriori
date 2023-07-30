@@ -37,14 +37,6 @@ Route::namespace('App\Http\Controllers')->group(function (){
 
 Route::namespace('App\Http\Controllers')->group(function (){
 
-    Route::middleware('auth:admin')->namespace('product')->prefix('product')->name('product.')->group(function () {
-        Route::get('detailproduct', 'ProductControllers@detailproduct')->name('detailproduct');
-    });
-
-    Route::middleware('auth:user')->namespace('product')->prefix('product')->name('product.')->group(function () {
-        Route::get('detailproduct', 'ProductControllers@detailproduct')->name('detailproduct');
-    });
-    
     Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
         // ROUTE TO DASHBOARD CONTROLLERS
         Route::namespace('dashboard')->name('dashboard.')->group(function () {
@@ -74,6 +66,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
             Route::get('edit/{id}', 'ProductControllers@edit')->name('edit');
             Route::post('update', 'ProductControllers@update')->name('update');
             Route::post('delete', 'ProductControllers@delete')->name('delete');
+            Route::get('detailproduct', 'ProductControllers@detailproduct')->name('detailproduct');
         });
 
         // ROUTE TO PAYMENT METHOD CONTROLLERS
@@ -120,7 +113,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
             Route::post('delete', 'RoleControllers@delete')->name('delete');
         });
     });
-    
+
     Route::middleware('auth:user')->prefix('user')->name('user.')->group(function () {
 
          // ROUTE TO DASHBOARD CONTROLLERS

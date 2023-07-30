@@ -80,30 +80,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $num = 0; ?>
-                                            {{-- @foreach ($orders as $order)
+                                            @foreach ($orders as $key=>$order)
                                                 <tr role="row" class="odd">
                                                     <td>
-                                                        <center>{{ $num = $num + 1 }}</center>
+                                                        <center>{{ $key+1 }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $order->receipt_number }}</center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $order->date }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $order->product->product_name }}</center>
+                                                        <center>{{ $order->time }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $order->product->code }}</center>
+                                                        <center>{{ $order->event_type }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $order->source->source }}</center>
-                                                    </td>
-                                                    <td class="sorting_1">
-                                                        <center>{{ $order->qty }}</center>
-                                                    </td>
-                                                    <td class="sorting_1">
-                                                        <center>Rp. {{ number_format($order->profit, 0, ',', '.') }}
-                                                        </center>
+                                                        <center>Rp. {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
                                                     </td>
                                                     <td>
                                                         <center>
@@ -159,7 +154,7 @@
                                                         </center>
                                                     </td>
                                                 </tr>
-                                            @endforeach --}}
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

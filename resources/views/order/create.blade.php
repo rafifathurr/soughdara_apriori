@@ -60,7 +60,7 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Type <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
                                                 <select name="event_type" id="event_type" class="form-control" {{ $disabled_ }} required>
@@ -75,17 +75,27 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label class="col-md-12">Payment Method <span style="color: red;">*</span></label>
+                                            <div class="col-md-12">
+                                                <select name="payment_method" id="payment_method" class="form-control" {{ $disabled_ }} required>
+                                                @foreach($payment_method as $pay)
+                                                    <option  @if(isset($orders))  @if($orders->payment_method == $pay->id) selected @endif @endisset value="{{$pay->id}}">{{$pay->payment_method}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Discount <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="text" name="total_amount" id="total_amount"
+                                                <input type="text" name="discount" id="discount"
                                                     @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                             <label class="col-md-12">Total Amount <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="text" name="total_amount" id="total_amount"
+                                                <input type="text" oninput="allprice()" name="total_amount" id="total_amount"
                                                     @if (isset($orders)) value="{{ $orders->total_amount }}" @endisset class="form-control numeric" required>
                                             </div>
                                         </div>
@@ -106,57 +116,75 @@
                                             class="panel-collapse collapse @isset($orders) show @endisset">
                                             <hr><br>
                                             @if ($title == 'Add Order' || $title == 'Edit Order')
-                                                <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Product</label>
+                                                        <div class="col-md-12">
+                                                            <select id="prods" onchange="getDetails()"
+                                                                class="form-control" {{ $disabled_ }}>
+                                                                <option hidden> Choose Product</option>
+                                                                @foreach ($products as $prod)
+                                                                    <option
+                                                                        @isset($orders)
+                                                                @if ($orders->id_product == $prod->id) selected
+                                                                @endif @endisset
+                                                                        value="{{ $prod->id }}">
+                                                                        {{ $prod->product_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Category</label>
+                                                        <div class="col-md-12">
+                                                            <select id="category_prod" class="form-control" disabled>
+                                                                <option value="0" hidden> -</option>
+                                                                @foreach ($category as $cat)
+                                                                    <option value="{{ $cat->id }}">
+                                                                        {{ $cat->category }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Price</label>
+                                                        <div class="col-md-12">
+                                                            <input type="hidden" id="qty">
+                                                            <input type="hidden" id="price_">
+                                                            <input type="text" id="price"
+                                                                class="form-control numeric" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div id="message-container" style="display:none;">
                                                     <div class="row">
-                                                        <div class="col-md-5">
-                                                            <label class="col-md-12">Product <span
-                                                                    style="color: red;">*</span></label>
-                                                            <div class="col-md-12">
-                                                                <select name="prods" id="prods" onchange="getDetails()" class="form-control" {{ $disabled_ }} required>
-                                                                    <option hidden> Choose Product</option>
-                                                                    @foreach ($products as $prod)
-                                                                        <option @isset($orders)
-                                                                        @if($orders->id_product == $prod->id) selected
-                                                                        @endif @endisset value="{{ $prod->id }}">
-                                                                            {{ $prod->product_name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <label class="col-md-12">Category <span
-                                                                    style="color: red;">*</span></label>
-                                                            <div class="col-md-12">
-                                                                <select name="category_prod" id="category_prod"
-                                                                    onchange="getDetails()" class="form-control"
-                                                                    disabled>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label class="col-md-12">Qty <span
-                                                                    style="color: red;">*</span></label>
-                                                            <div class="col-md-12">
-                                                                <input type="hidden" min="0" name="stock"
-                                                                    id="stock" class="form-control" srequired=""
-                                                                    {{ $disabled_ }}>
-                                                                <input type="number" min="0" name="qty"
-                                                                    id="qty" oninput="price_change()"
-                                                                    class="form-control" required=""
-                                                                    {{ $disabled_ }}>
+                                                        <div class="col-md-12">
+                                                            <div class="card" id="card-container">
+                                                                <div class="card-body justify-content-center">
+                                                                    <center>
+                                                                        <b>
+                                                                            <span id="message">
+                                                                            </span>
+                                                                        </b>
+                                                                        <i id="icon-message" class="fa fa-check"
+                                                                            style="color:green;font-size:25px;margin:10px;"></i>
+                                                                    </center>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <button type="button" id="btn_tambahToTableUser"
-                                                                class="btn btn-primary float-right"
-                                                                style="margin-right:20px;">
-                                                                <i class="fa fa-save"></i> Save Product
-                                                            </button>
-                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="button" id="btn_tambahToTableUser"
+                                                            class="btn btn-primary float-right"
+                                                            style="margin-right:20px;" disabled>
+                                                            <i class="fa fa-save"></i> Save Product
+                                                        </button>
                                                     </div>
                                                 </div>
                                             @endif
@@ -165,14 +193,20 @@
                                                 width="100%" style="text-align: center;">
                                                 <thead style="background-color: #fbfbfb;">
                                                     <tr>
-                                                        <th style="vertical-align: middle;" width="50%">
-                                                            <center>Products</center>
-                                                        </th>
                                                         <th style="vertical-align: middle;" width="25%">
-                                                            <center>Qty</center>
+                                                            <center>Products <span style="color: red;">*</span></center>
+                                                        </th>
+                                                        <th style="vertical-align: middle;" width="20%">
+                                                            <center>Category <span style="color: red;">*</span></center>
+                                                        </th>
+                                                        <th style="vertical-align: middle;" width="20%">
+                                                            <center>Qty <span style="color: red;">*</span></center>
+                                                        </th>
+                                                        <th style="vertical-align: middle;" width="20%">
+                                                            <center>Price <span style="color: red;">*</span></center>
                                                         </th>
                                                         @if ($title == 'Add Order' || $title == 'Edit Order')
-                                                            <th style="vertical-align: middle;" width="25%">
+                                                            <th style="vertical-align: middle;" width="15%">
                                                                 <center>Action</center>
                                                             </th>
                                                         @endif
@@ -192,18 +226,24 @@
                                                         @endforeach
                                                     @endisset
                                                 </tbody>
-                                                {{-- <tbody >
-                                                        <tr>
-                                                            <td colspan="2"><b>TOTAL</b></td>
-                                                            <td>
-                                                                <input type="hidden" class="form-control numeric" @if (isset($orders)) value="{{ $orders->total_base_price }}" @endisset style='width:100px !important; height:25px !important; text-align:center;' name="base_price" id="total_base_price" readonly>
-                                                                <input type="text" class="form-control numeric" @if (isset($orders)) value="{{ $orders->total_sell_price }}" @endisset style='width:100px !important; height:25px !important; text-align:center;' name="sell_price" id="total_sell_price" readonly>
-                                                            </td>
-                                                            @if ($title == 'Add Order' || $title == 'Edit Order')
-                                                            <td><button type='button' class='btn btn-link' onclick="removedata()"><i style="color:black; font-weight:bold;" class="icon-refresh"></i></button></td>
-                                                            @endif
-                                                        </tr>
-                                                    </tbody> --}}
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="3"><b>TOTAL PRICE</b></td>
+                                                        <td>
+                                                            <input type="hidden" class="form-control numeric"
+                                                                style='width:100px !important; height:25px !important; text-align:center;' readonly>
+                                                            <input type="text" class="form-control numeric"
+                                                                style='width:100px !important; height:25px !important; text-align:center;'
+                                                                id="total_price" readonly>
+                                                        </td>
+                                                        @if ($title == 'Add Order' || $title == 'Edit Order')
+                                                            <td><button type='button' class='btn btn-link'
+                                                                    onclick="removedata()"><i
+                                                                        style="color:black; font-weight:bold;"
+                                                                        class="icon-refresh"></i></button></td>
+                                                        @endif
+                                                    </tr>
+                                                </tbody>
                                             </table>
                                             @if (isset($orders))
                                                 <br>
@@ -343,7 +383,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </form>
+                                </form>
                             </div>
                         </div>
                     </section>
@@ -361,19 +401,125 @@
             var id_prods = $("#prods").val();
 
             $.ajax({
-                url: "{{ route('product.detailproduct') }}",
+                url: "{{ route('admin.product.detailproduct') }}",
                 type: 'GET',
                 data: {
                     'id_prod': id_prods
                 },
                 success: function(data) {
-                    console.log(data);
+                    $("#category_prod").val(data.category.id);
+                    $("#qty").val(1);
+                    $("#price").val(data.price);
+                    $("#price_").val(data.price);
+                    $('#qty').attr('disabled', false);
+                    $('#btn_tambahToTableUser').attr('disabled', false);
                 }
             });
+
         }
 
-    </script>
-    <script>
+        function removedata(id) {
+
+            if (id) {
+
+                document.getElementById(id).remove();
+
+            } else {
+
+                $('#table_body').empty();
+                $('#total_price').val(0);
+
+            }
+
+            allprice();
+
+        }
+
+        function price_update(e) {
+
+            let id_prods = $('#product_id_' + e + '').val();
+            let prods = $('#product_name_' + e + '').text();
+
+            let qty = $("#qty_" + e).val();
+
+            let price = $("#price_" + e).val();
+
+            let result_price = price * qty;
+
+            $("#price_show_" + e).val(result_price);
+            $("#price_show_" + e).inputmask({
+                alias: "numeric",
+                prefix: "Rp.",
+                digits: 0,
+                repeat: 20,
+                digitsOptional: false,
+                decimalProtect: true,
+                groupSeparator: ".",
+                placeholder: '0',
+                radixPoint: ",",
+                radixFocus: true,
+                autoGroup: true,
+                autoUnmask: false,
+                clearMaskOnLostFocus: false,
+                onBeforeMask: function(value, opts) {
+                    return value;
+                },
+                removeMaskOnSubmit: true
+            });
+
+            allprice();
+
+        }
+
+        function allprice() {
+
+            let total_price = 0;
+            let total_amount = $("#total_amount").val();
+            total_amount = total_amount.split("Rp.").pop();
+            total_amount = total_amount.split(".").join('');
+
+            $("input[name='price_data[]']").map(function() {
+
+                let price = $(this).val();
+                price = price.split("Rp.").pop();
+                price = price.split(".").join('');
+                total_price += parseInt(price);
+
+            });
+
+            if (total_price == total_amount && total_price > 0 && total_amount > 0) {
+                $("#message-container").css("display", "block");
+                $("#message").text("Total Harga Product Sesuai Dengan Harga Yang Masuk!");
+                $("card-container").css({
+                    "border-color": "green",
+                    "border-width": "1px",
+                    "border-style": "solid"
+                });
+                $("#icon-message").removeClass("fa-ban");
+                $("#icon-message").addClass("fa-check");
+                $("#icon-message").css("color", "green");
+            } else {
+                if (total_amount == 0 || total_price == 0) {
+                    $("#message-container").css("display", "none");
+                } else {
+                    $("#message-container").css("display", "block");
+                    $("#message").text("Total Harga Product Tidak Sesuai Dengan Harga Yang Masuk!");
+                    $("card-container").css({
+                        "border-color": "red",
+                        "border-width": "1px",
+                        "border-style": "solid"
+                    });
+                    $("#icon-message").removeClass("fa-check");
+                    $("#icon-message").addClass("fa-ban");
+                    $("#icon-message").css("color", "red");
+                }
+
+            }
+
+            $('#total_price').val(total_price);
+
+        }
+
         $(document).ready(function() {
 
             $("#btn-collapse").click(function() {
@@ -387,94 +533,12 @@
             });
 
             $('#qty').on('keyup textInput input', function() {
-                var qty = $("#qty").val();
-                var max_stock = $("#stock").val();
-                var base = $("#base_price").val();
-                var base_price_old = $("#base_price_old").val();
-                var sell_price_old = $("#sell_price_old").val();
+                let qty = $("#qty").val();
+                let price = $("#price").val();
 
-                //Calculation
-                if (sell_price != 0) {
-                    if (qty.length <= max_qty.length) {
-                        if (qty > max_qty && qty.length >= max_qty.length) {
-                            $('#save_data').attr('disabled', 'disabled');
-                            alert("Item Quantity Exceed Stock Limit!");
-                            $("#qty").val(1);
-                            $("#base_price").val(base_price);
-                            $("#sell_price").val(sell_price);
-                        } else {
-                            $('#save_data').removeAttr('disabled');
-                            var result_base = base_price * qty;
-                            var result_sell = sell_price * qty;
-                            $("#sell_price").val(result_sell);
-                            $("#base_price").val(result_base);
-                        }
-                    } else {
-                        $('#save_data').attr('disabled', 'disabled');
-                        alert("Item Quantity Exceed Stock Limit!");
-                        $("#qty").val(1);
-                        $("#base_price").val(base_price);
-                        $("#sell_price").val(sell_price);
-                    }
+                let result = price * qty;
+                $("#price").val(result);
 
-                } else {
-                    // var input = document.getElementById("qty");
-                    // input.setAttribute("max",max_stock);
-
-                    // if(qty > max_stock){
-                    //     $('#save_data').attr('disabled', 'disabled');
-                    //     alert("Item Quantity Exceed Stock Limit!");
-                    // }else{
-                    //     $('#save_data').removeAttr('disabled');
-                    //     $("#entry_price").val(0);
-                    //     $("#cal_tax").val(0);
-                    //     $("#cal_profit").val(0);
-                    var result_base = base_price_old * qty;
-                    var result_sell = sell_price_old * qty;
-                    $("#base_price").val(result_base);
-                    $("#sell_price").val(result_sell);
-                    // }
-                }
-            });
-
-            $('#entry_price').on('keyup textInput input', function() {
-                var entry_price = $("#entry_price").val();
-                var sell_price_old = $("#sell_price_old").val();
-                var base_price = $("#base_price").val();
-                var entry = entry_price.split('.').join('').replace(/^Rp/, '');
-                var base = base_price.split('.').join('').replace(/^Rp/, '');
-                var qty = $("#qty").val();
-
-                //Calculation
-                if (sell_price != 0) {
-                    if (entry == 0) {
-                        var tax = 0;
-                        var profit = 0;
-                    } else {
-                        var profit = entry - base;
-                        var sell_total = sell_price * qty;
-                        if (entry > sell_total) {
-                            var tax = 0;
-                        } else {
-                            var tax = sell_total - entry;
-                        }
-                    }
-                } else {
-                    if (entry == 0) {
-                        var tax = 0;
-                        var profit = 0;
-                    } else {
-                        var profit = entry - base;
-                        var sell_total = sell_price_old * qty;
-                        if (entry > sell_total) {
-                            var tax = 0;
-                        } else {
-                            var tax = sell_total - entry;
-                        }
-                    }
-                }
-                $("#cal_tax").val(tax);
-                $("#cal_profit").val(profit);
             });
 
             $("#tgl_date").on("change", function() {
@@ -488,6 +552,100 @@
                     )
                 }
             }).trigger("change");
+
+            $('#btn_tambahToTableUser').on('click', function() {
+                var table_body = $('#tabel_body');
+
+                let id_product = $('#prods').val();
+
+                let qty = parseInt($('#qty').val());
+
+                let price = $('#price_').val();
+
+                var data = $('input[name^="product_id[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+
+                let length = $('#product_id_' + id_product).length;
+
+                if (data.length > 0 && length > 0) {
+
+                    let id_prods = $('#product_id_' + id_product).val();
+                    let qty_prods = parseInt($('#qty_' + id_product).val());
+                    let result_qty = qty_prods + qty;
+
+                    $('#qty_' + id_product).val(result_qty);
+
+                    $('#price_show_' + id_prods).val(result_qty * price);
+                    $('#price_show_' + id_prods).inputmask({
+                        alias: "numeric",
+                        prefix: "Rp.",
+                        digits: 0,
+                        repeat: 20,
+                        digitsOptional: false,
+                        decimalProtect: true,
+                        groupSeparator: ".",
+                        placeholder: '0',
+                        radixPoint: ",",
+                        radixFocus: true,
+                        autoGroup: true,
+                        autoUnmask: false,
+                        clearMaskOnLostFocus: false,
+                        onBeforeMask: function(value, opts) {
+                            return value;
+                        },
+                        removeMaskOnSubmit: true
+                    });
+
+                    $('#prods').val("");
+                    $('#qty').val("");
+                    $('#qty').attr('disabled', 'disabled');
+                    $('#category').val("0");
+                    $('#price').val("");
+                    $('#price_').val("");
+
+                } else {
+
+                    let price_ = $('#price').val();
+                    var product_name = $('#prods option:selected').text();
+                    var category_name = $('#category_prod option:selected').text();
+
+                    $('#table_body').append("<tr id='" + id_product + "'>" +
+                        "<td style='text-align:left;'><input type='hidden' name='product_id[]' id='product_id_" +
+                        id_product + "' value='" + id_product + "' readonly><span>" + product_name +
+                        "</span></td>" +
+                        "<td style='text-align:left;'><span>" + category_name + "</span></td>" +
+                        "<td><center><input type='number' style='width:100px !important; height:25px !important; text-align:center;' min=0 class='form-control' name='qty[]' id='qty_" +
+                        id_product + "' value='" + qty + "' oninput ='price_update(" + id_product +
+                        ")'></center></td>" +
+                        "<input type='hidden' id='price_" + id_product +
+                        "' value='" + price + "' readonly>" +
+                        "<td><center><input type='text' name='price_data[]' style='width:100px !important; height:25px !important; text-align:center;' class='form-control numeric' id='price_show_" +
+                        id_product + "' value='" + price_ + "' readonly></center></td>" +
+                        "<td><center><button type='button' class='btn btn-link btn-simple-danger' onclick='removedata(" +
+                        id_product +
+                        ")' title='Hapus'><i class='fa fa-trash' style='color:red;''></i></button></center></td>" +
+                        "</tr>");
+
+                    $('#prods').val("");
+                    $('#qty').val("");
+                    $('#qty').attr('disabled', 'disabled');
+                    $('#category').val("0");
+                    $('#price').val("");
+                    $('#price_').val("");
+
+                    $("html, body").animate({
+                        scrollTop: $(
+                            'html, body').get(0).scrollHeight
+                    }, 2000);
+
+                }
+
+                allprice();
+
+                $('#btn_tambahToTableUser').attr('disabled', true);
+
+            });
         });
     </script>
 </body>

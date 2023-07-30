@@ -49,7 +49,7 @@ class ProductControllers extends Controller
 
         $product_pay = Product::create([
             'product_name' => $req->name,
-            'category_id' => $req->category,    
+            'category_id' => $req->category,
             'price' => $req->price,
             'desc' => $req->desc,
             'created_at' => $datenow,
@@ -69,8 +69,8 @@ class ProductControllers extends Controller
         }else{
             return redirect()->route('user.product.index')->with(['success' => 'Data successfully stored!']);
         }
-            
-        
+
+
     }
 
     // Detail Data View by id
@@ -102,7 +102,7 @@ class ProductControllers extends Controller
         $datenow = date('Y-m-d H:i:s');
         $product_pay = Product::where('id', $req->id)->update([
             'product_name' => $req->name,
-            'category_id' => $req->category,    
+            'category_id' => $req->category,
             'price' => $req->price,
             'desc' => $req->desc,
             'updated_at' => $datenow,
@@ -144,7 +144,7 @@ class ProductControllers extends Controller
 
     public function detailproduct(Request $req)
     {
-        $data["prods"] = Product::where("id", $req->id_prod)->first();
-        return $data["prods"];
+        $data = Product::with('category')->where("id", $req->id_prod)->first();
+        return $data;
     }
 }

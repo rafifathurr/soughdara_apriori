@@ -7,6 +7,8 @@ use App\Models\order\Orders;
 use App\Models\order\detail\Details;
 use App\Models\source_payment\Source;
 use App\Models\product\Product;
+use App\Models\category\Category;
+use App\Models\payment_method\PaymentMethod;
 use App\Exports\ReportOrderExport;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -48,6 +50,8 @@ class OrderControllers extends Controller
         $data['url'] = 'store';
         $data['disabled_'] = '';
         $data['disabled__'] = 'disabled';
+        $data['category'] = Category::where('deleted_at',null)->orderBy('category', 'asc')->get();
+        $data['payment_method'] = PaymentMethod::where('deleted_at',null)->orderBy('payment_method', 'asc')->get();
         $data['products'] = Product::where('deleted_at',null)->orderBy('product_name', 'asc')->get();
         return view('order.create', $data);
     }
@@ -65,14 +69,14 @@ class OrderControllers extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
 
-        dd($req->all());
-
         if($req->event_type == "Payment"){
             $order_pay = Orders::create([
                 'receipt_number' => $req->receipt_number,
                 'date' => $req->tgl,
                 'time' => $req->time,
-                'type' => $req->event_type,
+                'event_type' => $req->event_type,
+                'payment_method' => $req->payment_method,
+                'discount' => $req->discount,
                 'total_amount' => $req->total_amount,
                 'created_at' => $datenow,
                 'created_by' => Auth::user()->id
@@ -83,12 +87,32 @@ class OrderControllers extends Controller
                 'receipt_number' => $req->receipt_number,
                 'date' => $req->tgl,
                 'time' => $req->time,
-                'type' => $req->event_type,
+                'event_type' => $req->event_type,
+                'payment_method' => $req->payment_method,
                 'refund' => $req->total_amount,
                 'total_amount' => $req->total_amount,
                 'created_at' => $datenow,
                 'created_by' => Auth::user()->id
             ]);
+
+        }
+
+        if($order_pay){
+
+            $qty = $req->qty;
+            $products = $req->product_id;
+
+            foreach($products as $key=>$prods){
+
+                $order_pay = Details::create([
+                    'id_order' => $order_pay->id,
+                    'id_product' => $prods,
+                    'qty' => $qty[$key],
+                    'created_at' => $datenow
+                ]);
+
+            }
+
 
         }
 
@@ -106,9 +130,8 @@ class OrderControllers extends Controller
         $data['disabled_'] = 'disabled';
         $data['disabled__'] = '';
         $data['url'] = 'create';
-        $data['orders'] = Order::where('id', $id)->first();
+        $data['orders'] = Orders::where('id', $id)->first();
         $data['products'] = Product::orderBy('product_name', 'asc')->get();
-        $data['sources'] = Source::orderBy('id', 'asc')->get();
         return view('order.create', $data);
     }
 
@@ -140,7 +163,7 @@ class OrderControllers extends Controller
             'tax' => $req->cal_tax,
             'profit' => $req->cal_profit,
             'updated_at' => $datenow,
-            'updated_by' => Auth::user()->username
+            'updated_by' => Auth::user()->id
         ]);
 
         if(Auth::guard('admin')->check()){
@@ -154,17 +177,34 @@ class OrderControllers extends Controller
     public function delete(Request $req)
     {
         $datenow = date('Y-m-d H:i:s');
-        $exec = Order::where('id', $req->id )->update([
-            'deleted_at'=>1,
+        $exec = Orders::where('id', $req->id )->update([
+            'deleted_at'=>$datenow,
             'updated_at'=>$datenow,
-            'updated_by'=>Auth::user()->username
+            'updated_by'=>Auth::user()->id
         ]);
 
         if ($exec) {
-            Session::flash('success', 'Data successfully deleted!');
-          } else {
+
+            $exec_2 = Details::where('id_order', $req->id )->update([
+                'deleted_at'=>$datenow,
+                'updated_at'=>$datenow
+            ]);
+
+            if ($exec_2) {
+
+                Session::flash('success', 'Data successfully deleted!');
+
+            } else {
+
+                Session::flash('gagal', 'Error Data');
+
+            }
+
+        } else {
+
             Session::flash('gagal', 'Error Data');
-          }
+
+        }
     }
 
     // Index View and Scope Data
