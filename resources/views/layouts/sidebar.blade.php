@@ -85,6 +85,12 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
+                    <li class="nav-item {{ $title === 'Analysis' ? 'active' : '' }}">
+                        <a href="{{ route('admin.analysis.index') }}" aria-expanded="false">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Analysis Process</p>
+                        </a>
+                    </li>
                     <li
                         class="nav-item {{ $title === 'List Order' || $title === 'Add Order' || $title === 'Edit Order' || $title === 'Detail Order' ? 'active' : '' }}">
                         <a href="{{ route('admin.order.index') }}" aria-expanded="false">

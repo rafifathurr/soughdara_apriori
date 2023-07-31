@@ -31,7 +31,7 @@
                                 Add Order
                             </a>
                         @else
-                            <a class="btn btn-primary btn-round ml-auto mb-3" href="{{ route('user.order.create') }}">
+                            <a class="btn btn-add btn-round ml-auto mb-3" href="{{ route('user.order.create') }}">
                                 <i class="fa fa-plus"></i>
                                 Add Order
                             </a>

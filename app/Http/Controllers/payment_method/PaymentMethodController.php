@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\payment_method\PaymentMethod;
 
 use Illuminate\Http\Request;
-use Auth;
 use Session;
-use DB;
-use PDF;
 
 class PaymentMethodController extends Controller
 {

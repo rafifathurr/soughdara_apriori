@@ -5,14 +5,11 @@ namespace App\Http\Controllers\product;
 use App\Http\Controllers\Controller;
 use App\Models\product\Product;
 use App\Models\category\Category;
-use App\Models\supplier\Supplier;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 use Auth;
 use Session;
-use DB;
-use PDF;
 
 class ProductControllers extends Controller
 {

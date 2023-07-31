@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\role\Role;
 
 use Illuminate\Http\Request;
-use Auth;
 use Session;
-use DB;
-use PDF;
 
 class RoleControllers extends Controller
 {

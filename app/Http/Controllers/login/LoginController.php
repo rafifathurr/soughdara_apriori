@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\login;
 
 use App\Http\Controllers\Controller;
-use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +22,7 @@ class LoginController extends Controller
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'role_id' => 1])) {
             return redirect()->route('admin.dashboard.index');
         } else if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password, 'role_id' => 2])) {
-            return redirect()->route('user.dashboard.index');
+            return redirect()->route('user.order.index');
         } else {
             // Session::flash('loginError', 'Login Failed!');
             return redirect()->back()->with(['gagal' => 'These credentials do not match our records.']);

@@ -24,6 +24,11 @@
                                 <i class="fa fa-plus"></i>
                                 Add Product
                             </a>
+                        @else
+                            <a class="btn btn-add btn-round ml-auto mb-3" href="{{ route('user.product.create') }}">
+                                <i class="fa fa-plus"></i>
+                                Add Product
+                            </a>
                         @endif
                     </div>
 

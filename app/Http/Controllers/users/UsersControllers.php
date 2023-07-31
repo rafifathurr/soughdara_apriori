@@ -7,10 +7,7 @@ use App\Models\users\User;
 use App\Models\role\Role;
 
 use Illuminate\Http\Request;
-use Auth;
 use Session;
-use DB;
-use PDF;
 
 class UsersControllers extends Controller
 {
@@ -67,7 +64,7 @@ class UsersControllers extends Controller
             }else{
                 return back()->with(['gagal' => 'Password Not Match!']);
             }
-           
+
         }
     }
 

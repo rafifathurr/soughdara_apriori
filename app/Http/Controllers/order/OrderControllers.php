@@ -5,7 +5,6 @@ namespace App\Http\Controllers\order;
 use App\Http\Controllers\Controller;
 use App\Models\order\Orders;
 use App\Models\order\detail\Details;
-use App\Models\source_payment\Source;
 use App\Models\product\Product;
 use App\Models\category\Category;
 use App\Models\payment_method\PaymentMethod;
@@ -17,7 +16,6 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use DB;
-use PDF;
 
 class OrderControllers extends Controller
 {

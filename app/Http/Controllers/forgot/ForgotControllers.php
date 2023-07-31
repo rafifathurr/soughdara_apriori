@@ -6,10 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\users\User;
 
 use Illuminate\Http\Request;
-use Auth;
-use Session;
-use DB;
-use PDF;
 
 class ForgotControllers extends Controller
 {
