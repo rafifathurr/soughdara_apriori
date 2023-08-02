@@ -52,8 +52,9 @@ Route::namespace('App\Http\Controllers')->group(function (){
         });
 
         // ROUTE TO ANALYSIS CONTROLLERS
-        Route::namespace('analysis')->name('analysis.')->group(function () {
+        Route::namespace('analysis')->prefix('analysis')->name('analysis.')->group(function () {
             Route::get('/', 'AnalysisControllers@index')->name('index');
+            Route::get('create/{month}/{year}', 'AnalysisControllers@create')->name('create');
         });
 
         // ROUTE TO ORDER CONTROLLERS

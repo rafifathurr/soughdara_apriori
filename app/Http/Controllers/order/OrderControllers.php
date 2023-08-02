@@ -37,7 +37,13 @@ class OrderControllers extends Controller
     }
 
     public function getMonth(Request $req){
-        $months = Orders::select(DB::raw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan'))->whereYear('date', $req->tahun)->orderBy(DB::raw('MONTH(date)'))->where('deleted_at',null)->groupBy(DB::raw("MONTHNAME(date)"))->groupBy(DB::raw("MONTH(date)"))->get();
+        $months = Orders::selectRaw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan')
+                ->whereYear('date', $req->tahun)
+                ->where('deleted_at',null)
+                ->groupBy('bulan')
+                ->groupBy('nama_bulan')
+                ->orderBy('bulan', 'asc')
+                ->get();
         return json_encode($months);
     }
 

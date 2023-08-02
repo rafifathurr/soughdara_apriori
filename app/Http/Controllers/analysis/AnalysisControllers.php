@@ -28,9 +28,27 @@ class AnalysisControllers extends Controller
     // Index View and Scope Data
     public function index()
     {
+
+        date_default_timezone_set("Asia/Bangkok");
+        $years = Orders::selectRaw('YEAR(date) as year')
+                ->whereNull('deleted_at')
+                ->groupBy('year')
+                ->get();
+
         return view('analysis.index', [
-            "title" => "Analysis Process"
+            "title" => "Analysis Process",
+            "years" => $years
         ]);
+    }
+
+    public function create($month, $year)
+    {
+        $data['title'] = "Add Analysis Process";
+        $data['url'] = 'store';
+        $data['disabled_'] = '';
+        $data['tahun'] = $year;
+        $data['bulan'] = $month;
+        return view('order.create', $data);
     }
 
 }

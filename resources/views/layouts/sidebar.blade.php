@@ -85,7 +85,7 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item {{ $title === 'Analysis' ? 'active' : '' }}">
+                    <li class="nav-item {{ $title === 'Analysis Process' ? 'active' : '' }}">
                         <a href="{{ route('admin.analysis.index') }}" aria-expanded="false">
                             <i class="fas fa-chart-bar"></i>
                             <p>Analysis Process</p>
@@ -108,7 +108,7 @@
                         class="nav-item {{ $title === 'List Products' || $title === 'Add Products' || $title === 'Edit Products' || $title === 'Detail Products' ? 'active' : '' }}">
                         <a href="{{ route('admin.product.index') }}" class="collapsed" aria-expanded="false">
                             <i class="fas fa-boxes"></i>
-                            <p>Product</p>
+                            <p>Products</p>
                         </a>
                     </li>
                     <li

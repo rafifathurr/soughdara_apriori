@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\order\Order;
+use App\Models\order\Orders;
 use App\Models\product\Product;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;

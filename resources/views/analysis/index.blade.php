@@ -20,8 +20,7 @@
                     <!-- Button -->
                     <div class="d-flex">
                         @if (Auth::guard('admin')->check())
-                            <a class="btn btn-add btn-round ml-auto mb-3"
-                                href="">
+                            <a class="btn btn-add btn-round ml-auto mb-3" id="add_analysis" href="#">
                                 <i class="fa fa-plus"></i>
                                 Add Analysis Process
                             </a>
@@ -91,8 +90,69 @@
 </body>
 <script>
     $(document).ready(function() {
+        $('#add_analysis').on('click', function() {
+            const div = document.createElement("div");
+            $(div).html(
+                "<input name='_token' value='{{ csrf_token() }}' type='hidden'>" +
+                "<select id='tahun' name='tahun' onchange='getMonth()' class='form-control'>" +
+                "<option value='' style='display: none;' selected=''>- Choose Year -</option>" +
+                "@foreach ($years as $year)" +
+                "<option value='{{ $year->year }}'>{{ $year->year }}</option>" +
+                "@endforeach" +
+                "</select><br><br>" +
+                "<select id='bulan' name='month' class='form-control' disabled>" +
+                "<option value='' style='display: none;' selected=''>- Choose Month -</option>" +
+                "</select><br>"
+            );
+            swal({
+                title: "Add Analysis Process Order",
+                content: div,
+                buttons: [true, "Process"]
+            }).then((result) => {
+                if (result == true) {
+                    if ($('#tahun').val() != '' && $('#bulan').val() != '') {
+                        tahun = $("#tahun").val();
+                        bulan = $("#bulan").val();
+                        window.location.href = "{{url('/admin/analysis/create')}}"+"/"+bulan+"/"+tahun;
+                    } else {
+                        swal({
+                            icon: 'warning',
+                            title: 'Oops !',
+                            button: false,
+                            text: 'Please Choose Year or Month First!',
+                            timer: 1500
+                        });
+                    }
+                }
+            })
+        })
+    });
 
-    })
+    function getMonth() {
+            var tahun = document.getElementById("tahun").value;
+            var token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('admin.order.getMonth') }}",
+                type: "POST",
+                data: {
+                    '_token': token,
+                    'tahun': tahun
+                },
+            }).done(function(result) {
+                $('#bulan').empty();
+                $('#bulan').removeAttr('disabled');
+                $('#bulan').append($('<option>', {
+                    value: '0',
+                    text: 'All'
+                }));
+                $.each(JSON.parse(result), function(i, item) {
+                    $('#bulan').append($('<option>', {
+                        value: item.bulan,
+                        text: item.nama_bulan
+                    }));
+                });
+            });
+        }
 </script>
 
 @include('layouts.swal')
