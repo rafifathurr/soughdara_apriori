@@ -23,8 +23,27 @@
                                 <form action="">
                                     <input type="hidden" name="tahun" value={{ $tahun }}>
                                     <input type="hidden" name="bulan" value={{ $bulan }}>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="min_supp" class="col-md-12">Min Support</label>
+                                            <input type="number" min="0" id="min_supp" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="min_conf"  class="col-md-12">Min Confindence</label>
+                                            <input type="number" min="0" id="min_conf" class="form-control">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="" class="btn btn-primary float-right ml-auto mb-3">
+                                                <i class="fa fa-plus"></i>
+                                                Generate
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr>
                                 </form>
-
                             </div>
                         </div>
                     </section>

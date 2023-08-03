@@ -43,12 +43,28 @@ class AnalysisControllers extends Controller
 
     public function create($month, $year)
     {
+
+        $data = Details::get();
+        $max_new = 0;
+        $max_old = 0;
+
+        foreach($data as $item){
+            $count = Details::where('id_order', $item->id_order)->groupBy('id_order')->count();
+            $max_old = $count;
+
+            if($max_new < $max_old){
+                $max_new = $max_old;
+            }
+        }
+        
+        dd($max_new);
+
         $data['title'] = "Add Analysis Process";
         $data['url'] = 'store';
         $data['disabled_'] = '';
         $data['tahun'] = $year;
         $data['bulan'] = $month;
-        return view('order.create', $data);
+        return view('analysis.create', $data);
     }
 
 }
