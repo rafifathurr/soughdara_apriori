@@ -43,6 +43,13 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    <?php for($i = 1; $i<=$max_product+1; $i++) : ?>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5><b>Itemset {{ $i }}</b></h5>
+                                        </div>
+                                    </div>
+                                    <?php endfor ?>
                                 </form>
                             </div>
                         </div>

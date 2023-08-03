@@ -49,16 +49,31 @@ class AnalysisControllers extends Controller
         $max_old = 0;
 
         foreach($data as $item){
-            $count = Details::where('id_order', $item->id_order)->groupBy('id_order')->count();
+            $count = Details::where('details_order.id_order', $item->id_order)
+                    ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
+                    ->whereMonth('orders_new.date', $month)
+                    ->whereYear('orders_new.date', $year)
+                    ->groupBy('details_order.id_order')
+                    ->count();
+
             $max_old = $count;
 
             if($max_new < $max_old){
                 $max_new = $max_old;
             }
         }
-        
-        dd($max_new);
 
+        $data['first_data'] = Details::with('product')
+                            ->selectRaw('
+                                details_order.id_product,
+                                count(*) as total
+                            ')
+                            ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
+                            ->whereMonth('orders_new.date', $month)
+                            ->whereYear('orders_new.date', $year)
+                            ->groupBy('details_order.id_product')
+                            ->get();
+        $data['max_product'] = $max_new;
         $data['title'] = "Add Analysis Process";
         $data['url'] = 'store';
         $data['disabled_'] = '';
