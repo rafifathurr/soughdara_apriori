@@ -62,7 +62,7 @@
 
                 <br>
                 <div class="button">
-                    <button type="submit">Log In</button>
+                    <button type="submit">LOG IN</button>
                 </div>
                 </form>
             </div>

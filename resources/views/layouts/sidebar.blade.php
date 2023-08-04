@@ -38,7 +38,7 @@
                             <li>
                                 <form action="{{ url('/auth/logout') }}" method="post">
                                     @csrf
-                                    <button class="dropdown-item">Logout</button>
+                                    <button class="dropdown-item">Log Out</button>
                                 </form>
                             </li>
                         </div>
