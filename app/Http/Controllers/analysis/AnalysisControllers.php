@@ -44,15 +44,19 @@ class AnalysisControllers extends Controller
     public function create($month, $year)
     {
 
-        $data = Details::get();
+        $check = Details::select('details_order.id_order')
+                ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
+                ->whereMonth('orders_new.date', $month)
+                ->whereYear('orders_new.date', $year)
+                ->groupBy('details_order.id_order')
+                ->get();
+
         $max_new = 0;
         $max_old = 0;
 
-        foreach($data as $item){
+        foreach($check as $item){
             $count = Details::where('details_order.id_order', $item->id_order)
                     ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
-                    ->whereMonth('orders_new.date', $month)
-                    ->whereYear('orders_new.date', $year)
                     ->groupBy('details_order.id_order')
                     ->count();
 
@@ -73,7 +77,7 @@ class AnalysisControllers extends Controller
                             ->whereYear('orders_new.date', $year)
                             ->groupBy('details_order.id_product')
                             ->get();
-        $data['max_product'] = $max_new;
+        $data['max_product'] = 1;
         $data['title'] = "Add Analysis Process";
         $data['url'] = 'store';
         $data['disabled_'] = '';
