@@ -55,6 +55,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
         Route::namespace('analysis')->prefix('analysis')->name('analysis.')->group(function () {
             Route::get('/', 'AnalysisControllers@index')->name('index');
             Route::get('create/{month}/{year}', 'AnalysisControllers@create')->name('create');
+            Route::post('store', 'AnalysisControllers@store')->name('store');
         });
 
         // ROUTE TO ORDER CONTROLLERS

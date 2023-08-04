@@ -58,14 +58,80 @@
                                                     <center>Min Support</center>
                                                 </th>
                                                 <th width="15%">
-                                                    <center>Min Confidence</center>
-                                                </th>
-                                                <th width="15%">
                                                     <center>Action</center>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($analysis as $key=>$data)
+                                                <tr role="row" class="odd">
+                                                    <td>
+                                                        <center>{{ $key+1 }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $data->year }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $monthName = date('F', mktime(0, 0, 0, $data->month, 1)) }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $data->min_support }}</center>
+                                                    </td>
+                                                    <td>
+                                                        {{-- <center>
+                                                            <div class="form-button-action">
+                                                                @if (Auth::guard('admin')->check())
+                                                                    <a href="{{ route('admin.order.detail', $order->id) }}"
+                                                                        data-toggle="tooltip" title="Detail"
+                                                                        class="btn btn-link btn-icon btn-lg"
+                                                                        data-original-title="Detail"
+                                                                        control-id="ControlID-16">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
+                                                                    <a href="{{ route('admin.order.edit', $order->id) }}"
+                                                                        data-toggle="tooltip" title="Edit"
+                                                                        class="btn btn-link btn-simple-primary btn-lg"
+                                                                        data-original-title="Edit"
+                                                                        control-id="ControlID-16">
+                                                                        <i class="fa fa-edit" style="color:grey;"></i>
+                                                                    </a>
+                                                                    <button type="submit"
+                                                                        onclick="destroy({{ $order->id }})"
+                                                                        data-toggle="tooltip" title="Delete"
+                                                                        class="btn btn-link btn-simple-danger"
+                                                                        data-original-title="Delete"
+                                                                        control-id="ControlID-17">
+                                                                        <i class="fa fa-trash" style="color:red;"></i>
+                                                                    </button>
+                                                                @else
+                                                                    <a href="{{ route('user.order.detail', $order->id) }}"
+                                                                        data-toggle="tooltip" title="Detail"
+                                                                        class="btn btn-link btn-simple-primary btn-lg"
+                                                                        data-original-title="Detail"
+                                                                        control-id="ControlID-16">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
+                                                                    <a href="{{ route('user.order.edit', $order->id) }}"
+                                                                        data-toggle="tooltip" title="Edit"
+                                                                        class="btn btn-link btn-simple-primary btn-lg"
+                                                                        data-original-title="Edit"
+                                                                        control-id="ControlID-16">
+                                                                        <i class="fa fa-edit" style="color:grey;"></i>
+                                                                    </a>
+                                                                    <button type="submit"
+                                                                        onclick="destroy({{ $order->id }})"
+                                                                        data-toggle="tooltip" title="Delete"
+                                                                        class="btn btn-link btn-simple-danger"
+                                                                        data-original-title="Delete"
+                                                                        control-id="ControlID-17">
+                                                                        <i class="fa fa-trash" style="color:red;"></i>
+                                                                    </button>
+                                                                @endif
+                                                            </div>
+                                                        </center> --}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -141,9 +207,9 @@
             }).done(function(result) {
                 $('#bulan').empty();
                 $('#bulan').removeAttr('disabled');
-                $('#bulan').append($('<option>', {
-                    value: '0',
-                    text: 'All'
+                $('#bulan').append($('<option hidden>', {
+                    value: '',
+                    text: '- Choose Month -'
                 }));
                 $.each(JSON.parse(result), function(i, item) {
                     $('#bulan').append($('<option>', {

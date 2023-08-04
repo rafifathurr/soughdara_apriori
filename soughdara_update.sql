@@ -11,11 +11,33 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 31/07/2023 06:50:20
+ Date: 05/08/2023 06:01:40
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for analysis_process
+-- ----------------------------
+DROP TABLE IF EXISTS `analysis_process`;
+CREATE TABLE `analysis_process`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `month` int NULL DEFAULT NULL,
+  `year` int NULL DEFAULT NULL,
+  `total_transaction` int NULL DEFAULT NULL,
+  `min_support` int NULL DEFAULT NULL,
+  `min_confidence` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of analysis_process
+-- ----------------------------
+INSERT INTO `analysis_process` VALUES (1, 7, 2023, 7, 25, NULL, '2023-08-05 05:57:27', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for category_prod
@@ -40,6 +62,31 @@ INSERT INTO `category_prod` VALUES (3, 'Package', NULL, '2023-07-23 07:42:12', N
 INSERT INTO `category_prod` VALUES (4, 'Seasonal Menu', NULL, '2023-07-23 07:42:25', NULL, NULL);
 
 -- ----------------------------
+-- Table structure for details_analysis
+-- ----------------------------
+DROP TABLE IF EXISTS `details_analysis`;
+CREATE TABLE `details_analysis`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_analysis` int NULL DEFAULT NULL,
+  `product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `total_all` int NULL DEFAULT NULL,
+  `support_value` int NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of details_analysis
+-- ----------------------------
+INSERT INTO `details_analysis` VALUES (1, 1, '4', 5, 71, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
+INSERT INTO `details_analysis` VALUES (2, 1, '5', 4, 57, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
+INSERT INTO `details_analysis` VALUES (3, 1, '2', 3, 43, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
+INSERT INTO `details_analysis` VALUES (4, 1, '3', 3, 43, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
+
+-- ----------------------------
 -- Table structure for details_order
 -- ----------------------------
 DROP TABLE IF EXISTS `details_order`;
@@ -52,7 +99,7 @@ CREATE TABLE `details_order`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of details_order
@@ -62,6 +109,17 @@ INSERT INTO `details_order` VALUES (10, 1, 4, 2, '2023-07-31 06:38:50', NULL, NU
 INSERT INTO `details_order` VALUES (11, 2, 5, 1, '2023-07-31 06:39:24', NULL, NULL);
 INSERT INTO `details_order` VALUES (12, 2, 3, 1, '2023-07-31 06:39:24', NULL, NULL);
 INSERT INTO `details_order` VALUES (13, 2, 4, 1, '2023-07-31 06:39:24', NULL, NULL);
+INSERT INTO `details_order` VALUES (14, 3, 5, 1, '2023-07-31 19:42:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (15, 3, 3, 2, '2023-07-31 19:42:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (16, 3, 4, 2, '2023-07-31 19:42:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (17, 4, 4, 1, '2023-08-03 06:04:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (18, 5, 4, 1, '2023-08-04 23:50:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (19, 5, 2, 2, '2023-08-04 23:50:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (20, 6, 5, 1, '2023-08-04 23:51:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (21, 6, 4, 1, '2023-08-04 23:51:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (22, 6, 2, 1, '2023-08-04 23:51:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (23, 7, 3, 1, '2023-08-05 00:00:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (24, 7, 5, 1, '2023-08-05 00:00:18', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -149,13 +207,18 @@ CREATE TABLE `orders_new`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders_new
 -- ----------------------------
 INSERT INTO `orders_new` VALUES (1, 'SG325', '2023-07-31', '06:30:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-07-31 06:29:18', '2023-07-31 06:38:50', NULL, 1, 1);
 INSERT INTO `orders_new` VALUES (2, 'SG4363', '2023-07-31', '06:29:00', NULL, NULL, 45000, 'Payment', 3, NULL, '2023-07-31 06:29:55', '2023-07-31 06:39:24', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (3, 'ZAFFF213', '2023-07-31', '19:41:00', NULL, NULL, 72000, 'Payment', 6, NULL, '2023-07-31 19:42:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (4, '23423', '2023-08-03', '06:03:00', NULL, NULL, 11000, 'Payment', 3, NULL, '2023-08-03 06:04:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (5, '12312414', '2023-07-31', '23:49:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-08-04 23:50:07', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (6, '35346643', '2023-07-29', '23:50:00', NULL, NULL, 40000, 'Payment', 8, NULL, '2023-08-04 23:51:27', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (7, '3432525', '2023-07-27', '23:59:00', NULL, NULL, 34000, 'Payment', 1, NULL, '2023-08-05 00:00:18', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -269,14 +332,13 @@ CREATE TABLE `users`  (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_email_unique`(`email` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES (1, 'Administrator', 'soughdara@gmail.com', NULL, '$2y$10$TJOW7ohU1CYYN.ooPbqvVOhExeX5To0J77db6cMligv8zY/hOIYaq', NULL, 'admin', '081364243280', 1, 'Cibubur', '2022-12-02 00:49:19', '2023-07-23 07:20:01', NULL);
-INSERT INTO `users` VALUES (2, 'Fadhil MDA', 'fadhilmda@gmail.com', NULL, '$2y$10$Kr9IUWgDDSgH3hm49s1lMeCjblud0amepgc1Ixmemy.JpREhtxeZO', NULL, 'fadhilmda', '08123434555', 2, 'Condet', '2022-12-11 02:47:34', '2023-07-23 07:19:09', '2023-07-23 07:19:09');
-INSERT INTO `users` VALUES (5, 'Umar', 'umarabd@gmail.com', NULL, '$2y$10$n75UDUDIBLb5vjEGrRhodOxqEDvPYSKA6djJk.l.UQmgiej4X4.xa', NULL, 'umarabd', '081364243280', 2, 'Selangor. Malaysia', '2022-12-28 15:45:39', '2023-07-23 07:19:29', '2023-07-23 07:19:29');
+INSERT INTO `users` VALUES (6, 'Staff Utama', 'soughdara_first_staff@gmail.com', NULL, '$2y$10$FicxdVSPOFk/eQcWfn0U7.1Kf3qmm6eSBakRWL5x3eBnq4XASSaIC', NULL, 'soughdara_utama', '0823213239', 2, 'Cibubur', '2023-07-31 19:45:12', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for users_role
@@ -296,6 +358,6 @@ CREATE TABLE `users_role`  (
 -- Records of users_role
 -- ----------------------------
 INSERT INTO `users_role` VALUES (1, 'Admin', 'user for admin role', '2022-11-20 13:09:55', NULL, NULL);
-INSERT INTO `users_role` VALUES (2, 'User', NULL, '2022-12-11 02:46:46', NULL, NULL);
+INSERT INTO `users_role` VALUES (2, 'Staff', NULL, '2022-12-11 02:46:46', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
