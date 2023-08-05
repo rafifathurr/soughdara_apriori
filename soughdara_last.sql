@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 05/08/2023 06:01:40
+ Date: 05/08/2023 16:45:44
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `analysis_process`  (
 -- ----------------------------
 -- Records of analysis_process
 -- ----------------------------
-INSERT INTO `analysis_process` VALUES (1, 7, 2023, 7, 25, NULL, '2023-08-05 05:57:27', NULL, NULL);
+INSERT INTO `analysis_process` VALUES (1, 7, 2023, 7, 25, NULL, '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
 
 -- ----------------------------
 -- Table structure for category_prod
@@ -81,10 +81,10 @@ CREATE TABLE `details_analysis`  (
 -- ----------------------------
 -- Records of details_analysis
 -- ----------------------------
-INSERT INTO `details_analysis` VALUES (1, 1, '4', 5, 71, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
-INSERT INTO `details_analysis` VALUES (2, 1, '5', 4, 57, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
-INSERT INTO `details_analysis` VALUES (3, 1, '2', 3, 43, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
-INSERT INTO `details_analysis` VALUES (4, 1, '3', 3, 43, 'LULUS', '2023-08-05 05:57:27', NULL, NULL);
+INSERT INTO `details_analysis` VALUES (1, 1, '4', 5, 71, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (2, 1, '5', 4, 57, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (3, 1, '2', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (4, 1, '3', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
 
 -- ----------------------------
 -- Table structure for details_order
@@ -99,7 +99,7 @@ CREATE TABLE `details_order`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of details_order
@@ -120,6 +120,9 @@ INSERT INTO `details_order` VALUES (21, 6, 4, 1, '2023-08-04 23:51:27', NULL, NU
 INSERT INTO `details_order` VALUES (22, 6, 2, 1, '2023-08-04 23:51:27', NULL, NULL);
 INSERT INTO `details_order` VALUES (23, 7, 3, 1, '2023-08-05 00:00:18', NULL, NULL);
 INSERT INTO `details_order` VALUES (24, 7, 5, 1, '2023-08-05 00:00:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (25, 8, 3, 1, '2023-08-05 11:09:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (26, 9, 5, 1, '2023-08-05 11:11:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (27, 9, 4, 1, '2023-08-05 11:11:16', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -207,7 +210,7 @@ CREATE TABLE `orders_new`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders_new
@@ -219,6 +222,8 @@ INSERT INTO `orders_new` VALUES (4, '23423', '2023-08-03', '06:03:00', NULL, NUL
 INSERT INTO `orders_new` VALUES (5, '12312414', '2023-07-31', '23:49:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-08-04 23:50:07', NULL, NULL, 1, NULL);
 INSERT INTO `orders_new` VALUES (6, '35346643', '2023-07-29', '23:50:00', NULL, NULL, 40000, 'Payment', 8, NULL, '2023-08-04 23:51:27', NULL, NULL, 1, NULL);
 INSERT INTO `orders_new` VALUES (7, '3432525', '2023-07-27', '23:59:00', NULL, NULL, 34000, 'Payment', 1, NULL, '2023-08-05 00:00:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (8, '10048', '2023-07-26', '11:08:00', NULL, NULL, 16000, 'Payment', 3, NULL, '2023-08-05 11:09:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (9, '23232', '2023-07-29', '11:10:00', NULL, NULL, 29000, 'Payment', 8, NULL, '2023-08-05 11:11:16', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -301,16 +306,22 @@ CREATE TABLE `product`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES (1, 'Real OG', 1, 11000, '1690104983_og.png', 'Real OG Doughnut', '2023-07-23 16:36:23', '2023-07-23 16:52:09', '2023-07-23 16:52:09', 1, 1);
-INSERT INTO `product` VALUES (2, 'Real OG', 1, 11000, NULL, NULL, '2023-07-28 00:45:43', NULL, NULL, 1, NULL);
-INSERT INTO `product` VALUES (3, 'Lemon Glaze', 2, 16000, NULL, NULL, '2023-07-31 05:03:04', NULL, NULL, 1, NULL);
-INSERT INTO `product` VALUES (4, 'OG Glaze', 1, 11000, NULL, NULL, '2023-07-31 05:03:57', NULL, NULL, 1, NULL);
-INSERT INTO `product` VALUES (5, 'Chicken Mayo', 2, 18000, NULL, NULL, '2023-07-31 05:04:36', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (2, 'Real OG', 1, 11000, '1691227323_realog.png', NULL, '2023-07-28 00:45:43', '2023-08-05 16:22:03', NULL, 1, 1);
+INSERT INTO `product` VALUES (3, 'Lemon Glaze', 2, 16000, '1691227345_lemonglazed.png', NULL, '2023-07-31 05:03:04', '2023-08-05 16:22:25', NULL, 1, 1);
+INSERT INTO `product` VALUES (4, 'OG Glaze', 1, 11000, '1691227482_ogglaze.png', NULL, '2023-07-31 05:03:57', '2023-08-05 16:24:42', NULL, 1, 1);
+INSERT INTO `product` VALUES (5, 'Chicken Mayo', 2, 18000, '1691227490_chichkenmayo.png', NULL, '2023-07-31 05:04:36', '2023-08-05 16:24:50', NULL, 1, 1);
+INSERT INTO `product` VALUES (6, 'Choco', 1, 14000, '1691228120_chocoog.png', NULL, '2023-08-05 16:32:08', '2023-08-05 16:35:20', NULL, 1, 1);
+INSERT INTO `product` VALUES (7, 'Cheese', 1, 14000, '1691228130_cheeseog.png', NULL, '2023-08-05 16:32:34', '2023-08-05 16:35:30', NULL, 1, 1);
+INSERT INTO `product` VALUES (8, 'Trio', 1, 14000, '1691228138_trioog.png', NULL, '2023-08-05 16:32:50', '2023-08-05 16:36:39', '2023-08-05 16:36:39', 1, 1);
+INSERT INTO `product` VALUES (9, 'Trio', 1, 14000, NULL, NULL, '2023-08-05 16:37:08', '2023-08-05 16:37:54', '2023-08-05 16:37:54', 1, 1);
+INSERT INTO `product` VALUES (10, 'Trio', 1, 14000, '1691228292_trioog.png', NULL, '2023-08-05 16:38:12', '2023-08-05 16:40:04', '2023-08-05 16:40:04', 1, 1);
+INSERT INTO `product` VALUES (11, 'Trio', 1, 14000, '1691228425_trioog.png', NULL, '2023-08-05 16:40:25', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for users
