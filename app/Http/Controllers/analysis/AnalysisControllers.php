@@ -44,7 +44,6 @@ class AnalysisControllers extends Controller
             "analysis" => $analysis
         ]);
     }
-
     public function create($month, $year)
     {
 
@@ -123,7 +122,7 @@ class AnalysisControllers extends Controller
         $data['total_transaksi'] = Orders::whereMonth('orders_new.date', $month)
                                 ->whereYear('orders_new.date', $year)
                                 ->count();
-
+        $data['total_data'] = count($data['itemset']);
         $data['max_product'] = $max_new;
         $data['title'] = "Add Analysis Process";
         $data['url'] = 'store';
@@ -131,6 +130,26 @@ class AnalysisControllers extends Controller
         $data['tahun'] = $year;
         $data['bulan'] = $month;
         return view('analysis.create', $data);
+    }
+
+    public function getMonth(Request $req){
+        $analysis_get = Analysis::whereNull('deleted_at')->get();
+        $month = [];
+
+        foreach($analysis_get as $analysis){
+            array_push($month, $analysis->month);
+        }
+
+        $months = Orders::selectRaw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan')
+                ->whereYear('date', $req->tahun)
+                ->where('deleted_at',null)
+                ->whereNotIn(DB::raw("MONTH(date)"), $month)
+                ->groupBy('bulan')
+                ->groupBy('nama_bulan')
+                ->orderBy('bulan', 'asc')
+                ->get();
+
+        return json_encode($months);
     }
 
     public function store(Request $req){
@@ -165,6 +184,39 @@ class AnalysisControllers extends Controller
         }
 
         return redirect()->route('admin.analysis.index')->with(['success' => 'Data successfully stored!']);
+    }
+
+    public function delete(Request $req)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $datenow = date('Y-m-d H:i:s');
+        $exec = Analysis::where('id', $req->id )->update([
+            'deleted_at'=>$datenow,
+            'updated_at'=>$datenow
+        ]);
+
+        if ($exec) {
+
+            $exec_2 = DetailsAnalysis::where('id_analysis', $req->id )->update([
+                'deleted_at'=>$datenow,
+                'updated_at'=>$datenow
+            ]);
+
+            if ($exec_2) {
+
+                Session::flash('success', 'Data successfully deleted!');
+
+            } else {
+
+                Session::flash('gagal', 'Error Data');
+
+            }
+
+        } else {
+
+            Session::flash('gagal', 'Error Data');
+
+        }
     }
 
 }

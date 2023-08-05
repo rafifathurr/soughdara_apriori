@@ -78,7 +78,7 @@
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>
-                                                            <img src="{{asset('Uploads/Product/'.$prod->id.'/'.$prod->upload)}}" alt="">
+                                                            <img src="{{asset('Uploads/Product/'.$prod->id.'/uploads/'.$prod->upload)}}" style="padding:20px;" width="50%" alt="">
                                                         </center>
                                                     </td>
                                                     <td class="sorting_1">

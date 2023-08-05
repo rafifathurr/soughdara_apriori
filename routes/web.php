@@ -23,12 +23,15 @@ Route::get('/', function () {
         if(Auth::guard('user')->check()){
             return redirect()->route('user.order.index');
         } else {
-            return redirect()->route('login.index');
+            return redirect()->route('menu');
         }
     }
 });
 
 Route::namespace('App\Http\Controllers')->group(function (){
+
+    Route::get('/menu', 'home\HomeControllers@home')->name('menu');
+    Route::get('/menu/category/{id}', 'home\HomeControllers@category')->name('menu.category');
 
     Route::namespace('login')->prefix('auth')->name('login.')->group(function () {
         Route::get('/login', 'LoginController@index')->name('index');
@@ -55,7 +58,10 @@ Route::namespace('App\Http\Controllers')->group(function (){
         Route::namespace('analysis')->prefix('analysis')->name('analysis.')->group(function () {
             Route::get('/', 'AnalysisControllers@index')->name('index');
             Route::get('create/{month}/{year}', 'AnalysisControllers@create')->name('create');
+            Route::post('getMonth', 'AnalysisControllers@getMonth')->name('getMonth');
             Route::post('store', 'AnalysisControllers@store')->name('store');
+            Route::post('delete', 'AnalysisControllers@delete')->name('delete');
+            Route::get('detail/{id}', 'AnalysisControllers@detail')->name('detail');
         });
 
         // ROUTE TO ORDER CONTROLLERS

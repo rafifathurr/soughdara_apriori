@@ -63,72 +63,38 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($analysis as $key=>$data)
+                                            @foreach ($analysis as $key => $data)
                                                 <tr role="row" class="odd">
                                                     <td>
-                                                        <center>{{ $key+1 }}</center>
+                                                        <center>{{ $key + 1 }}</center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->year }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $monthName = date('F', mktime(0, 0, 0, $data->month, 1)) }}</center>
+                                                        <center>
+                                                            {{ $monthName = date('F', mktime(0, 0, 0, $data->month, 1)) }}
+                                                        </center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_support }}</center>
                                                     </td>
                                                     <td>
-                                                        {{-- <center>
-                                                            <div class="form-button-action">
-                                                                @if (Auth::guard('admin')->check())
-                                                                    <a href="{{ route('admin.order.detail', $order->id) }}"
-                                                                        data-toggle="tooltip" title="Detail"
-                                                                        class="btn btn-link btn-icon btn-lg"
-                                                                        data-original-title="Detail"
-                                                                        control-id="ControlID-16">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    <a href="{{ route('admin.order.edit', $order->id) }}"
-                                                                        data-toggle="tooltip" title="Edit"
-                                                                        class="btn btn-link btn-simple-primary btn-lg"
-                                                                        data-original-title="Edit"
-                                                                        control-id="ControlID-16">
-                                                                        <i class="fa fa-edit" style="color:grey;"></i>
-                                                                    </a>
-                                                                    <button type="submit"
-                                                                        onclick="destroy({{ $order->id }})"
-                                                                        data-toggle="tooltip" title="Delete"
-                                                                        class="btn btn-link btn-simple-danger"
-                                                                        data-original-title="Delete"
-                                                                        control-id="ControlID-17">
-                                                                        <i class="fa fa-trash" style="color:red;"></i>
-                                                                    </button>
-                                                                @else
-                                                                    <a href="{{ route('user.order.detail', $order->id) }}"
-                                                                        data-toggle="tooltip" title="Detail"
-                                                                        class="btn btn-link btn-simple-primary btn-lg"
-                                                                        data-original-title="Detail"
-                                                                        control-id="ControlID-16">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    <a href="{{ route('user.order.edit', $order->id) }}"
-                                                                        data-toggle="tooltip" title="Edit"
-                                                                        class="btn btn-link btn-simple-primary btn-lg"
-                                                                        data-original-title="Edit"
-                                                                        control-id="ControlID-16">
-                                                                        <i class="fa fa-edit" style="color:grey;"></i>
-                                                                    </a>
-                                                                    <button type="submit"
-                                                                        onclick="destroy({{ $order->id }})"
-                                                                        data-toggle="tooltip" title="Delete"
-                                                                        class="btn btn-link btn-simple-danger"
-                                                                        data-original-title="Delete"
-                                                                        control-id="ControlID-17">
-                                                                        <i class="fa fa-trash" style="color:red;"></i>
-                                                                    </button>
-                                                                @endif
-                                                            </div>
-                                                        </center> --}}
+                                                        <center>
+                                                            {{-- <a href="{{ route('admin.analysis.detail', $data->id) }}"
+                                                                data-toggle="tooltip" title="Detail"
+                                                                class="btn btn-link btn-icon btn-lg"
+                                                                data-original-title="Detail" control-id="ControlID-16">
+                                                                <i class="fa fa-eye"></i>
+                                                            </a> --}}
+                                                            <button type="submit"
+                                                                onclick="destroy({{ $data->id }})"
+                                                                data-toggle="tooltip" title="Delete"
+                                                                class="btn btn-link btn-simple-danger"
+                                                                data-original-title="Delete" control-id="ControlID-17">
+                                                                <i class="fa fa-trash" style="color:red;"></i>
+                                                            </button>
+                                                        </center>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -155,6 +121,29 @@
     </div>
 </body>
 <script>
+    function destroy(id) {
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        swal({
+            title: "",
+            text: "Are you sure want to delete this record?",
+            icon: "warning",
+            buttons: ['Cancel', 'OK'],
+            // dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.post("{{ route('admin.analysis.delete') }}", {
+                    id: id,
+                    _token: token
+                }, function(data) {
+                    location.reload();
+                })
+            } else {
+                return false;
+            }
+        });
+    }
+
     $(document).ready(function() {
         $('#add_analysis').on('click', function() {
             const div = document.createElement("div");
@@ -179,7 +168,8 @@
                     if ($('#tahun').val() != '' && $('#bulan').val() != '') {
                         tahun = $("#tahun").val();
                         bulan = $("#bulan").val();
-                        window.location.href = "{{url('/admin/analysis/create')}}"+"/"+bulan+"/"+tahun;
+                        window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
+                            bulan + "/" + tahun;
                     } else {
                         swal({
                             icon: 'warning',
@@ -195,30 +185,30 @@
     });
 
     function getMonth() {
-            var tahun = document.getElementById("tahun").value;
-            var token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                url: "{{ route('admin.order.getMonth') }}",
-                type: "POST",
-                data: {
-                    '_token': token,
-                    'tahun': tahun
-                },
-            }).done(function(result) {
-                $('#bulan').empty();
-                $('#bulan').removeAttr('disabled');
-                $('#bulan').append($('<option hidden>', {
-                    value: '',
-                    text: '- Choose Month -'
+        var tahun = document.getElementById("tahun").value;
+        var token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ route('admin.analysis.getMonth') }}",
+            type: "POST",
+            data: {
+                '_token': token,
+                'tahun': tahun
+            },
+        }).done(function(result) {
+            $('#bulan').empty();
+            $('#bulan').removeAttr('disabled');
+            $('#bulan').append($('<option hidden>', {
+                value: '',
+                text: '- Choose Month -'
+            }));
+            $.each(JSON.parse(result), function(i, item) {
+                $('#bulan').append($('<option>', {
+                    value: item.bulan,
+                    text: item.nama_bulan
                 }));
-                $.each(JSON.parse(result), function(i, item) {
-                    $('#bulan').append($('<option>', {
-                        value: item.bulan,
-                        text: item.nama_bulan
-                    }));
-                });
             });
-        }
+        });
+    }
 </script>
 
 @include('layouts.swal')

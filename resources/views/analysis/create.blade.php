@@ -25,7 +25,9 @@
                                     {{ csrf_field() }}
                                     <input type="hidden" name="year" value={{ $tahun }}>
                                     <input type="hidden" name="month" value={{ $bulan }}>
-                                    <input type="hidden" name="total_order" id="total_order" value={{ $bulan }}>
+                                    <input type="hidden" name="total_order" id="total_order" value={{ $total_transaksi }}>
+                                    <input type="hidden" id="total_itemset" value={{ $max_product }}>
+                                    <input type="hidden" id="total_data" value={{ $total_data }}>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label for="min_supp" class="col-md-12">Min Support</label>
@@ -48,10 +50,10 @@
                                     </div>
                                     <hr>
                                     <div id="details" style="display:none;">
-                                        <?php for($i = 1; $i<=1; $i++) : ?>
+                                        @for($i = 1; $i<=$max_product; $i++)
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h4><b>Itemset Support</b></h4>
+                                                <h4><b>Itemset {{ $i }}</b></h4>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -80,7 +82,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if($i == 1)
                                                         @foreach ($itemset[$i] as $item)
                                                             @foreach($item as $key => $data)
                                                             <tr>
@@ -89,16 +90,16 @@
                                                                 </td>
                                                                 <td>
                                                                     {{ $data->product_name }}
-                                                                    <input type="hidden" name="id_product[]" value="{{ $data->id_product }}">
+                                                                    <input type="hidden" id="" name="id_product[]" value="{{ $data->id_product }}">
                                                                 </td>
                                                                 <td>
                                                                     {{ $data->total }}
                                                                     <input type="hidden" value="{{ $data->total }}"
-                                                                        name="total_per_product[]" id="">
+                                                                        name="total_per_product[]" id="total_per_product_{{ $i }}_{{ $key }}">
                                                                 </td>
                                                                 <td>
                                                                     <input type="number" class="form-control"
-                                                                        id="" name="support[]"
+                                                                        id="support_{{ $i }}_{{ $key }}" name="support[]"
                                                                         style='width:100px !important; height:25px !important; text-align:center;'
                                                                         readonly>
                                                                 </td>
@@ -107,20 +108,83 @@
                                                                         <span id="status_result_{{ $i }}_{{ $key }}"></span>
                                                                     </center>
                                                                     <input type="hidden" class="form-control"
-                                                                        id="" name="result[]"
+                                                                        id="result_{{ $i }}_{{ $key }}" name="result[]"
                                                                         style='width:100px !important; height:25px !important; text-align:center;'
                                                                         readonly>
                                                                 </td>
                                                             </tr>
                                                             @endforeach
                                                         @endforeach
-                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                         <br>
-                                        <?php endfor ?>
+                                        @endfor
+                                        @for($i = 1; $i<=$max_product; $i++)
+                                        @if($i > 1)
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h4><b>Confidence {{ $i }}</b></h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md 12">
+                                                <table id="table_set_{{ $i + 1 }}"
+                                                    class="display table table-striped table-hover dataTable"
+                                                    cellspacing="0" width="100%" role="grid"
+                                                    aria-describedby="add-row_info" style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                No
+                                                            </th>
+                                                            <th>
+                                                                Product
+                                                            </th>
+                                                            <th>
+                                                                Confidence
+                                                            </th>
+                                                            <th>
+                                                                Result
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($itemset[$i] as $item)
+                                                            @foreach($item as $key => $data)
+                                                            <tr>
+                                                                <td>
+                                                                    {{ $key + 1 }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $data->product_name }}
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="confidence_{{ $i }}_{{ $key }}" name="support[]"
+                                                                        style='width:100px !important; height:25px !important; text-align:center;'
+                                                                        readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <center>
+                                                                        <span id="status_confidence_{{ $i }}_{{ $key }}"></span>
+                                                                    </center>
+                                                                    <input type="hidden" class="form-control"
+                                                                        id="result_confidence_{{ $i }}_{{ $key }}" name="result[]"
+                                                                        style='width:100px !important; height:25px !important; text-align:center;'
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        @endif
+                                        @endfor
                                         <div class="modal-footer">
                                             <div style="float:right;">
                                                 <a href="{{ route('admin.analysis.index') }}"
@@ -149,6 +213,8 @@
         $(document).ready(function() {
 
             $("#generate").on("click", function() {
+                let total_itemset = $("#total_itemset").val();
+                let total_data = $("#total_data").val();
                 let total_order = $("#total_order").val();
                 let total_per_product = $("input[name='total_per_product[]']");
                 let support_val = $("input[name='support[]']");
@@ -166,23 +232,42 @@
                     $("#details").css("display", "block");
                 }
 
-                total_per_product.map(function(index) {
+                for(let x = 1; x <= total_itemset; x++){
+                    for(let y = 0; y <= total_data; y++ ){
+                        let total = $("#total_per_product_"+x+"_"+y).val();
+                        let support = (parseInt(total)/parseInt(total_order)*100).toFixed(2);
 
-                    let total = $(this).val();
-                    let support = (parseInt(total)/parseInt(total_order)*100).toFixed(2);
+                        if(support > min_supp){
+                            $('#result_'+x+'_'+y).val("LULUS");
+                            $('#status_result_'+x+'_'+y).text("LULUS")
+                            $('#status_result_'+x+'_'+y).css("color", "green");
+                        }else{
+                            $('#result_'+x+'_'+y).val("TIDAK LULUS");
+                            $('#status_result_'+x+'_'+y).text("TIDAK LULUS");
+                            $('#status_result_'+x+'_'+y).css("color", "red");
+                        }
+                        $('#support_'+x+'_'+y).val(support);
 
-                    if(support > min_supp){
-                        $(result_val.get(index)).val("LULUS");
-                        $('#status_result_'+1+'_'+index).text("LULUS")
-                        $('#status_result_'+1+'_'+index).css("color", "green");
-                    }else{
-                        $(result_val.get(index)).val("TIDAK LULUS");
-                        $('#status_result_'+1+'_'+index).text("TIDAK LULUS");
-                        $('#status_result_'+1+'_'+index).css("color", "red");
                     }
-                    $(support_val.get(index)).val(support);
+                }
 
-                });
+                // total_per_product.map(function(index) {
+
+                //     let total = $(this).val();
+                //     let support = (parseInt(total)/parseInt(total_order)*100).toFixed(2);
+
+                //     if(support > min_supp){
+                //         $(result_val.get(index)).val("LULUS");
+                //         $('#status_result_'+1+'_'+index).text("LULUS")
+                //         $('#status_result_'+1+'_'+index).css("color", "green");
+                //     }else{
+                //         $(result_val.get(index)).val("TIDAK LULUS");
+                //         $('#status_result_'+1+'_'+index).text("TIDAK LULUS");
+                //         $('#status_result_'+1+'_'+index).css("color", "red");
+                //     }
+                //     $(support_val.get(index)).val(support);
+
+                // });
             });
 
 

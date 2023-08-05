@@ -53,13 +53,13 @@ class ProductControllers extends Controller
             'created_by' => Auth::user()->id
         ]);
 
-        $destination='Uploads/Product/'.$product_pay->id;
+        $destination='Uploads/Product/'.$product_pay->id.'/uploads\\';
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
             Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
             Product::where('id', $product_pay->id)->update(['upload' => $name_file]);
-          }
+        }
 
         if(Auth::guard('admin')->check()){
             return redirect()->route('admin.product.index')->with(['success' => 'Data successfully stored!']);
