@@ -253,27 +253,117 @@ class OrderControllers extends Controller
     // Index View and Scope Data
     public function export(Request $req)
     {
+        date_default_timezone_set("Asia/Bangkok");
         if($req->bulan==0){
-            $orders= Order::whereYear('date', $req->tahun)->orderBy('date', 'ASC')->get();
-            $sum= Order::selectRaw(DB::raw("SUM(base_price_product) as total_base, SUM(qty) as total_qty, SUM(tax) as total_tax, SUM(profit) as total_profit"))->whereYear('date', $req->tahun)->first();
+            $check= Orders::join('payment_method', 'payment_method.id', '=', 'orders_new.payment_method')
+                    ->whereYear('date', $req->tahun)
+                    ->whereNull('orders_new.deleted_at')
+                    ->orderBy('date', 'ASC')
+                    ->orderBy('time', 'ASC')
+                    ->get();
+
+            $sum= Orders::selectRaw("SUM(total_amount) as total")->whereYear('date', $req->tahun)->first();
+
+            $json = array();
+            foreach($check as $order){
+
+                $json[$order->id] = array(
+                    'receipt_number' => $order->receipt_number,
+                    'date' => $order->date,
+                    'time' => $order->time,
+                    'refund' => $order->refund,
+                    'discount' => $order->discount,
+                    'event_type' => $order->event_type,
+                    'payment_method' => $order->payment_method,
+                    'total_amount' => $order->total_amount,
+                    'product' => array()
+                );
+
+                $product_order = Details::join('product', 'product.id', '=', 'details_order.id_product')
+                                ->selectRaw('
+                                    product.product_name,
+                                    details_order.qty
+                                ')
+                                ->where('id_order', $order->id)
+                                ->get();
+
+                $detail = array();
+                foreach($product_order as $product){
+                    $detail = array(
+                        'product_name' => $product->product_name,
+                        'qty' => $product->qty
+                    );
+                    $json[$order->id]['product'][] = $detail;
+                }
+
+            }
+
+            $orders = $json;
+
             $data =  [
                 'success' => 'success',
                 'orders' => $orders,
-                'sum' => $sum,
+                'sum' => $sum->total,
                 'year' => $req->tahun
             ];
+
             return Excel::download(new ReportOrderExport($data), 'Reports_Order_'.$req->tahun.'.xlsx');
         }else{
-            $orders= Order::whereMonth('date', $req->bulan)->whereYear('date', $req->tahun)->get();
-            $sum= Order::selectRaw(DB::raw("SUM(base_price_product) as total_base, SUM(qty) as total_qty, SUM(tax) as total_tax, SUM(profit) as total_income, SUM(profit) as total_profit"))->whereMonth('date', $req->bulan)->whereYear('date', $req->tahun)->orderBy('date', 'ASC')->first();
+
+            $orders= Orders::join('payment_method', 'payment_method.id', '=', 'orders_new.payment_method')
+                    ->whereYear('date', $req->tahun)
+                    ->whereMonth('date', $req->bulan)
+                    ->whereNull('orders_new.deleted_at')
+                    ->orderBy('date', 'ASC')
+                    ->orderBy('time', 'ASC')
+                    ->get();
+
+            $sum= Orders::selectRaw("SUM(total_amount) as total")->whereYear('date', $req->tahun)->whereMonth('date', $req->bulan)->first();
+
+            $json = array();
+            foreach($orders as $order){
+
+                $json[$order->id] = array(
+                    'receipt_number' => $order->receipt_number,
+                    'date' => $order->date,
+                    'time' => $order->time,
+                    'refund' => $order->refund,
+                    'discount' => $order->discount,
+                    'event_type' => $order->event_type,
+                    'payment_method' => $order->payment_method,
+                    'total_amount' => $order->total_amount,
+                    'product' => array()
+                );
+
+                $product_order = Details::join('product', 'product.id', '=', 'details_order.id_product')
+                                ->selectRaw('
+                                    product.product_name,
+                                    details_order.qty
+                                ')
+                                ->where('id_order', $order->id)
+                                ->get();
+
+                $detail = array();
+                foreach($product_order as $product){
+                    $detail = array(
+                        'product_name' => $product->product_name,
+                        'qty' => $product->qty
+                    );
+                    $json[$order->id]['product'][] = $detail;
+                }
+
+            }
+
+            $orders = array_values($json);
+
             $data =  [
                 'success' => 'success',
                 'orders' => $orders,
-                'sum' => $sum,
+                'sum' => $sum->total,
                 'year' => $req->tahun,
                 'month' => $req->bulan
             ];
-            return Excel::download(new ReportOrderExport($data), 'Reports_Order_'.date("F", mktime(0, 0, 0, $req->month, 10)).'_'.$req->tahun.'.xlsx');
+            return Excel::download(new ReportOrderExport($data), 'Reports_Order_'.date("F", mktime(0, 0, 0, $req->bulan, 10)).'_'.$req->tahun.'.xlsx');
         }
 
     }
