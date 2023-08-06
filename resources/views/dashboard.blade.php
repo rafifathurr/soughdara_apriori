@@ -23,7 +23,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-head-row">
-                                        <div class="card-title"><strong>Month Profit of {{date('Y')}}</strong> </div>
+                                        <div class="card-title"><strong>Month Income of {{date('Y')}}</strong> </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
