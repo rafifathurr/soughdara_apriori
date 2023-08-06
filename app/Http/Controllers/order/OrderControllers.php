@@ -256,6 +256,17 @@ class OrderControllers extends Controller
         date_default_timezone_set("Asia/Bangkok");
         if($req->bulan==0){
             $check= Orders::join('payment_method', 'payment_method.id', '=', 'orders_new.payment_method')
+                    ->selectRaw('
+                        orders_new.id,
+                        orders_new.receipt_number,
+                        orders_new.date,
+                        orders_new.time,
+                        orders_new.refund,
+                        orders_new.discount,
+                        orders_new.event_type,
+                        payment_method.payment_method,
+                        orders_new.total_amount
+                    ')
                     ->whereYear('date', $req->tahun)
                     ->whereNull('orders_new.deleted_at')
                     ->orderBy('date', 'ASC')
@@ -310,7 +321,18 @@ class OrderControllers extends Controller
             return Excel::download(new ReportOrderExport($data), 'Reports_Order_'.$req->tahun.'.xlsx');
         }else{
 
-            $orders= Orders::join('payment_method', 'payment_method.id', '=', 'orders_new.payment_method')
+            $check = Orders::join('payment_method', 'payment_method.id', '=', 'orders_new.payment_method')
+                    ->selectRaw('
+                        orders_new.id,
+                        orders_new.receipt_number,
+                        orders_new.date,
+                        orders_new.time,
+                        orders_new.refund,
+                        orders_new.discount,
+                        orders_new.event_type,
+                        payment_method.payment_method,
+                        orders_new.total_amount
+                    ')
                     ->whereYear('date', $req->tahun)
                     ->whereMonth('date', $req->bulan)
                     ->whereNull('orders_new.deleted_at')
@@ -321,9 +343,9 @@ class OrderControllers extends Controller
             $sum= Orders::selectRaw("SUM(total_amount) as total")->whereYear('date', $req->tahun)->whereMonth('date', $req->bulan)->first();
 
             $json = array();
-            foreach($orders as $order){
+            foreach($check as $order){
 
-                $json[$order->id] = array(
+                $json[$order->receipt_number] = array(
                     'receipt_number' => $order->receipt_number,
                     'date' => $order->date,
                     'time' => $order->time,
@@ -349,12 +371,12 @@ class OrderControllers extends Controller
                         'product_name' => $product->product_name,
                         'qty' => $product->qty
                     );
-                    $json[$order->id]['product'][] = $detail;
+                    $json[$order->receipt_number]['product'][] = $detail;
                 }
 
             }
 
-            $orders = array_values($json);
+            $orders = $json;
 
             $data =  [
                 'success' => 'success',

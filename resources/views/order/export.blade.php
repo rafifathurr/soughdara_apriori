@@ -18,7 +18,6 @@
             </thead>
             <thead>
                 <tr>
-                    <th>No</th>
                     <th>Receipt Number</th>
                     <th>Date</th>
                     <th>Time</th>
@@ -37,11 +36,8 @@
             @foreach ($order['product'] as $productIndex => $product)
             <tr>
                 @if($productIndex===0)
-                    <td rowspan="{{ $numProducts }}">
-                    <center>{{$key+1}}</center>
-                    </td>
-                    <td rowspan="{{ $numProducts }}">
-                    <center>{{$order['receipt_number']}}</center>
+                    <td style="text-align:left" rowspan="{{ $numProducts }}">
+                    {{$order['receipt_number']}}
                     </td>
                     <td rowspan="{{ $numProducts }}">
                     <center>{{$order['date']}}</center>
@@ -61,7 +57,7 @@
                     </td>
                     @else
                     <td style="text-align:right" rowspan="{{ $numProducts }}">
-                    <center>Rp. {{ number_format($order['refund'],0,',','.')}},-</center>
+                    Rp. {{ number_format($order['refund'],0,',','.')}},-
                     </td>
                     @endif
                     @if(is_null($order['discount']))
@@ -70,7 +66,7 @@
                     </td>
                     @else
                     <td style="text-align:right" rowspan="{{ $numProducts }}">
-                    <center>Rp. {{ number_format($order['discount'],0,',','.')}},-</center>
+                    Rp. {{ number_format($order['discount'],0,',','.')}},-
                     </td>
                     @endif
                 @endif
@@ -82,18 +78,18 @@
                 </td>
                 @if($productIndex===0)
                     <td style="text-align:right" rowspan="{{ $numProducts }}">
-                    <center>Rp. {{ number_format($order['total_amount'],0,',','.')}},-</center>
+                    Rp. {{ number_format($order['total_amount'],0,',','.')}},-
                     </td>
                 @endif
             </tr>
             @endforeach
             @endforeach
             <tr style="background-color:green;">
-                <td colspan="10" style="text-align:right;">
+                <td colspan="9" style="text-align:right;">
                    <center><h3>Total</h3></center>
                 </td>
                 <td style="text-align:right">
-                <center><h3>Rp. {{ number_format($sum,0,',','.')}},-</h3></center>
+                <h3>Rp. {{ number_format($sum,0,',','.')}},-</h3>
                 </td>
             </tr>
             </tbody>
