@@ -490,7 +490,7 @@
                                         <div class="col-md-3">
                                             <label class="col-md-12">Discount <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="text" name="discount" id="discount"
+                                                <input type="text" oninput="allprice()" name="discount" id="discount"
                                                     @if (isset($orders)) value="{{ $orders->discount }}" @endisset class="form-control numeric" required>
                                             </div>
                                         </div>
@@ -809,6 +809,14 @@
             let total_amount = $("#total_amount").val();
             total_amount = total_amount.split("Rp.").pop();
             total_amount = total_amount.split(".").join('');
+
+            let discount = $("#discount").val();
+            discount = discount.split("Rp.").pop();
+            discount = discount.split(".").join('');
+
+            if(discount > 0){
+                total_amount = parseInt(total_amount)+parseInt(discount);
+            }
 
             $("input[name='price_data[]']").map(function() {
 

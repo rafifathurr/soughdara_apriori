@@ -273,7 +273,10 @@ class OrderControllers extends Controller
                     ->orderBy('time', 'ASC')
                     ->get();
 
-            $sum= Orders::selectRaw("SUM(total_amount) as total")->whereYear('date', $req->tahun)->first();
+            $sum = Orders::selectRaw("SUM(total_amount) as total")->where("event_type", "Payment")->whereYear('date', $req->tahun)->first();
+            $refund = Orders::selectRaw("SUM(total_amount) as total")->where("event_type", "Refund")->whereYear('date', $req->tahun)->first();
+
+            $total = $sum->total - $refund->total;
 
             $json = array();
             foreach($check as $order){
@@ -314,7 +317,7 @@ class OrderControllers extends Controller
             $data =  [
                 'success' => 'success',
                 'orders' => $orders,
-                'sum' => $sum->total,
+                'sum' => $total,
                 'year' => $req->tahun
             ];
 
@@ -340,7 +343,10 @@ class OrderControllers extends Controller
                     ->orderBy('time', 'ASC')
                     ->get();
 
-            $sum= Orders::selectRaw("SUM(total_amount) as total")->whereYear('date', $req->tahun)->whereMonth('date', $req->bulan)->first();
+            $sum = Orders::selectRaw("SUM(total_amount) as total")->where("event_type", "Payment")->whereYear('date', $req->tahun)->whereMonth('date', $req->bulan)->first();
+            $refund = Orders::selectRaw("SUM(total_amount) as total")->where("event_type", "Refund")->whereYear('date', $req->tahun)->whereMonth('date', $req->bulan)   ->first();
+
+            $total = $sum->total - $refund->total;
 
             $json = array();
             foreach($check as $order){
@@ -381,7 +387,7 @@ class OrderControllers extends Controller
             $data =  [
                 'success' => 'success',
                 'orders' => $orders,
-                'sum' => $sum->total,
+                'sum' => $total,
                 'year' => $req->tahun,
                 'month' => $req->bulan
             ];
