@@ -44,91 +44,16 @@ class AnalysisControllers extends Controller
             "analysis" => $analysis
         ]);
     }
-    public function create($month, $year)
+    public function create($month, $year, $support, $confidence)
     {
-
-        $check = Details::select('details_order.id_order')
-                ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
-                ->whereMonth('orders_new.date', $month)
-                ->whereYear('orders_new.date', $year)
-                ->groupBy('details_order.id_order')
-                ->get();
-
-        $max_new = 0;
-        $max_old = 0;
-
-        foreach($check as $item){
-            $count = Details::where('details_order.id_order', $item->id_order)
-                    ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
-                    ->groupBy('details_order.id_order')
-                    ->count();
-
-            $max_old = $count;
-
-            if($max_new < $max_old){
-                $max_new = $max_old;
-            }
-        }
-
-        for($i = 1; $i <= $max_new; $i++){
-            if($i == 1){
-                $data['itemset'][$i][] = Details::with('product')
-                        ->selectRaw('
-                            details_order.id_product,
-                            product.product_name,
-                            count(*) as total
-                        ')
-                        ->join('orders_new', 'orders_new.id', '=', 'details_order.id_order')
-                        ->join('product', 'product.id', '=', 'details_order.id_product')
-                        ->whereMonth('orders_new.date', $month)
-                        ->whereYear('orders_new.date', $year)
-                        ->where('event_type', 'Payment')
-                        ->groupBy('details_order.id_product')
-                        ->groupBy('product.product_name')
-                        ->orderBy('total','desc')
-                        ->get();
-            }else{
-                $data['itemset'][$i][] = DB::select("
-                    SELECT
-                        combined_products as product_name,
-                        product_id as id_product,
-                        COUNT(*) AS total
-                    FROM (
-                        SELECT
-                            o.id AS order_id,
-                            GROUP_CONCAT(p.product_name ORDER BY p.product_name ASC) AS combined_products,
-                            GROUP_CONCAT(d.id_product ORDER BY p.product_name ASC) AS product_id
-                        FROM
-                            orders_new o
-                        JOIN
-                            details_order d ON o.id = d.id_order
-                        JOIN
-                            product p ON d.id_product = p.id
-                        WHERE
-			                MONTH(o.date) = ".$month." and YEAR(o.date) = ".$year." and o.event_type = 'Payment'
-                        GROUP BY
-                            o.id
-                        HAVING
-                            COUNT(DISTINCT d.id_product) = ".$i."
-                    ) AS combined_orders
-                    GROUP BY
-                        combined_products, product_id
-                    ORDER BY
-                        total DESC
-                ");
-            }
-        }
-
-        $data['total_transaksi'] = Orders::whereMonth('orders_new.date', $month)
-                                ->whereYear('orders_new.date', $year)
-                                ->count();
-        $data['total_data'] = count($data['itemset']);
-        $data['max_product'] = $max_new;
-        $data['title'] = "Add Analysis Process";
-        $data['url'] = 'store';
-        $data['disabled_'] = '';
+        $data['title'] = "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."";
+        $data['min_support'] = $support;
+        $data['min_confidence'] = $confidence;
         $data['tahun'] = $year;
         $data['bulan'] = $month;
+
+        
+
         return view('analysis.create', $data);
     }
 

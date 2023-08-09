@@ -157,25 +157,29 @@
                 "</select><br><br>" +
                 "<select id='bulan' name='month' class='form-control' disabled>" +
                 "<option value='' style='display: none;' selected=''>- Choose Month -</option>" +
-                "</select><br>"
+                "</select><br><br>"+
+                "<input type='number' placeholder='Min Support' class='form-control' id='min_support' disabled><br><br>"+
+                "<input type='number' placeholder='Min Confidence' class='form-control' id='min_confidence' disabled><br>"
             );
             swal({
                 title: "Add Analysis Process Order",
                 content: div,
-                buttons: [true, "Process"]
+                buttons: [true, "Process and Save"]
             }).then((result) => {
                 if (result == true) {
-                    if ($('#tahun').val() != '' && $('#bulan').val() != '') {
+                    if ($('#tahun').val() != '' && $('#bulan').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
                         tahun = $("#tahun").val();
                         bulan = $("#bulan").val();
+                        support = $("#min_support").val();
+                        confidence = $("#min_confidence").val();
                         window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
-                            bulan + "/" + tahun;
+                            bulan + "/" + tahun + "/" + support + "/" + confidence;
                     } else {
                         swal({
                             icon: 'warning',
                             title: 'Oops !',
                             button: false,
-                            text: 'Please Choose Year or Month First!',
+                            text: 'Please Complete The Data!',
                             timer: 1500
                         });
                     }
@@ -197,6 +201,8 @@
         }).done(function(result) {
             $('#bulan').empty();
             $('#bulan').removeAttr('disabled');
+            $('#min_support').removeAttr('disabled');
+            $('#min_confidence').removeAttr('disabled');
             $('#bulan').append($('<option hidden>', {
                 value: '',
                 text: '- Choose Month -'
