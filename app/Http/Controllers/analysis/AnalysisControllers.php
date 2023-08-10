@@ -51,8 +51,15 @@ class AnalysisControllers extends Controller
         $data['min_confidence'] = $confidence;
         $data['tahun'] = $year;
         $data['bulan'] = $month;
-
         
+        $kd_analysis = mt_rand();
+        $check = Analysis::where('kd_analysis', $kd_analysis)->first();
+
+        if(!is_null($check)){
+            $kd_analysis = mt_rand();
+        }
+
+
 
         return view('analysis.create', $data);
     }
