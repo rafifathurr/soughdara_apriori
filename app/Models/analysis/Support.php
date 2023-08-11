@@ -16,6 +16,7 @@ class Support extends Model
     protected $fillable = [
         'kd_analysis',
         'id_product',
+        'total_transaksi',
         'support'
     ];
 

@@ -104,14 +104,13 @@
 
                                 <hr />
                                 <p class="card-title-desc">
-                                <h5>Kombinasi 2 Produk</h5>
+                                <h5>Data Support Kombinasi 2 Produk</h5>
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table mb-0 table-hover" id="tblKombinasiItemset">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kd Kombinasi</th>
                                                 <th>Produk A</th>
                                                 <th>Produk B</th>
                                                 <th>Jumlah Transaksi</th>
@@ -124,7 +123,6 @@
                                             @foreach ($dataKombinasiItemset as $is)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $is->kd_kombinasi }}</td>
                                                     <td>{{ $is->dataProduk($is->id_product_a)->product_name}}</td>
                                                     <td>{{ $is->dataProduk($is->id_product_b)->product_name }}</td>
                                                     <td>{{ $is->jumlah_transaksi }}</td>
@@ -132,7 +130,47 @@
                                                     </td>
                                                     <td>{{ $is->support }}</td>
                                                     <td>
-                                                        @if($is->support>=$min_confidence)
+                                                        @if($is->support>=$min_support)
+                                                        <span style="color:green;">Lulus</span>
+                                                        @else
+                                                        <span style="color:red;">Tidak Lulus</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <hr />
+                                <p class="card-title-desc">
+                                <h5>Data Confidence Kombinasi 2 Produk</h5>
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table mb-0 table-hover" id="tblKombinasiItemset">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Produk A</th>
+                                                <th>Produk B</th>
+                                                <th>Jumlah Transaksi</th>
+                                                <th>Perhitungan Confidence</th>
+                                                <th>Confidence</th>
+                                                <th>Hasil</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($dataKombinasiItemsetConfidence as $is)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $is->dataProduk($is->id_product_a)->product_name}}</td>
+                                                    <td>{{ $is->dataProduk($is->id_product_b)->product_name }}</td>
+                                                    <td>{{ $is->jumlah_transaksi }}</td>
+                                                    <td>( {{ $is->jumlah_transaksi }} / {{ $is->total_transaksi_product_a }} ) * 100
+                                                    </td>
+                                                    <td>{{ $is->confidence }}</td>
+                                                    <td>
+                                                        @if($is->confidence>=$min_confidence)
                                                         <span style="color:green;">Lulus</span>
                                                         @else
                                                         <span style="color:red;">Tidak Lulus</span>
@@ -167,7 +205,7 @@
                                                         maka pelanggan juga akan membeli produk
                                                         <b>{{ $is->dataProduk($is->id_product_b)->product_name }}</b>
                                                     </td>
-                                                    <td>{{ $is->support }} %</td>
+                                                    <td>{{ $is->confidence }} %</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

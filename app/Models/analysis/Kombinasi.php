@@ -18,7 +18,9 @@ class Kombinasi extends Model
         'id_product_a',
         'id_product_b',
         'jumlah_transaksi',
-        'support'
+        'total_transaksi_product_a',
+        'support',
+        'confidence'
     ];
 
     public function dataProduk($id_product)

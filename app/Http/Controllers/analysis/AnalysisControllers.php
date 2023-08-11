@@ -93,6 +93,7 @@ class AnalysisControllers extends Controller
                 'kd_analysis' => $kd_analysis,
                 'id_product' => $id_product,
                 'support' => $nSupport,
+                'total_transaksi' => $totalTransaksi,
                 'created_at' => $datenow
             ]);
         }
@@ -101,6 +102,7 @@ class AnalysisControllers extends Controller
         $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
+            $transaksiProdukA = $qProdA -> total_transaksi;
             $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
             foreach($qProdukB as $qProdB){
                 $kdProdukB = $qProdB -> id_product;
@@ -128,7 +130,9 @@ class AnalysisControllers extends Controller
                             'id_product_a' => $kdProdukA,
                             'id_product_b' => $kdProdukB,
                             'jumlah_transaksi' => 0,
+                            'total_transaksi_product_a' => $transaksiProdukA,
                             'support' => 0,
+                            'confidence' => 0,
                             'created_at' => $datenow
                         ]);
                     }
@@ -136,12 +140,13 @@ class AnalysisControllers extends Controller
             }
         }
 
-        // kombinasi 2 itemset phase 2
+        // kombinasi 2 itemset phase 1 (support)
         $nilaiKombinasi = Kombinasi::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
         foreach($nilaiKombinasi as $nk){
             $kdKombinasi = $nk -> kd_kombinasi;
             $kdBarangA = $nk -> id_product_a;
             $kdBarangB = $nk -> id_product_b;
+            $transaksiProdukA = $nk -> total_transaksi_product_a;
 
             // cari total transaksi
             $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
@@ -167,12 +172,44 @@ class AnalysisControllers extends Controller
             ]);
         }
 
+        // kombinasi 2 itemset phase 2
+        $nilaiKombinasi = Kombinasi::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
+        foreach($nilaiKombinasi as $nk){
+            $kdKombinasi = $nk -> kd_kombinasi;
+            $kdBarangA = $nk -> id_product_a;
+            $kdBarangB = $nk -> id_product_b;
+            $transaksiProdukA = $nk -> total_transaksi_product_a;
+
+            // cari total transaksi
+            $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
+                            ->whereYear('orders_new.date', $year)
+                            ->whereMonth('orders_new.date', $month)
+                            ->whereNull('orders_new.deleted_at')
+                            ->whereNull('details_order.deleted_at')
+                            ->distinct()
+                            ->get(['details_order.id_order']);
+            $fnTransaksi = 0;
+            foreach($dataFaktur as $faktur){
+                $noFaktur = $faktur -> id_order;
+                $qBonTransaksiA = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangA) -> count();
+                $qBonTransaksiB = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangB) -> count();
+                if($qBonTransaksiA == 1 && $qBonTransaksiB == 1){
+                    $fnTransaksi++;
+                }
+            }
+            $confidence = ($fnTransaksi / $transaksiProdukA) * 100;
+            $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
+                'confidence' => $confidence
+            ]);
+        }
+
         if( $store_analysis && $support_process && $kombinasi_process_1 && $kombinasi_proses_2){
             $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
             $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
+            $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
+            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('confidence', '>=', $min_confidence) -> orderBy('confidence', 'desc') -> get();
             $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
@@ -195,38 +232,7 @@ class AnalysisControllers extends Controller
                 'dataPengujian' => $dataPengujian,
                 'dataMinSupport' => $dataMinSupp,
                 'dataKombinasiItemset' => $dataKombinasiItemset,
-                'dataMinConfidence' => $dataMinConfidence,
-                'kdPengujian' => $kd_analysis
-            ];
-            return view('analysis.create', $data)->with('success','Analysis process successfully!');
-        }else{
-            $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
-            $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-            $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
-            $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
-            $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
-                    ->join('product', 'product.id', '=', 'details_order.id_product')
-                    ->where('product.category_id', '!=', 3)
-                    ->whereYear('orders_new.date', $year)
-                    ->whereMonth('orders_new.date', $month)
-                    ->whereNull('orders_new.deleted_at')
-                    ->whereNull('details_order.deleted_at')
-                    ->groupBy('details_order.id_order')
-                    ->get();
-            $totalProduk = count($totalProduk);
-            $data = [
-                'success' => true,
-                'title' => "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."",
-                'min_support' => $min_support,
-                'min_confidence' => $min_confidence,
-                'tahun' => $year,
-                'bulan' => $month,
-                'dataSupport' => $dataSupportProduk,
-                'totalProduk' => $totalProduk,
-                'dataPengujian' => $dataPengujian,
-                'dataMinSupport' => $dataMinSupp,
-                'dataKombinasiItemset' => $dataKombinasiItemset,
+                'dataKombinasiItemsetConfidence' => $dataKombinasiItemsetConfidence,
                 'dataMinConfidence' => $dataMinConfidence,
                 'kdPengujian' => $kd_analysis
             ];
@@ -252,7 +258,8 @@ class AnalysisControllers extends Controller
         $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-        $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> get();
+        $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
+        $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('confidence', '>=', $dataPengujian->min_confidence) -> orderBy('confidence', 'desc') -> get();
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
@@ -274,6 +281,7 @@ class AnalysisControllers extends Controller
             'dataPengujian' => $dataPengujian,
             'dataMinSupport' => $dataMinSupp,
             'dataKombinasiItemset' => $dataKombinasiItemset,
+            'dataKombinasiItemsetConfidence' => $dataKombinasiItemsetConfidence,
             'dataMinConfidence' => $dataMinConfidence,
             'kdPengujian' => $kd_analysis
         ];
