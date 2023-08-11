@@ -17,7 +17,8 @@
                     </div>
                 </div>
                 <div class="page-inner">
-                    {{-- <div class="row">
+                    <div class="row">
+                       @isset($id)
                        @isset($menus)
                        @foreach($menus as $menu)
                        <div class="col-md-4">
@@ -37,7 +38,8 @@
                        </div>
                        @endforeach
                        @endisset
-                    </div> --}}
+                       @endisset
+                    </div>
                     <div class="row">
                         @isset($packages)
                         @foreach($packages as $menu)

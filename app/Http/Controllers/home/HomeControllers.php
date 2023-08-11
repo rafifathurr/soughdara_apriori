@@ -77,6 +77,7 @@ class HomeControllers extends Controller
         $menus = Product::where('category_id', $id)->whereNull('deleted_at')->get();
         $category = Category::whereNull('deleted_at')->get();
         return view('home.index', [
+            "id" => $id,
             "title" => "".$category_data->category."",
             "category" => $category,
             "menus" => $menus
