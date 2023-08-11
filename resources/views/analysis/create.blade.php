@@ -73,6 +73,7 @@
                                                 <th>Total Transaksi</th>
                                                 <th>Perhitungan Support</th>
                                                 <th>Support</th>
+                                                <th>Hasil</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,32 +89,13 @@
                                                         * 100
                                                     </td>
                                                     <td>{{ $supp->support }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <hr />
-                                <p class="card-title-desc">
-                                <h5>Item yang memenuhi syarat minimun support {{ $dataPengujian->min_support }} %</h5>
-                                </p>
-                                <div class="table-responsive">
-                                    <table class="table mb-0 table-hover" id="tblDataSupportMin">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Produk</th>
-                                                <th>Support</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($dataMinSupport as $minSupp)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $minSupp->dataProduk($minSupp->id_product)->product_name }}
+                                                    <td>
+                                                        @if($supp->support>=$min_support)
+                                                        <span style="color:green;">Lulus</span>
+                                                        @else
+                                                        <span style="color:red;">Tidak Lulus</span>
+                                                        @endif
                                                     </td>
-                                                    <td>{{ $minSupp->support }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -135,6 +117,7 @@
                                                 <th>Jumlah Transaksi</th>
                                                 <th>Perhitungan Support</th>
                                                 <th>Support</th>
+                                                <th>Hasil</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -148,41 +131,13 @@
                                                     <td>( {{ $is->jumlah_transaksi }} / {{ $totalProduk }} ) * 100
                                                     </td>
                                                     <td>{{ $is->support }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <hr />
-                                <p class="card-title-desc">
-                                <h5>Kombinasi yang memenuhi minimum confidence >
-                                    {{ $dataPengujian->min_confidence }}%</h5>
-                                </p>
-                                <div class="table-responsive">
-                                    <table class="table mb-0 table-hover" id="tblMinConfidence">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Kd Kombinasi</th>
-                                                <th>Produk A</th>
-                                                <th>Produk B</th>
-                                                <th>Jumlah Transaksi</th>
-                                                <th>Perhitungan Support</th>
-                                                <th>Support</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($dataMinConfidence as $is)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $is->kd_kombinasi }}</td>
-                                                    <td>{{ $is->dataProduk($is->id_product_a)->product_name }}</td>
-                                                    <td>{{ $is->dataProduk($is->id_product_b)->product_name }}</td>
-                                                    <td>{{ $is->jumlah_transaksi }}</td>
-                                                    <td>( {{ $is->jumlah_transaksi }} / {{ $totalProduk }} ) * 100
+                                                    <td>
+                                                        @if($is->support>=$min_confidence)
+                                                        <span style="color:green;">Lulus</span>
+                                                        @else
+                                                        <span style="color:red;">Tidak Lulus</span>
+                                                        @endif
                                                     </td>
-                                                    <td>{{ $is->support }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -207,9 +162,9 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
-                                                        Apabila pelanggan membeli
+                                                        Apabila pelanggan membeli produk
                                                         <b>{{ $is->dataProduk($is->id_product_a)->product_name }}</b>,
-                                                        maka pelanggan juga akan membeli
+                                                        maka pelanggan juga akan membeli produk
                                                         <b>{{ $is->dataProduk($is->id_product_b)->product_name }}</b>
                                                     </td>
                                                     <td>{{ $is->support }} %</td>
