@@ -28,7 +28,6 @@ class DashboardControllers extends Controller
         $monthz = date('m');
 
         $month = range(1,12);
-        $year=range(date('Y')-4, date('Y'));
 
         // RETURN DATA
         $data['title'] = "Dashboard";
@@ -63,6 +62,7 @@ class DashboardControllers extends Controller
                             ->whereYear('orders_new.date', $yearz)
                             ->whereMonth('orders_new.date', $monthz)
                             ->where('orders_new.event_type', 'Payment')
+                            ->whereNull('orders_new.deleted_at')
                             ->groupBy('product.id')
                             ->groupBy('product.product_name')
                             ->orderBy('total', 'desc')
