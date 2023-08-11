@@ -40,7 +40,7 @@ class HomeControllers extends Controller
             $min_confidence = $analysis->min_confidence;
 
             $support_check = Support::where('kd_analysis', $kd_analysis)->where('support', '>=', $min_support)->orderBy('support', 'desc')->get();
-            $confidence_check = Kombinasi::where('kd_analysis', $kd_analysis)->where('support', '>=', $min_confidence)->orderBy('support', 'desc')->get();
+            $confidence_check = Kombinasi::where('kd_analysis', $kd_analysis)->where('confidence', '>=', $min_confidence)->orderBy('confidence', 'desc')->get();
 
             foreach($support_check as $check){
                 array_push($selected_product, $check->id_product);
