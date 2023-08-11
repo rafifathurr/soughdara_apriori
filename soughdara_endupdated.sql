@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 05/08/2023 16:45:44
+ Date: 11/08/2023 07:10:21
 */
 
 SET NAMES utf8mb4;
@@ -23,21 +23,23 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `analysis_process`;
 CREATE TABLE `analysis_process`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NULL DEFAULT NULL,
   `month` int NULL DEFAULT NULL,
   `year` int NULL DEFAULT NULL,
   `total_transaction` int NULL DEFAULT NULL,
   `min_support` int NULL DEFAULT NULL,
   `min_confidence` int NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of analysis_process
 -- ----------------------------
-INSERT INTO `analysis_process` VALUES (1, 7, 2023, 7, 25, NULL, '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
 
 -- ----------------------------
 -- Table structure for category_prod
@@ -62,31 +64,6 @@ INSERT INTO `category_prod` VALUES (3, 'Package', NULL, '2023-07-23 07:42:12', N
 INSERT INTO `category_prod` VALUES (4, 'Seasonal Menu', NULL, '2023-07-23 07:42:25', NULL, NULL);
 
 -- ----------------------------
--- Table structure for details_analysis
--- ----------------------------
-DROP TABLE IF EXISTS `details_analysis`;
-CREATE TABLE `details_analysis`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `id_analysis` int NULL DEFAULT NULL,
-  `product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `total_all` int NULL DEFAULT NULL,
-  `support_value` int NULL DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of details_analysis
--- ----------------------------
-INSERT INTO `details_analysis` VALUES (1, 1, '4', 5, 71, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
-INSERT INTO `details_analysis` VALUES (2, 1, '5', 4, 57, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
-INSERT INTO `details_analysis` VALUES (3, 1, '2', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
-INSERT INTO `details_analysis` VALUES (4, 1, '3', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
-
--- ----------------------------
 -- Table structure for details_order
 -- ----------------------------
 DROP TABLE IF EXISTS `details_order`;
@@ -99,7 +76,7 @@ CREATE TABLE `details_order`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of details_order
@@ -123,6 +100,10 @@ INSERT INTO `details_order` VALUES (24, 7, 5, 1, '2023-08-05 00:00:18', NULL, NU
 INSERT INTO `details_order` VALUES (25, 8, 3, 1, '2023-08-05 11:09:06', NULL, NULL);
 INSERT INTO `details_order` VALUES (26, 9, 5, 1, '2023-08-05 11:11:16', NULL, NULL);
 INSERT INTO `details_order` VALUES (27, 9, 4, 1, '2023-08-05 11:11:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (28, 10, 5, 2, '2023-08-05 20:06:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (29, 10, 4, 2, '2023-08-05 20:06:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (30, 10, 2, 4, '2023-08-05 20:06:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (31, 10, 11, 3, '2023-08-05 20:06:44', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for failed_jobs
@@ -164,32 +145,6 @@ INSERT INTO `migrations` VALUES (3, '2019_08_19_000000_create_failed_jobs_table'
 INSERT INTO `migrations` VALUES (4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
 
 -- ----------------------------
--- Table structure for orders
--- ----------------------------
-DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `date` date NULL DEFAULT NULL,
-  `product_id` int NULL DEFAULT NULL,
-  `payment_method` int NULL DEFAULT NULL,
-  `qty` int NULL DEFAULT NULL,
-  `entry_price` int NULL DEFAULT NULL,
-  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `tax` int NULL DEFAULT NULL,
-  `profit` int NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `updated_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of orders
--- ----------------------------
-
--- ----------------------------
 -- Table structure for orders_new
 -- ----------------------------
 DROP TABLE IF EXISTS `orders_new`;
@@ -210,7 +165,7 @@ CREATE TABLE `orders_new`  (
   `created_by` int NULL DEFAULT NULL,
   `updated_by` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders_new
@@ -224,6 +179,7 @@ INSERT INTO `orders_new` VALUES (6, '35346643', '2023-07-29', '23:50:00', NULL, 
 INSERT INTO `orders_new` VALUES (7, '3432525', '2023-07-27', '23:59:00', NULL, NULL, 34000, 'Payment', 1, NULL, '2023-08-05 00:00:18', NULL, NULL, 1, NULL);
 INSERT INTO `orders_new` VALUES (8, '10048', '2023-07-26', '11:08:00', NULL, NULL, 16000, 'Payment', 3, NULL, '2023-08-05 11:09:06', NULL, NULL, 1, NULL);
 INSERT INTO `orders_new` VALUES (9, '23232', '2023-07-29', '11:10:00', NULL, NULL, 29000, 'Payment', 8, NULL, '2023-08-05 11:11:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (10, '21412414', '2023-08-05', '20:05:00', NULL, NULL, 144000, 'Payment', 8, NULL, '2023-08-05 20:06:44', NULL, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -322,6 +278,47 @@ INSERT INTO `product` VALUES (8, 'Trio', 1, 14000, '1691228138_trioog.png', NULL
 INSERT INTO `product` VALUES (9, 'Trio', 1, 14000, NULL, NULL, '2023-08-05 16:37:08', '2023-08-05 16:37:54', '2023-08-05 16:37:54', 1, 1);
 INSERT INTO `product` VALUES (10, 'Trio', 1, 14000, '1691228292_trioog.png', NULL, '2023-08-05 16:38:12', '2023-08-05 16:40:04', '2023-08-05 16:40:04', 1, 1);
 INSERT INTO `product` VALUES (11, 'Trio', 1, 14000, '1691228425_trioog.png', NULL, '2023-08-05 16:40:25', NULL, NULL, 1, NULL);
+
+-- ----------------------------
+-- Table structure for tbl_nilai_kombinasi
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_nilai_kombinasi`;
+CREATE TABLE `tbl_nilai_kombinasi`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NOT NULL,
+  `kd_kombinasi` int NOT NULL,
+  `id_product_a` int NOT NULL,
+  `id_product_b` int NOT NULL,
+  `jumlah_transaksi` int NOT NULL,
+  `support` double(8, 2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3674 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tbl_nilai_kombinasi
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tbl_support
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_support`;
+CREATE TABLE `tbl_support`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NULL DEFAULT NULL,
+  `id_product` int NULL DEFAULT NULL,
+  `support` double(8, 2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 397 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tbl_support
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for users

@@ -27,12 +27,6 @@ class DashboardControllers extends Controller
         $yearz = date('Y');
         $monthz = date('m');
 
-        // SAMPLE
-        $allorder = Order::whereRaw('MONTH(date) = MONTH(now())')
-        ->select(DB::raw('product_id, sum(qty) as total'))
-        ->groupBy(DB::raw('product_id'))
-        ->get();
-
         $month = range(1,12);
         $year=range(date('Y')-4, date('Y'));
 
