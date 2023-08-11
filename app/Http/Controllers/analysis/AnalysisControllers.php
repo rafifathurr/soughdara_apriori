@@ -38,7 +38,7 @@ class AnalysisControllers extends Controller
                 ->whereNull('deleted_at')
                 ->groupBy('year')
                 ->get();
-        $analysis = Analysis::whereNull('deleted_at')->get();
+        $analysis = Analysis::whereNull('deleted_at')->orderBy('month', 'desc')->orderBy('year', 'desc')->orderBy('id','desc')->get();
 
         return view('analysis.index', [
             "title" => "Analysis Process",
@@ -66,7 +66,13 @@ class AnalysisControllers extends Controller
             ]);
         }
 
-        $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+        $totalProduk = Orders::whereYear('orders_new.date', $year)
+                        ->join('details_order', 'details_order.id_order', '=', 'orders_new.id')
+                        ->join('product', 'product.id', '=', 'details_order.id_product')
+                        ->where('product.category_id', '!=', 3)
+                        ->whereMonth('orders_new.date', $month)
+                        ->whereNull('orders_new.deleted_at')
+                        ->count();
         $dataProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->get();
 
         foreach($dataProduk as $produk){
@@ -164,7 +170,13 @@ class AnalysisControllers extends Controller
             $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
-            $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+            $totalProduk = Orders::whereYear('orders_new.date', $year)
+                        ->join('details_order', 'details_order.id_order', '=', 'orders_new.id')
+                        ->join('product', 'product.id', '=', 'details_order.id_product')
+                        ->where('product.category_id', '!=', 3)
+                        ->whereMonth('orders_new.date', $month)
+                        ->whereNull('orders_new.deleted_at')
+                        ->count();
             $data = [
                 'success' => true,
                 'title' => "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."",
@@ -187,7 +199,13 @@ class AnalysisControllers extends Controller
             $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
-            $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+            $totalProduk = Orders::whereYear('orders_new.date', $year)
+                        ->join('details_order', 'details_order.id_order', '=', 'orders_new.id')
+                        ->join('product', 'product.id', '=', 'details_order.id_product')
+                        ->where('product.category_id', '!=', 3)
+                        ->whereMonth('orders_new.date', $month)
+                        ->whereNull('orders_new.deleted_at')
+                        ->count();
             $data = [
                 'success' => true,
                 'title' => "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."",
@@ -226,7 +244,13 @@ class AnalysisControllers extends Controller
         $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> get();
-        $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+        $totalProduk = Orders::whereYear('orders_new.date', $dataPengujian->year)
+                    ->join('details_order', 'details_order.id_order', '=', 'orders_new.id')
+                    ->join('product', 'product.id', '=', 'details_order.id_product')
+                    ->where('product.category_id', '!=', 3)
+                    ->whereMonth('orders_new.date', $dataPengujian->month)
+                    ->whereNull('orders_new.deleted_at')
+                    ->count();
         $data = [
             'title' => "Analysis of ".date("F", mktime(0, 0, 0, $dataPengujian->month, 10))." ".$dataPengujian->year."",
             'min_support' => $dataPengujian->min_support,

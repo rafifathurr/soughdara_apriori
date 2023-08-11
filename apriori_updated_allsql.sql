@@ -1,0 +1,1596 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : computer
+ Source Server Type    : MySQL
+ Source Server Version : 80030 (8.0.30)
+ Source Host           : localhost:3306
+ Source Schema         : soughdara_last
+
+ Target Server Type    : MySQL
+ Target Server Version : 80030 (8.0.30)
+ File Encoding         : 65001
+
+ Date: 11/08/2023 20:31:37
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for analysis_process
+-- ----------------------------
+DROP TABLE IF EXISTS `analysis_process`;
+CREATE TABLE `analysis_process`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NULL DEFAULT NULL,
+  `month` int NULL DEFAULT NULL,
+  `year` int NULL DEFAULT NULL,
+  `total_transaction` int NULL DEFAULT NULL,
+  `min_support` int NULL DEFAULT NULL,
+  `min_confidence` int NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of analysis_process
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for category_prod
+-- ----------------------------
+DROP TABLE IF EXISTS `category_prod`;
+CREATE TABLE `category_prod`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `note` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of category_prod
+-- ----------------------------
+INSERT INTO `category_prod` VALUES (1, 'The OG', NULL, '2023-07-23 07:25:17', '2023-07-23 16:21:10', NULL);
+INSERT INTO `category_prod` VALUES (2, 'Signature', NULL, '2023-07-23 07:41:57', NULL, NULL);
+INSERT INTO `category_prod` VALUES (3, 'Package', NULL, '2023-07-23 07:42:12', NULL, NULL);
+INSERT INTO `category_prod` VALUES (4, 'Seasonal Menu', NULL, '2023-07-23 07:42:25', NULL, NULL);
+INSERT INTO `category_prod` VALUES (5, 'Drinks', NULL, '2023-08-08 20:54:46', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for details_analysis
+-- ----------------------------
+DROP TABLE IF EXISTS `details_analysis`;
+CREATE TABLE `details_analysis`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_analysis` int NULL DEFAULT NULL,
+  `product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `total_all` int NULL DEFAULT NULL,
+  `support_value` int NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of details_analysis
+-- ----------------------------
+INSERT INTO `details_analysis` VALUES (1, 1, '4', 5, 71, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (2, 1, '5', 4, 57, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (3, 1, '2', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+INSERT INTO `details_analysis` VALUES (4, 1, '3', 3, 43, 'LULUS', '2023-08-05 05:57:27', '2023-08-05 10:42:18', '2023-08-05 10:42:18');
+
+-- ----------------------------
+-- Table structure for details_order
+-- ----------------------------
+DROP TABLE IF EXISTS `details_order`;
+CREATE TABLE `details_order`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_order` int NULL DEFAULT NULL,
+  `id_product` int NULL DEFAULT NULL,
+  `qty` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 898 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of details_order
+-- ----------------------------
+INSERT INTO `details_order` VALUES (9, 1, 2, 1, '2023-07-31 06:38:50', '2023-08-08 20:39:39', '2023-08-08 20:39:39');
+INSERT INTO `details_order` VALUES (10, 1, 4, 2, '2023-07-31 06:38:50', '2023-08-08 20:39:39', '2023-08-08 20:39:39');
+INSERT INTO `details_order` VALUES (11, 2, 5, 1, '2023-07-31 06:39:24', '2023-08-08 20:39:43', '2023-08-08 20:39:43');
+INSERT INTO `details_order` VALUES (12, 2, 3, 1, '2023-07-31 06:39:24', '2023-08-08 20:39:43', '2023-08-08 20:39:43');
+INSERT INTO `details_order` VALUES (13, 2, 4, 1, '2023-07-31 06:39:24', '2023-08-08 20:39:43', '2023-08-08 20:39:43');
+INSERT INTO `details_order` VALUES (14, 3, 5, 1, '2023-07-31 19:42:25', '2023-08-08 20:39:34', '2023-08-08 20:39:34');
+INSERT INTO `details_order` VALUES (15, 3, 3, 2, '2023-07-31 19:42:25', '2023-08-08 20:39:34', '2023-08-08 20:39:34');
+INSERT INTO `details_order` VALUES (16, 3, 4, 2, '2023-07-31 19:42:25', '2023-08-08 20:39:34', '2023-08-08 20:39:34');
+INSERT INTO `details_order` VALUES (17, 4, 4, 1, '2023-08-03 06:04:08', '2023-08-08 20:39:23', '2023-08-08 20:39:23');
+INSERT INTO `details_order` VALUES (18, 5, 4, 1, '2023-08-04 23:50:07', '2023-08-08 20:39:29', '2023-08-08 20:39:29');
+INSERT INTO `details_order` VALUES (19, 5, 2, 2, '2023-08-04 23:50:07', '2023-08-08 20:39:29', '2023-08-08 20:39:29');
+INSERT INTO `details_order` VALUES (20, 6, 5, 1, '2023-08-04 23:51:27', '2023-08-08 20:39:48', '2023-08-08 20:39:48');
+INSERT INTO `details_order` VALUES (21, 6, 4, 1, '2023-08-04 23:51:27', '2023-08-08 20:39:48', '2023-08-08 20:39:48');
+INSERT INTO `details_order` VALUES (22, 6, 2, 1, '2023-08-04 23:51:27', '2023-08-08 20:39:48', '2023-08-08 20:39:48');
+INSERT INTO `details_order` VALUES (23, 7, 3, 1, '2023-08-05 00:00:18', '2023-08-08 20:39:57', '2023-08-08 20:39:57');
+INSERT INTO `details_order` VALUES (24, 7, 5, 1, '2023-08-05 00:00:18', '2023-08-08 20:39:57', '2023-08-08 20:39:57');
+INSERT INTO `details_order` VALUES (25, 8, 3, 1, '2023-08-05 11:09:06', '2023-08-08 20:40:02', '2023-08-08 20:40:02');
+INSERT INTO `details_order` VALUES (26, 9, 5, 1, '2023-08-05 11:11:16', '2023-08-08 20:39:52', '2023-08-08 20:39:52');
+INSERT INTO `details_order` VALUES (27, 9, 4, 1, '2023-08-05 11:11:16', '2023-08-08 20:39:52', '2023-08-08 20:39:52');
+INSERT INTO `details_order` VALUES (28, 11, 7, 1, '2023-08-08 20:06:21', '2023-08-08 20:20:31', '2023-08-08 20:20:31');
+INSERT INTO `details_order` VALUES (29, 11, 2, 1, '2023-08-08 20:06:21', '2023-08-08 20:20:31', '2023-08-08 20:20:31');
+INSERT INTO `details_order` VALUES (30, 11, 4, 1, '2023-08-08 20:06:21', '2023-08-08 20:20:31', '2023-08-08 20:20:31');
+INSERT INTO `details_order` VALUES (31, 11, 6, 1, '2023-08-08 20:06:21', '2023-08-08 20:20:31', '2023-08-08 20:20:31');
+INSERT INTO `details_order` VALUES (32, 12, 19, 1, '2023-08-08 20:22:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (33, 12, 2, 1, '2023-08-08 20:22:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (34, 12, 4, 1, '2023-08-08 20:22:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (35, 12, 6, 1, '2023-08-08 20:22:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (36, 13, 6, 2, '2023-08-08 20:24:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (37, 13, 12, 1, '2023-08-08 20:24:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (38, 13, 17, 1, '2023-08-08 20:24:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (39, 13, 16, 1, '2023-08-08 20:24:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (40, 13, 19, 1, '2023-08-08 20:24:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (41, 14, 28, 1, '2023-08-08 20:26:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (42, 14, 2, 4, '2023-08-08 20:26:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (43, 14, 18, 1, '2023-08-08 20:26:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (44, 15, 21, 1, '2023-08-08 20:28:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (45, 15, 19, 6, '2023-08-08 20:28:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (46, 15, 14, 1, '2023-08-08 20:28:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (47, 16, 6, 1, '2023-08-08 20:30:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (48, 16, 7, 2, '2023-08-08 20:30:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (49, 16, 19, 1, '2023-08-08 20:30:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (50, 16, 13, 1, '2023-08-08 20:30:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (51, 16, 16, 1, '2023-08-08 20:30:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (52, 17, 6, 6, '2023-08-08 20:31:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (55, 19, 20, 1, '2023-08-08 20:35:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (59, 20, 6, 3, '2023-08-08 20:39:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (60, 20, 2, 3, '2023-08-08 20:39:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (61, 20, 4, 3, '2023-08-08 20:39:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (62, 18, 16, 1, '2023-08-08 20:40:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (63, 18, 2, 2, '2023-08-08 20:40:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (64, 21, 21, 1, '2023-08-08 20:42:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (65, 21, 15, 2, '2023-08-08 20:42:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (66, 21, 5, 2, '2023-08-08 20:42:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (67, 22, 6, 8, '2023-08-08 20:44:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (68, 23, 22, 1, '2023-08-08 20:45:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (69, 24, 2, 3, '2023-08-08 20:47:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (70, 24, 7, 1, '2023-08-08 20:47:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (71, 24, 6, 2, '2023-08-08 20:47:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (72, 25, 22, 1, '2023-08-08 20:48:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (73, 26, 22, 1, '2023-08-08 20:49:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (74, 26, 24, 1, '2023-08-08 20:49:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (75, 26, 18, 1, '2023-08-08 20:49:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (76, 27, 23, 1, '2023-08-08 20:50:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (77, 27, 21, 1, '2023-08-08 20:50:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (78, 28, 15, 1, '2023-08-08 20:56:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (79, 28, 29, 1, '2023-08-08 20:56:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (80, 28, 28, 1, '2023-08-08 20:56:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (84, 30, 6, 6, '2023-08-08 20:59:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (86, 29, 2, 2, '2023-08-08 21:00:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (87, 31, 22, 1, '2023-08-08 21:01:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (88, 32, 2, 1, '2023-08-08 21:03:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (89, 32, 12, 1, '2023-08-08 21:03:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (90, 33, 7, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (91, 33, 2, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (92, 33, 19, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (93, 33, 18, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (94, 33, 12, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (95, 33, 17, 1, '2023-08-08 21:04:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (96, 34, 6, 6, '2023-08-08 21:07:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (97, 35, 22, 1, '2023-08-08 21:08:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (98, 36, 28, 6, '2023-08-08 21:09:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (99, 36, 6, 6, '2023-08-08 21:09:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (100, 37, 28, 3, '2023-08-08 21:11:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (101, 37, 6, 2, '2023-08-08 21:11:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (102, 37, 16, 1, '2023-08-08 21:11:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (103, 38, 16, 6, '2023-08-08 21:12:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (104, 38, 6, 6, '2023-08-08 21:12:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (105, 39, 12, 1, '2023-08-08 21:13:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (106, 39, 16, 1, '2023-08-08 21:13:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (107, 39, 21, 1, '2023-08-08 21:13:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (108, 40, 6, 4, '2023-08-08 21:15:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (109, 40, 2, 2, '2023-08-08 21:15:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (110, 41, 22, 1, '2023-08-08 21:16:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (111, 41, 29, 1, '2023-08-08 21:16:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (112, 42, 2, 6, '2023-08-08 21:17:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (113, 43, 2, 2, '2023-08-08 21:18:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (114, 43, 6, 1, '2023-08-08 21:18:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (115, 43, 19, 1, '2023-08-08 21:18:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (116, 44, 12, 1, '2023-08-08 21:20:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (117, 44, 2, 2, '2023-08-08 21:20:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (118, 44, 16, 1, '2023-08-08 21:20:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (121, 45, 12, 1, '2023-08-08 21:21:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (122, 45, 19, 1, '2023-08-08 21:21:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (123, 46, 21, 1, '2023-08-08 21:22:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (124, 46, 24, 2, '2023-08-08 21:22:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (125, 47, 13, 1, '2023-08-08 21:24:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (126, 47, 6, 2, '2023-08-08 21:24:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (127, 47, 14, 1, '2023-08-08 21:24:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (128, 47, 2, 1, '2023-08-08 21:24:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (129, 47, 7, 1, '2023-08-08 21:24:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (130, 48, 18, 2, '2023-08-08 21:25:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (131, 48, 6, 2, '2023-08-08 21:25:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (134, 49, 21, 1, '2023-08-08 21:26:54', NULL, NULL);
+INSERT INTO `details_order` VALUES (135, 49, 22, 1, '2023-08-08 21:26:54', NULL, NULL);
+INSERT INTO `details_order` VALUES (137, 50, 2, 6, '2023-08-08 21:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (138, 51, 16, 1, '2023-08-08 21:29:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (139, 51, 20, 1, '2023-08-08 21:29:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (140, 52, 5, 1, '2023-08-08 21:30:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (141, 52, 20, 1, '2023-08-08 21:30:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (142, 52, 13, 1, '2023-08-08 21:30:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (143, 53, 22, 1, '2023-08-08 21:31:24', NULL, NULL);
+INSERT INTO `details_order` VALUES (144, 53, 28, 3, '2023-08-08 21:31:24', NULL, NULL);
+INSERT INTO `details_order` VALUES (145, 54, 20, 1, '2023-08-08 21:32:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (146, 54, 22, 1, '2023-08-08 21:32:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (147, 55, 20, 2, '2023-08-08 21:33:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (148, 55, 7, 6, '2023-08-08 21:33:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (151, 57, 20, 1, '2023-08-08 21:36:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (152, 56, 6, 6, '2023-08-08 21:36:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (153, 56, 2, 6, '2023-08-08 21:36:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (154, 58, 18, 6, '2023-08-08 22:04:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (155, 58, 6, 6, '2023-08-08 22:04:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (156, 59, 18, 1, '2023-08-08 22:05:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (157, 59, 16, 1, '2023-08-08 22:05:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (158, 59, 2, 1, '2023-08-08 22:05:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (159, 59, 7, 1, '2023-08-08 22:05:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (160, 59, 6, 1, '2023-08-08 22:05:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (161, 60, 18, 1, '2023-08-08 22:07:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (162, 60, 6, 1, '2023-08-08 22:07:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (163, 60, 7, 1, '2023-08-08 22:07:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (164, 61, 15, 2, '2023-08-08 22:08:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (165, 61, 11, 2, '2023-08-08 22:08:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (166, 61, 28, 2, '2023-08-08 22:08:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (167, 62, 6, 6, '2023-08-08 22:09:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (168, 63, 22, 1, '2023-08-08 22:10:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (169, 64, 5, 1, '2023-08-08 22:11:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (170, 64, 22, 1, '2023-08-08 22:11:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (171, 65, 6, 12, '2023-08-08 22:12:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (172, 66, 20, 1, '2023-08-08 22:20:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (173, 67, 22, 1, '2023-08-08 22:22:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (174, 67, 2, 2, '2023-08-08 22:22:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (175, 68, 22, 1, '2023-08-08 22:25:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (176, 68, 16, 1, '2023-08-08 22:25:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (177, 68, 17, 1, '2023-08-08 22:25:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (178, 69, 13, 2, '2023-08-08 22:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (179, 69, 20, 1, '2023-08-08 22:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (180, 69, 24, 1, '2023-08-08 22:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (181, 69, 11, 2, '2023-08-08 22:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (182, 69, 2, 2, '2023-08-08 22:27:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (183, 70, 6, 18, '2023-08-08 22:29:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (184, 71, 20, 1, '2023-08-08 22:30:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (185, 72, 6, 6, '2023-08-08 22:31:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (186, 73, 6, 1, '2023-08-08 22:34:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (187, 73, 7, 1, '2023-08-08 22:34:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (188, 73, 5, 1, '2023-08-08 22:34:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (189, 74, 3, 1, '2023-08-08 22:35:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (190, 74, 17, 1, '2023-08-08 22:35:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (191, 75, 16, 3, '2023-08-08 22:39:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (192, 75, 2, 2, '2023-08-08 22:39:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (193, 75, 17, 1, '2023-08-08 22:39:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (194, 75, 18, 2, '2023-08-08 22:39:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (195, 75, 12, 1, '2023-08-08 22:39:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (196, 76, 20, 1, '2023-08-08 22:41:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (197, 77, 22, 1, '2023-08-08 22:42:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (198, 77, 16, 1, '2023-08-08 22:42:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (199, 77, 17, 1, '2023-08-08 22:42:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (200, 78, 6, 6, '2023-08-08 22:43:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (201, 78, 20, 1, '2023-08-08 22:43:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (202, 79, 21, 1, '2023-08-08 22:44:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (205, 80, 6, 2, '2023-08-08 22:46:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (206, 81, 6, 2, '2023-08-08 22:46:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (207, 82, 6, 6, '2023-08-08 22:48:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (208, 83, 14, 1, '2023-08-08 22:49:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (209, 83, 28, 2, '2023-08-08 22:49:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (210, 83, 18, 1, '2023-08-08 22:49:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (211, 83, 4, 2, '2023-08-08 22:49:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (212, 84, 6, 2, '2023-08-08 22:51:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (213, 84, 17, 1, '2023-08-08 22:51:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (214, 84, 13, 1, '2023-08-08 22:51:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (215, 84, 7, 2, '2023-08-08 22:51:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (217, 85, 6, 6, '2023-08-08 22:52:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (218, 86, 4, 1, '2023-08-08 22:55:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (219, 86, 2, 1, '2023-08-08 22:55:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (220, 86, 23, 1, '2023-08-08 22:55:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (221, 86, 3, 1, '2023-08-08 22:55:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (222, 86, 21, 1, '2023-08-08 22:55:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (223, 87, 2, 12, '2023-08-08 22:57:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (227, 89, 12, 2, '2023-08-08 23:00:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (228, 89, 18, 3, '2023-08-08 23:00:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (229, 89, 22, 1, '2023-08-08 23:00:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (230, 88, 13, 1, '2023-08-08 23:03:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (231, 88, 5, 1, '2023-08-08 23:03:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (232, 88, 22, 1, '2023-08-08 23:03:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (233, 90, 12, 1, '2023-08-08 23:05:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (234, 91, 6, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (235, 91, 19, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (236, 91, 12, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (237, 91, 2, 6, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (238, 91, 13, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (239, 91, 14, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (240, 91, 5, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (241, 91, 28, 1, '2023-08-08 23:08:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (242, 92, 23, 1, '2023-08-08 23:09:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (243, 93, 14, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (244, 93, 11, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (245, 93, 16, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (246, 93, 4, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (247, 93, 17, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (248, 93, 18, 1, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (249, 93, 2, 2, '2023-08-08 23:15:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (250, 94, 19, 1, '2023-08-08 23:17:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (251, 94, 12, 1, '2023-08-08 23:17:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (252, 95, 18, 4, '2023-08-08 23:20:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (253, 95, 6, 1, '2023-08-08 23:20:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (254, 95, 7, 1, '2023-08-08 23:20:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (255, 95, 24, 1, '2023-08-08 23:20:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (256, 96, 6, 1, '2023-08-08 23:23:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (257, 96, 18, 1, '2023-08-08 23:23:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (258, 97, 29, 1, '2023-08-08 23:25:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (259, 98, 21, 1, '2023-08-08 23:28:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (260, 98, 6, 12, '2023-08-08 23:28:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (264, 100, 7, 2, '2023-08-08 23:34:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (265, 100, 6, 1, '2023-08-08 23:34:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (266, 100, 18, 1, '2023-08-08 23:34:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (267, 100, 17, 2, '2023-08-08 23:34:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (268, 99, 18, 3, '2023-08-08 23:34:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (269, 99, 6, 6, '2023-08-08 23:34:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (270, 99, 17, 3, '2023-08-08 23:34:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (274, 101, 18, 1, '2023-08-08 23:38:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (275, 101, 12, 1, '2023-08-08 23:38:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (276, 101, 2, 4, '2023-08-08 23:38:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (277, 102, 22, 1, '2023-08-08 23:40:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (278, 103, 20, 1, '2023-08-08 23:41:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (279, 104, 6, 2, '2023-08-08 23:42:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (280, 105, 21, 1, '2023-08-08 23:45:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (281, 105, 12, 1, '2023-08-08 23:45:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (283, 106, 22, 1, '2023-08-08 23:47:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (284, 107, 2, 2, '2023-08-08 23:49:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (285, 107, 29, 1, '2023-08-08 23:49:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (286, 108, 6, 12, '2023-08-08 23:51:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (287, 109, 15, 1, '2023-08-08 23:53:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (288, 109, 11, 1, '2023-08-08 23:53:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (289, 109, 29, 1, '2023-08-08 23:53:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (290, 109, 14, 1, '2023-08-08 23:53:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (291, 109, 6, 1, '2023-08-08 23:53:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (292, 110, 4, 2, '2023-08-08 23:54:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (293, 110, 5, 1, '2023-08-08 23:54:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (294, 110, 16, 1, '2023-08-08 23:54:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (295, 111, 22, 1, '2023-08-08 23:56:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (296, 112, 16, 1, '2023-08-08 23:57:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (297, 112, 18, 1, '2023-08-08 23:57:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (298, 112, 20, 1, '2023-08-08 23:57:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (299, 113, 5, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (300, 113, 13, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (301, 113, 16, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (302, 113, 19, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (303, 113, 14, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (304, 113, 4, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (305, 113, 3, 1, '2023-08-09 00:00:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (306, 114, 29, 1, '2023-08-09 00:03:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (307, 114, 15, 2, '2023-08-09 00:03:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (308, 114, 19, 1, '2023-08-09 00:03:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (311, 115, 6, 1, '2023-08-09 11:55:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (312, 115, 15, 1, '2023-08-09 11:55:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (318, 116, 12, 2, '2023-08-09 11:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (319, 116, 17, 1, '2023-08-09 11:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (320, 116, 13, 1, '2023-08-09 11:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (321, 116, 5, 1, '2023-08-09 11:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (322, 116, 19, 1, '2023-08-09 11:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (324, 117, 22, 1, '2023-08-09 11:59:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (325, 118, 16, 1, '2023-08-09 12:01:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (326, 118, 6, 2, '2023-08-09 12:01:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (327, 118, 17, 1, '2023-08-09 12:01:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (328, 118, 2, 2, '2023-08-09 12:01:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (329, 119, 15, 6, '2023-08-09 12:03:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (330, 119, 18, 6, '2023-08-09 12:03:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (331, 120, 7, 3, '2023-08-09 12:05:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (332, 120, 12, 1, '2023-08-09 12:05:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (333, 120, 19, 3, '2023-08-09 12:05:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (334, 120, 17, 2, '2023-08-09 12:05:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (335, 120, 2, 3, '2023-08-09 12:05:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (336, 121, 15, 1, '2023-08-09 12:08:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (337, 121, 18, 1, '2023-08-09 12:08:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (338, 121, 6, 2, '2023-08-09 12:08:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (339, 121, 7, 2, '2023-08-09 12:08:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (340, 122, 22, 1, '2023-08-09 12:13:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (341, 122, 19, 1, '2023-08-09 12:13:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (342, 123, 22, 2, '2023-08-09 12:15:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (343, 123, 23, 1, '2023-08-09 12:15:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (344, 123, 24, 1, '2023-08-09 12:15:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (345, 124, 6, 3, '2023-08-09 12:16:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (346, 124, 2, 3, '2023-08-09 12:16:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (347, 125, 2, 1, '2023-08-09 12:17:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (348, 125, 6, 1, '2023-08-09 12:17:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (349, 126, 7, 1, '2023-08-09 12:18:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (350, 126, 2, 1, '2023-08-09 12:18:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (351, 126, 6, 1, '2023-08-09 12:18:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (352, 127, 15, 4, '2023-08-09 12:27:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (353, 127, 6, 4, '2023-08-09 12:27:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (354, 128, 6, 1, '2023-08-09 12:28:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (355, 128, 2, 1, '2023-08-09 12:28:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (356, 129, 29, 1, '2023-08-09 12:29:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (357, 130, 20, 1, '2023-08-09 12:30:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (358, 131, 6, 6, '2023-08-09 12:31:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (359, 132, 22, 1, '2023-08-09 12:32:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (360, 133, 16, 1, '2023-08-09 12:33:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (361, 133, 18, 1, '2023-08-09 12:33:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (362, 133, 12, 1, '2023-08-09 12:33:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (363, 134, 6, 6, '2023-08-09 12:34:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (364, 135, 2, 6, '2023-08-09 12:35:54', NULL, NULL);
+INSERT INTO `details_order` VALUES (365, 136, 29, 2, '2023-08-09 12:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (366, 136, 18, 1, '2023-08-09 12:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (367, 137, 17, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (368, 137, 15, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (369, 137, 19, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (370, 137, 16, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (371, 137, 6, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (372, 137, 22, 2, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (373, 137, 3, 1, '2023-08-09 12:38:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (374, 138, 3, 1, '2023-08-09 12:39:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (375, 138, 2, 2, '2023-08-09 12:39:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (376, 138, 6, 2, '2023-08-09 12:39:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (377, 138, 16, 1, '2023-08-09 12:39:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (378, 139, 13, 6, '2023-08-09 12:40:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (379, 140, 4, 12, '2023-08-09 12:42:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (380, 141, 21, 1, '2023-08-09 12:43:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (381, 141, 6, 6, '2023-08-09 12:43:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (382, 142, 22, 1, '2023-08-09 12:44:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (383, 142, 17, 1, '2023-08-09 12:44:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (384, 143, 23, 1, '2023-08-09 12:46:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (385, 143, 21, 1, '2023-08-09 12:46:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (386, 144, 20, 1, '2023-08-09 12:47:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (387, 145, 2, 2, '2023-08-09 12:49:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (388, 146, 20, 1, '2023-08-09 12:50:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (389, 147, 6, 6, '2023-08-09 12:51:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (390, 148, 21, 1, '2023-08-09 12:53:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (391, 148, 15, 2, '2023-08-09 12:53:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (392, 149, 14, 1, '2023-08-09 12:54:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (393, 149, 22, 1, '2023-08-09 12:54:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (394, 150, 18, 6, '2023-08-09 12:55:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (395, 150, 20, 1, '2023-08-09 12:55:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (396, 151, 20, 2, '2023-08-09 12:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (397, 151, 7, 15, '2023-08-09 12:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (398, 151, 15, 39, '2023-08-09 12:58:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (399, 152, 4, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (400, 152, 6, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (401, 152, 15, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (402, 152, 3, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (403, 152, 11, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (404, 152, 7, 1, '2023-08-09 12:59:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (405, 153, 22, 1, '2023-08-09 13:27:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (406, 154, 29, 1, '2023-08-09 13:28:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (407, 154, 14, 1, '2023-08-09 13:28:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (408, 154, 22, 1, '2023-08-09 13:28:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (409, 155, 15, 1, '2023-08-09 13:30:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (410, 155, 3, 1, '2023-08-09 13:30:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (411, 155, 22, 1, '2023-08-09 13:30:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (412, 155, 13, 1, '2023-08-09 13:30:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (413, 155, 12, 1, '2023-08-09 13:30:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (414, 156, 22, 1, '2023-08-09 13:32:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (415, 157, 16, 3, '2023-08-09 13:33:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (416, 157, 6, 3, '2023-08-09 13:33:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (417, 157, 14, 3, '2023-08-09 13:33:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (418, 157, 2, 3, '2023-08-09 13:33:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (419, 158, 21, 1, '2023-08-09 13:35:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (420, 158, 20, 1, '2023-08-09 13:35:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (421, 159, 24, 1, '2023-08-09 13:36:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (422, 159, 20, 2, '2023-08-09 13:36:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (423, 159, 23, 1, '2023-08-09 13:36:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (424, 160, 18, 4, '2023-08-09 13:39:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (425, 160, 16, 1, '2023-08-09 13:39:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (426, 160, 19, 1, '2023-08-09 13:39:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (427, 160, 4, 1, '2023-08-09 13:39:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (428, 160, 13, 1, '2023-08-09 13:39:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (429, 161, 23, 1, '2023-08-09 13:40:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (430, 162, 7, 2, '2023-08-09 13:42:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (431, 162, 20, 1, '2023-08-09 13:42:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (432, 162, 22, 1, '2023-08-09 13:42:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (433, 162, 19, 2, '2023-08-09 13:42:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (434, 162, 17, 2, '2023-08-09 13:42:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (435, 163, 6, 7, '2023-08-09 13:44:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (436, 164, 2, 6, '2023-08-09 13:46:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (437, 164, 6, 3, '2023-08-09 13:46:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (438, 164, 16, 1, '2023-08-09 13:46:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (439, 165, 7, 1, '2023-08-09 13:47:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (440, 165, 6, 1, '2023-08-09 13:47:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (441, 166, 11, 1, '2023-08-09 13:50:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (442, 166, 28, 1, '2023-08-09 13:50:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (443, 166, 7, 2, '2023-08-09 13:50:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (444, 166, 2, 2, '2023-08-09 13:50:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (445, 167, 6, 6, '2023-08-09 13:52:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (446, 167, 28, 6, '2023-08-09 13:52:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (447, 168, 22, 2, '2023-08-09 13:53:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (448, 169, 16, 1, '2023-08-09 13:55:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (449, 169, 24, 1, '2023-08-09 13:55:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (450, 169, 2, 6, '2023-08-09 13:55:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (451, 170, 11, 2, '2023-08-09 13:57:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (452, 170, 6, 1, '2023-08-09 13:57:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (453, 170, 5, 1, '2023-08-09 13:57:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (454, 170, 16, 1, '2023-08-09 13:57:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (455, 170, 13, 1, '2023-08-09 13:57:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (456, 171, 19, 1, '2023-08-09 13:58:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (457, 171, 13, 1, '2023-08-09 13:58:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (458, 171, 6, 2, '2023-08-09 13:58:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (459, 172, 4, 7, '2023-08-09 13:59:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (460, 172, 22, 1, '2023-08-09 13:59:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (462, 173, 6, 6, '2023-08-09 14:01:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (463, 174, 6, 3, '2023-08-09 14:02:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (464, 175, 22, 1, '2023-08-09 14:03:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (465, 176, 20, 1, '2023-08-09 14:03:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (471, 177, 15, 1, '2023-08-09 14:04:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (472, 177, 6, 1, '2023-08-09 14:04:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (473, 177, 28, 1, '2023-08-09 14:04:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (474, 177, 29, 1, '2023-08-09 14:04:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (475, 177, 2, 1, '2023-08-09 14:04:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (476, 178, 6, 6, '2023-08-09 14:06:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (477, 178, 2, 3, '2023-08-09 14:06:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (478, 179, 22, 1, '2023-08-09 14:07:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (479, 180, 12, 2, '2023-08-09 14:08:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (480, 181, 11, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (481, 181, 6, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (482, 181, 18, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (483, 181, 3, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (484, 181, 2, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (485, 181, 7, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (486, 181, 15, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (487, 181, 4, 1, '2023-08-09 14:09:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (488, 182, 6, 6, '2023-08-09 14:11:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (489, 183, 22, 1, '2023-08-09 15:08:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (490, 184, 21, 1, '2023-08-09 15:09:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (491, 184, 20, 1, '2023-08-09 15:09:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (492, 185, 4, 3, '2023-08-09 15:10:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (493, 185, 2, 3, '2023-08-09 15:10:30', NULL, NULL);
+INSERT INTO `details_order` VALUES (494, 186, 19, 1, '2023-08-09 15:11:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (495, 186, 6, 1, '2023-08-09 15:11:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (496, 186, 3, 1, '2023-08-09 15:11:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (497, 186, 2, 1, '2023-08-09 15:11:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (499, 188, 17, 1, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (500, 188, 4, 6, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (501, 188, 16, 1, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (502, 188, 18, 1, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (503, 188, 12, 1, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (504, 188, 6, 6, '2023-08-09 15:14:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (505, 187, 20, 2, '2023-08-09 15:14:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (506, 189, 2, 6, '2023-08-09 15:15:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (507, 190, 22, 1, '2023-08-09 15:15:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (508, 191, 17, 1, '2023-08-09 15:16:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (509, 191, 12, 1, '2023-08-09 15:16:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (510, 191, 16, 1, '2023-08-09 15:16:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (511, 192, 7, 6, '2023-08-09 15:18:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (512, 192, 16, 1, '2023-08-09 15:18:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (513, 193, 28, 4, '2023-08-09 15:18:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (514, 194, 19, 1, '2023-08-09 15:20:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (515, 194, 2, 2, '2023-08-09 15:20:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (516, 194, 6, 1, '2023-08-09 15:20:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (517, 194, 16, 1, '2023-08-09 15:20:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (518, 194, 18, 1, '2023-08-09 15:20:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (519, 195, 21, 1, '2023-08-09 15:21:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (520, 196, 22, 1, '2023-08-09 15:21:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (522, 197, 21, 1, '2023-08-09 15:22:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (524, 199, 20, 2, '2023-08-09 15:24:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (527, 198, 20, 2, '2023-08-09 15:25:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (528, 200, 2, 6, '2023-08-09 15:26:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (529, 201, 2, 6, '2023-08-09 15:28:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (530, 201, 6, 6, '2023-08-09 15:28:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (531, 201, 17, 2, '2023-08-09 15:28:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (532, 201, 18, 2, '2023-08-09 15:28:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (533, 202, 6, 1, '2023-08-09 15:29:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (534, 202, 4, 6, '2023-08-09 15:29:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (535, 202, 2, 1, '2023-08-09 15:29:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (536, 202, 3, 6, '2023-08-09 15:29:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (537, 203, 15, 6, '2023-08-09 15:30:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (538, 204, 2, 1, '2023-08-09 15:31:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (539, 204, 6, 1, '2023-08-09 15:31:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (540, 204, 12, 1, '2023-08-09 15:31:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (541, 205, 21, 1, '2023-08-09 15:32:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (542, 206, 12, 1, '2023-08-09 15:32:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (543, 206, 16, 1, '2023-08-09 15:32:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (544, 207, 22, 1, '2023-08-09 15:33:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (545, 208, 17, 2, '2023-08-09 15:34:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (546, 208, 18, 1, '2023-08-09 15:34:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (547, 209, 17, 3, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (548, 209, 19, 1, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (549, 209, 6, 3, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (550, 209, 16, 1, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (551, 209, 5, 1, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (552, 209, 2, 2, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (553, 209, 18, 1, '2023-08-09 15:35:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (554, 210, 12, 1, '2023-08-09 15:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (555, 210, 19, 1, '2023-08-09 15:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (556, 210, 2, 2, '2023-08-09 15:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (557, 210, 7, 2, '2023-08-09 15:36:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (558, 211, 29, 2, '2023-08-09 15:37:36', NULL, NULL);
+INSERT INTO `details_order` VALUES (559, 212, 18, 2, '2023-08-09 15:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (560, 212, 12, 1, '2023-08-09 15:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (561, 212, 16, 1, '2023-08-09 15:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (562, 212, 17, 1, '2023-08-09 15:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (563, 212, 19, 1, '2023-08-09 15:38:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (564, 213, 7, 1, '2023-08-09 15:39:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (565, 213, 6, 1, '2023-08-09 15:39:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (566, 214, 6, 2, '2023-08-09 15:40:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (567, 215, 21, 1, '2023-08-09 15:41:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (568, 216, 2, 2, '2023-08-09 15:42:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (569, 216, 16, 2, '2023-08-09 15:42:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (570, 216, 17, 1, '2023-08-09 15:42:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (571, 216, 12, 1, '2023-08-09 15:42:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (572, 217, 20, 1, '2023-08-09 15:43:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (573, 218, 6, 5, '2023-08-09 15:44:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (574, 218, 7, 1, '2023-08-09 15:44:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (575, 218, 2, 6, '2023-08-09 15:44:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (576, 219, 7, 1, '2023-08-09 15:45:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (577, 219, 17, 3, '2023-08-09 15:45:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (578, 219, 6, 1, '2023-08-09 15:45:53', NULL, NULL);
+INSERT INTO `details_order` VALUES (581, 221, 18, 3, '2023-08-09 15:47:42', NULL, NULL);
+INSERT INTO `details_order` VALUES (582, 221, 17, 3, '2023-08-09 15:47:42', NULL, NULL);
+INSERT INTO `details_order` VALUES (583, 220, 17, 1, '2023-08-09 15:47:54', NULL, NULL);
+INSERT INTO `details_order` VALUES (584, 220, 18, 1, '2023-08-09 15:47:54', NULL, NULL);
+INSERT INTO `details_order` VALUES (585, 222, 6, 1, '2023-08-09 15:48:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (586, 223, 2, 6, '2023-08-09 15:49:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (587, 224, 24, 1, '2023-08-09 15:50:19', NULL, NULL);
+INSERT INTO `details_order` VALUES (588, 225, 2, 2, '2023-08-09 15:51:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (589, 225, 7, 3, '2023-08-09 15:51:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (590, 225, 6, 1, '2023-08-09 15:51:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (591, 226, 2, 6, '2023-08-09 15:52:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (592, 227, 17, 1, '2023-08-09 15:53:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (593, 227, 22, 1, '2023-08-09 15:53:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (594, 228, 19, 1, '2023-08-09 15:54:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (595, 228, 16, 1, '2023-08-09 15:54:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (596, 228, 6, 1, '2023-08-09 15:54:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (597, 228, 2, 1, '2023-08-09 15:54:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (598, 228, 4, 2, '2023-08-09 15:54:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (599, 229, 20, 1, '2023-08-09 15:55:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (600, 230, 23, 1, '2023-08-09 15:55:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (601, 231, 2, 6, '2023-08-09 15:56:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (602, 232, 21, 1, '2023-08-09 15:57:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (603, 233, 2, 1, '2023-08-09 15:58:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (604, 233, 6, 6, '2023-08-09 15:58:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (605, 234, 22, 1, '2023-08-09 15:59:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (606, 235, 2, 6, '2023-08-09 16:00:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (607, 236, 6, 2, '2023-08-09 16:01:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (608, 236, 2, 1, '2023-08-09 16:01:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (609, 236, 4, 1, '2023-08-09 16:01:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (610, 237, 19, 1, '2023-08-09 16:02:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (611, 237, 17, 1, '2023-08-09 16:02:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (613, 238, 2, 1, '2023-08-09 16:03:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (614, 239, 21, 1, '2023-08-09 16:04:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (615, 240, 20, 1, '2023-08-09 16:05:06', NULL, NULL);
+INSERT INTO `details_order` VALUES (616, 241, 20, 2, '2023-08-09 16:06:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (617, 243, 2, 6, '2023-08-09 16:07:54', '2023-08-09 16:08:02', '2023-08-09 16:08:02');
+INSERT INTO `details_order` VALUES (618, 244, 2, 6, '2023-08-09 16:09:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (619, 246, 16, 1, '2023-08-09 16:11:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (620, 246, 12, 1, '2023-08-09 16:11:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (621, 246, 2, 2, '2023-08-09 16:11:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (622, 247, 17, 2, '2023-08-09 16:13:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (623, 248, 22, 1, '2023-08-09 16:14:33', NULL, NULL);
+INSERT INTO `details_order` VALUES (624, 249, 2, 3, '2023-08-09 16:15:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (625, 249, 6, 3, '2023-08-09 16:15:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (626, 250, 29, 1, '2023-08-09 16:16:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (627, 251, 14, 2, '2023-08-09 16:17:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (628, 251, 26, 2, '2023-08-09 16:17:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (629, 252, 22, 2, '2023-08-09 16:18:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (630, 253, 6, 6, '2023-08-09 16:20:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (631, 253, 13, 2, '2023-08-09 16:20:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (632, 253, 7, 2, '2023-08-09 16:20:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (633, 253, 12, 2, '2023-08-09 16:20:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (634, 254, 20, 1, '2023-08-09 16:21:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (635, 255, 18, 1, '2023-08-09 16:23:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (636, 255, 6, 2, '2023-08-09 16:23:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (637, 255, 17, 1, '2023-08-09 16:23:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (638, 256, 22, 2, '2023-08-09 16:27:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (639, 257, 6, 2, '2023-08-09 16:28:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (640, 257, 2, 2, '2023-08-09 16:28:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (641, 257, 3, 2, '2023-08-09 16:28:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (642, 258, 22, 1, '2023-08-09 16:29:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (643, 258, 2, 2, '2023-08-09 16:29:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (644, 258, 17, 1, '2023-08-09 16:29:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (645, 258, 16, 1, '2023-08-09 16:29:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (646, 258, 6, 2, '2023-08-09 16:29:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (647, 259, 21, 1, '2023-08-09 16:30:56', NULL, NULL);
+INSERT INTO `details_order` VALUES (648, 260, 19, 1, '2023-08-09 16:31:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (649, 260, 16, 1, '2023-08-09 16:31:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (650, 260, 12, 1, '2023-08-09 16:31:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (651, 261, 2, 1, '2023-08-09 16:33:05', NULL, NULL);
+INSERT INTO `details_order` VALUES (652, 261, 14, 1, '2023-08-09 16:33:05', NULL, NULL);
+INSERT INTO `details_order` VALUES (653, 262, 21, 1, '2023-08-09 16:33:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (654, 263, 2, 2, '2023-08-09 16:34:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (655, 264, 24, 1, '2023-08-09 16:35:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (656, 265, 5, 2, '2023-08-09 16:37:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (657, 265, 2, 2, '2023-08-09 16:37:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (658, 265, 11, 2, '2023-08-09 16:37:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (659, 266, 18, 1, '2023-08-09 16:38:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (660, 266, 7, 1, '2023-08-09 16:38:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (661, 266, 6, 1, '2023-08-09 16:38:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (662, 267, 12, 1, '2023-08-09 16:39:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (663, 267, 18, 1, '2023-08-09 16:39:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (664, 267, 3, 1, '2023-08-09 16:39:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (665, 267, 24, 1, '2023-08-09 16:39:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (666, 268, 19, 1, '2023-08-09 16:40:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (667, 268, 17, 1, '2023-08-09 16:40:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (668, 268, 7, 1, '2023-08-09 16:40:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (669, 269, 6, 2, '2023-08-09 16:41:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (670, 269, 2, 2, '2023-08-09 16:41:18', NULL, NULL);
+INSERT INTO `details_order` VALUES (671, 270, 6, 4, '2023-08-09 16:42:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (672, 271, 19, 1, '2023-08-09 16:43:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (673, 271, 7, 1, '2023-08-09 16:43:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (674, 271, 2, 1, '2023-08-09 16:43:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (675, 272, 13, 6, '2023-08-09 16:45:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (676, 272, 24, 1, '2023-08-09 16:45:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (677, 272, 20, 1, '2023-08-09 16:45:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (678, 273, 17, 1, '2023-08-09 16:46:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (679, 273, 26, 1, '2023-08-09 16:46:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (680, 273, 27, 1, '2023-08-09 16:46:26', NULL, NULL);
+INSERT INTO `details_order` VALUES (681, 274, 6, 12, '2023-08-09 16:47:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (682, 274, 14, 6, '2023-08-09 16:47:35', NULL, NULL);
+INSERT INTO `details_order` VALUES (683, 275, 19, 6, '2023-08-09 16:48:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (684, 275, 12, 6, '2023-08-09 16:48:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (685, 276, 2, 6, '2023-08-09 16:49:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (686, 277, 19, 2, '2023-08-09 16:50:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (687, 277, 22, 1, '2023-08-09 16:50:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (688, 277, 13, 2, '2023-08-09 16:50:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (689, 277, 18, 1, '2023-08-09 16:50:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (690, 278, 2, 2, '2023-08-09 16:52:22', NULL, NULL);
+INSERT INTO `details_order` VALUES (691, 279, 6, 6, '2023-08-09 16:53:42', NULL, NULL);
+INSERT INTO `details_order` VALUES (692, 280, 18, 1, '2023-08-09 16:54:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (693, 280, 7, 1, '2023-08-09 16:54:40', NULL, NULL);
+INSERT INTO `details_order` VALUES (694, 281, 12, 2, '2023-08-09 16:55:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (695, 281, 17, 2, '2023-08-09 16:55:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (696, 281, 18, 2, '2023-08-09 16:55:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (697, 281, 20, 1, '2023-08-09 16:55:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (698, 282, 21, 1, '2023-08-09 16:56:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (699, 282, 20, 1, '2023-08-09 16:56:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (700, 283, 20, 1, '2023-08-09 16:57:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (701, 284, 18, 1, '2023-08-09 16:57:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (702, 284, 5, 1, '2023-08-09 16:57:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (703, 285, 15, 1, '2023-08-09 16:58:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (704, 285, 11, 1, '2023-08-09 16:58:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (705, 285, 6, 1, '2023-08-09 16:58:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (706, 286, 29, 1, '2023-08-09 16:59:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (707, 286, 2, 1, '2023-08-09 16:59:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (708, 286, 16, 1, '2023-08-09 16:59:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (709, 287, 17, 6, '2023-08-09 19:36:52', NULL, NULL);
+INSERT INTO `details_order` VALUES (710, 288, 7, 1, '2023-08-09 19:38:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (711, 288, 2, 4, '2023-08-09 19:38:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (712, 288, 6, 2, '2023-08-09 19:38:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (713, 289, 6, 12, '2023-08-09 19:38:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (714, 290, 22, 2, '2023-08-09 19:39:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (715, 291, 19, 2, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (716, 291, 16, 1, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (717, 291, 4, 1, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (718, 291, 6, 1, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (719, 291, 5, 2, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (720, 291, 17, 1, '2023-08-09 19:41:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (721, 292, 14, 1, '2023-08-09 19:42:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (722, 292, 13, 1, '2023-08-09 19:42:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (723, 292, 22, 1, '2023-08-09 19:42:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (724, 293, 29, 2, '2023-08-09 19:43:34', NULL, NULL);
+INSERT INTO `details_order` VALUES (725, 294, 6, 6, '2023-08-09 19:44:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (726, 295, 24, 1, '2023-08-09 19:45:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (727, 296, 3, 3, '2023-08-09 19:47:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (728, 296, 2, 3, '2023-08-09 19:47:08', NULL, NULL);
+INSERT INTO `details_order` VALUES (729, 297, 2, 1, '2023-08-09 19:49:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (730, 297, 16, 2, '2023-08-09 19:49:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (731, 297, 27, 1, '2023-08-09 19:49:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (732, 298, 22, 1, '2023-08-09 19:50:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (733, 298, 27, 1, '2023-08-09 19:50:21', NULL, NULL);
+INSERT INTO `details_order` VALUES (734, 299, 23, 1, '2023-08-09 19:51:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (735, 299, 22, 1, '2023-08-09 19:51:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (741, 301, 6, 6, '2023-08-09 19:53:51', NULL, NULL);
+INSERT INTO `details_order` VALUES (742, 300, 22, 1, '2023-08-09 19:54:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (743, 300, 6, 1, '2023-08-09 19:54:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (744, 300, 2, 1, '2023-08-09 19:54:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (745, 300, 20, 1, '2023-08-09 19:54:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (746, 300, 19, 1, '2023-08-09 19:54:09', NULL, NULL);
+INSERT INTO `details_order` VALUES (747, 302, 29, 1, '2023-08-09 19:55:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (748, 302, 16, 1, '2023-08-09 19:55:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (749, 302, 28, 1, '2023-08-09 19:55:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (750, 303, 17, 2, '2023-08-09 19:56:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (751, 303, 4, 2, '2023-08-09 19:56:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (752, 303, 18, 2, '2023-08-09 19:56:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (753, 303, 6, 2, '2023-08-09 19:56:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (754, 304, 16, 2, '2023-08-09 19:58:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (755, 304, 12, 2, '2023-08-09 19:58:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (756, 304, 2, 2, '2023-08-09 19:58:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (757, 305, 7, 1, '2023-08-09 19:59:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (758, 305, 3, 1, '2023-08-09 19:59:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (759, 306, 2, 6, '2023-08-09 20:00:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (760, 307, 12, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (761, 307, 21, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (762, 307, 17, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (763, 307, 16, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (764, 307, 19, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (765, 307, 4, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (766, 307, 3, 1, '2023-08-09 20:02:16', NULL, NULL);
+INSERT INTO `details_order` VALUES (767, 308, 12, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (768, 308, 6, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (769, 308, 29, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (770, 308, 3, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (771, 308, 18, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (772, 308, 4, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (773, 308, 7, 2, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (774, 308, 5, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (775, 308, 28, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (776, 308, 13, 1, '2023-08-09 20:05:58', NULL, NULL);
+INSERT INTO `details_order` VALUES (777, 309, 22, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (778, 309, 5, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (779, 309, 28, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (780, 309, 19, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (781, 309, 12, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (782, 309, 13, 1, '2023-08-09 20:08:00', NULL, NULL);
+INSERT INTO `details_order` VALUES (783, 310, 19, 1, '2023-08-09 20:09:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (784, 310, 17, 1, '2023-08-09 20:09:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (785, 310, 7, 1, '2023-08-09 20:09:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (786, 310, 29, 1, '2023-08-09 20:09:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (787, 310, 6, 3, '2023-08-09 20:09:32', NULL, NULL);
+INSERT INTO `details_order` VALUES (788, 311, 5, 8, '2023-08-09 20:11:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (789, 311, 19, 4, '2023-08-09 20:11:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (790, 311, 6, 12, '2023-08-09 20:11:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (791, 311, 7, 12, '2023-08-09 20:11:55', NULL, NULL);
+INSERT INTO `details_order` VALUES (792, 312, 29, 1, '2023-08-09 20:12:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (793, 313, 22, 1, '2023-08-09 20:14:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (794, 313, 6, 1, '2023-08-09 20:14:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (795, 313, 17, 2, '2023-08-09 20:14:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (796, 313, 2, 1, '2023-08-09 20:14:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (797, 314, 19, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (798, 314, 12, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (799, 314, 28, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (800, 314, 11, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (801, 314, 3, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (802, 314, 17, 1, '2023-08-09 20:15:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (803, 315, 7, 3, '2023-08-09 20:17:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (804, 315, 2, 3, '2023-08-09 20:17:15', NULL, NULL);
+INSERT INTO `details_order` VALUES (805, 316, 20, 1, '2023-08-09 20:18:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (806, 316, 6, 18, '2023-08-09 20:18:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (807, 316, 11, 6, '2023-08-09 20:18:48', NULL, NULL);
+INSERT INTO `details_order` VALUES (808, 317, 6, 2, '2023-08-09 20:19:31', NULL, NULL);
+INSERT INTO `details_order` VALUES (809, 318, 6, 2, '2023-08-09 20:20:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (810, 318, 28, 2, '2023-08-09 20:20:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (811, 319, 19, 2, '2023-08-09 20:22:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (812, 319, 17, 1, '2023-08-09 20:22:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (813, 319, 28, 1, '2023-08-09 20:22:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (814, 320, 28, 2, '2023-08-09 20:23:13', NULL, NULL);
+INSERT INTO `details_order` VALUES (815, 321, 13, 2, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (816, 321, 22, 1, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (817, 321, 17, 1, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (818, 321, 5, 1, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (819, 321, 28, 2, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (820, 321, 16, 1, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (821, 321, 18, 1, '2023-08-09 20:24:44', NULL, NULL);
+INSERT INTO `details_order` VALUES (822, 322, 14, 1, '2023-08-09 20:30:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (823, 322, 15, 4, '2023-08-09 20:30:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (824, 322, 6, 1, '2023-08-09 20:30:49', NULL, NULL);
+INSERT INTO `details_order` VALUES (825, 323, 14, 1, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (826, 323, 16, 1, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (827, 323, 6, 3, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (828, 323, 5, 3, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (829, 323, 3, 1, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (830, 323, 13, 3, '2023-08-09 20:32:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (831, 324, 13, 1, '2023-08-09 20:34:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (832, 324, 6, 3, '2023-08-09 20:34:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (833, 324, 2, 1, '2023-08-09 20:34:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (834, 324, 14, 1, '2023-08-09 20:34:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (835, 324, 16, 1, '2023-08-09 20:34:23', NULL, NULL);
+INSERT INTO `details_order` VALUES (836, 325, 20, 2, '2023-08-09 20:35:07', NULL, NULL);
+INSERT INTO `details_order` VALUES (837, 326, 27, 1, '2023-08-09 20:35:59', NULL, NULL);
+INSERT INTO `details_order` VALUES (838, 327, 22, 1, '2023-08-09 20:37:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (839, 327, 23, 1, '2023-08-09 20:37:11', NULL, NULL);
+INSERT INTO `details_order` VALUES (840, 328, 6, 6, '2023-08-09 20:38:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (841, 328, 18, 6, '2023-08-09 20:38:10', NULL, NULL);
+INSERT INTO `details_order` VALUES (842, 329, 2, 6, '2023-08-09 20:39:27', NULL, NULL);
+INSERT INTO `details_order` VALUES (843, 330, 20, 1, '2023-08-09 20:40:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (844, 331, 20, 1, '2023-08-09 20:41:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (845, 331, 17, 6, '2023-08-09 20:41:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (846, 332, 7, 1, '2023-08-09 20:42:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (847, 332, 2, 1, '2023-08-09 20:42:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (848, 332, 19, 1, '2023-08-09 20:42:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (849, 332, 28, 1, '2023-08-09 20:42:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (850, 332, 6, 2, '2023-08-09 20:42:20', NULL, NULL);
+INSERT INTO `details_order` VALUES (851, 333, 2, 6, '2023-08-09 20:43:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (852, 333, 7, 6, '2023-08-09 20:43:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (853, 334, 21, 1, '2023-08-09 20:44:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (854, 334, 18, 1, '2023-08-09 20:44:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (855, 334, 12, 1, '2023-08-09 20:44:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (856, 334, 16, 1, '2023-08-09 20:44:04', NULL, NULL);
+INSERT INTO `details_order` VALUES (857, 335, 2, 6, '2023-08-09 20:44:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (858, 336, 6, 6, '2023-08-09 20:45:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (860, 338, 7, 1, '2023-08-09 20:47:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (861, 338, 6, 1, '2023-08-09 20:47:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (862, 338, 28, 1, '2023-08-09 20:47:12', NULL, NULL);
+INSERT INTO `details_order` VALUES (863, 337, 22, 2, '2023-08-09 20:54:37', NULL, NULL);
+INSERT INTO `details_order` VALUES (864, 339, 7, 2, '2023-08-09 20:55:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (865, 339, 4, 1, '2023-08-09 20:55:57', NULL, NULL);
+INSERT INTO `details_order` VALUES (866, 340, 13, 1, '2023-08-09 20:59:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (867, 340, 2, 4, '2023-08-09 20:59:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (868, 340, 6, 1, '2023-08-09 20:59:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (869, 340, 28, 1, '2023-08-09 20:59:02', NULL, NULL);
+INSERT INTO `details_order` VALUES (870, 341, 6, 3, '2023-08-09 21:00:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (871, 341, 18, 3, '2023-08-09 21:00:25', NULL, NULL);
+INSERT INTO `details_order` VALUES (872, 342, 7, 1, '2023-08-09 21:01:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (873, 342, 28, 1, '2023-08-09 21:01:28', NULL, NULL);
+INSERT INTO `details_order` VALUES (874, 343, 6, 6, '2023-08-09 21:02:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (875, 343, 22, 1, '2023-08-09 21:02:50', NULL, NULL);
+INSERT INTO `details_order` VALUES (876, 344, 15, 1, '2023-08-09 21:04:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (877, 344, 22, 1, '2023-08-09 21:04:01', NULL, NULL);
+INSERT INTO `details_order` VALUES (878, 345, 15, 1, '2023-08-09 21:04:46', NULL, NULL);
+INSERT INTO `details_order` VALUES (879, 346, 13, 2, '2023-08-09 21:07:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (880, 346, 17, 1, '2023-08-09 21:07:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (881, 346, 19, 1, '2023-08-09 21:07:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (882, 346, 16, 1, '2023-08-09 21:07:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (883, 346, 12, 1, '2023-08-09 21:07:03', NULL, NULL);
+INSERT INTO `details_order` VALUES (884, 347, 29, 1, '2023-08-09 21:07:43', NULL, NULL);
+INSERT INTO `details_order` VALUES (885, 348, 6, 6, '2023-08-09 21:08:45', NULL, NULL);
+INSERT INTO `details_order` VALUES (886, 349, 20, 3, '2023-08-09 21:09:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (887, 349, 21, 1, '2023-08-09 21:09:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (888, 349, 24, 2, '2023-08-09 21:09:47', NULL, NULL);
+INSERT INTO `details_order` VALUES (889, 350, 22, 1, '2023-08-09 21:10:29', NULL, NULL);
+INSERT INTO `details_order` VALUES (890, 351, 20, 1, '2023-08-09 21:11:38', NULL, NULL);
+INSERT INTO `details_order` VALUES (891, 352, 6, 12, '2023-08-09 21:12:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (892, 353, 28, 1, '2023-08-09 21:13:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (893, 353, 11, 2, '2023-08-09 21:13:39', NULL, NULL);
+INSERT INTO `details_order` VALUES (894, 354, 12, 2, '2023-08-09 21:14:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (895, 354, 28, 1, '2023-08-09 21:14:41', NULL, NULL);
+INSERT INTO `details_order` VALUES (896, 355, 28, 2, '2023-08-09 21:15:17', NULL, NULL);
+INSERT INTO `details_order` VALUES (897, 356, 28, 1, '2023-08-09 21:15:52', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for failed_jobs
+-- ----------------------------
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE `failed_jobs`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `failed_jobs_uuid_unique`(`uuid` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of failed_jobs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for migrations
+-- ----------------------------
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of migrations
+-- ----------------------------
+INSERT INTO `migrations` VALUES (1, '2014_10_12_000000_create_users_table', 1);
+INSERT INTO `migrations` VALUES (2, '2014_10_12_100000_create_password_resets_table', 1);
+INSERT INTO `migrations` VALUES (3, '2019_08_19_000000_create_failed_jobs_table', 1);
+INSERT INTO `migrations` VALUES (4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` date NULL DEFAULT NULL,
+  `product_id` int NULL DEFAULT NULL,
+  `payment_method` int NULL DEFAULT NULL,
+  `qty` int NULL DEFAULT NULL,
+  `entry_price` int NULL DEFAULT NULL,
+  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `tax` int NULL DEFAULT NULL,
+  `profit` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `updated_by` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for orders_new
+-- ----------------------------
+DROP TABLE IF EXISTS `orders_new`;
+CREATE TABLE `orders_new`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `receipt_number` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `date` date NULL DEFAULT NULL,
+  `time` time NOT NULL,
+  `refund` int NULL DEFAULT NULL,
+  `discount` int NULL DEFAULT NULL,
+  `total_amount` int NULL DEFAULT NULL,
+  `event_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `payment_method` int NULL DEFAULT NULL,
+  `note` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 357 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of orders_new
+-- ----------------------------
+INSERT INTO `orders_new` VALUES (1, 'SG325', '2023-07-31', '06:30:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-07-31 06:29:18', '2023-08-08 20:39:39', '2023-08-08 20:39:39', 1, 1);
+INSERT INTO `orders_new` VALUES (2, 'SG4363', '2023-07-31', '06:29:00', NULL, NULL, 45000, 'Payment', 3, NULL, '2023-07-31 06:29:55', '2023-08-08 20:39:43', '2023-08-08 20:39:43', 1, 1);
+INSERT INTO `orders_new` VALUES (3, 'ZAFFF213', '2023-07-31', '19:41:00', NULL, NULL, 72000, 'Payment', 6, NULL, '2023-07-31 19:42:25', '2023-08-08 20:39:34', '2023-08-08 20:39:34', 1, 1);
+INSERT INTO `orders_new` VALUES (4, '23423', '2023-08-03', '06:03:00', NULL, NULL, 11000, 'Payment', 3, NULL, '2023-08-03 06:04:08', '2023-08-08 20:39:23', '2023-08-08 20:39:23', 1, 1);
+INSERT INTO `orders_new` VALUES (5, '12312414', '2023-07-31', '23:49:00', NULL, NULL, 33000, 'Payment', 3, NULL, '2023-08-04 23:50:07', '2023-08-08 20:39:29', '2023-08-08 20:39:29', 1, 1);
+INSERT INTO `orders_new` VALUES (6, '35346643', '2023-07-29', '23:50:00', NULL, NULL, 40000, 'Payment', 8, NULL, '2023-08-04 23:51:27', '2023-08-08 20:39:48', '2023-08-08 20:39:48', 1, 1);
+INSERT INTO `orders_new` VALUES (7, '3432525', '2023-07-27', '23:59:00', NULL, NULL, 34000, 'Payment', 1, NULL, '2023-08-05 00:00:18', '2023-08-08 20:39:57', '2023-08-08 20:39:57', 1, 1);
+INSERT INTO `orders_new` VALUES (8, '10048', '2023-07-26', '11:08:00', NULL, NULL, 16000, 'Payment', 3, NULL, '2023-08-05 11:09:06', '2023-08-08 20:40:02', '2023-08-08 20:40:02', 1, 1);
+INSERT INTO `orders_new` VALUES (9, '23232', '2023-07-29', '11:10:00', NULL, NULL, 29000, 'Payment', 8, NULL, '2023-08-05 11:11:16', '2023-08-08 20:39:52', '2023-08-08 20:39:52', 1, 1);
+INSERT INTO `orders_new` VALUES (10, '10524J', '2023-06-01', '09:56:00', NULL, NULL, 54000, 'Payment', 7, NULL, '2023-08-08 19:59:12', '2023-08-08 20:20:25', '2023-08-08 20:20:25', 1, 1);
+INSERT INTO `orders_new` VALUES (11, '10524J', '2023-06-01', '09:46:00', NULL, NULL, 54000, 'Payment', 7, NULL, '2023-08-08 20:06:21', '2023-08-08 20:20:31', '2023-08-08 20:20:31', 1, 1);
+INSERT INTO `orders_new` VALUES (12, '1O524J', '2023-06-01', '09:56:00', NULL, NULL, 54000, 'Payment', 7, NULL, '2023-08-08 20:22:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (13, '1O524K', '2023-06-01', '09:56:00', NULL, NULL, 100000, 'Payment', 1, NULL, '2023-08-08 20:24:33', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (14, '1O524L', '2023-06-01', '10:27:00', NULL, NULL, 74000, 'Payment', 1, NULL, '2023-08-08 20:26:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (15, '1O524M', '2023-06-01', '10:27:00', NULL, NULL, 196000, 'Payment', 7, NULL, '2023-08-08 20:28:36', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (16, '1O524N', '2023-06-01', '10:43:00', NULL, NULL, 96000, 'Payment', 7, NULL, '2023-08-08 20:30:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (17, '1O524O', '2023-06-01', '10:45:00', NULL, NULL, 84000, 'Payment', 7, NULL, '2023-08-08 20:31:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (18, '1O524P', '2023-06-01', '10:48:00', NULL, NULL, 40000, 'Payment', 6, NULL, '2023-08-08 20:33:11', '2023-08-08 20:40:38', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (19, '1O524Q', '2023-06-01', '10:55:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-08 20:35:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (20, '1O524R', '2023-06-01', '11:05:00', 108000, NULL, 108000, 'Payment', 1, NULL, '2023-08-08 20:38:37', '2023-08-08 20:39:02', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (21, '1O524S', '2023-06-01', '11:06:00', NULL, NULL, 138000, 'Payment', 1, NULL, '2023-08-08 20:42:31', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (22, '1O524T', '2023-06-01', '11:11:00', NULL, NULL, 112000, 'Payment', 7, NULL, '2023-08-08 20:44:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (23, '1O524U', '2023-06-01', '11:16:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-08 20:45:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (24, '1O524V', '2023-06-01', '11:18:00', NULL, NULL, 75000, 'Payment', 7, NULL, '2023-08-08 20:47:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (25, '1O524W', '2023-06-01', '11:20:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-08 20:48:30', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (26, '1O524X', '2023-06-01', '11:23:00', NULL, NULL, 176000, 'Payment', 7, NULL, '2023-08-08 20:49:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (27, '1O524Y', '2023-06-01', '11:28:00', NULL, NULL, 150000, 'Payment', 6, NULL, '2023-08-08 20:50:53', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (28, '1O524Z', '2023-06-01', '11:38:00', NULL, NULL, 38000, 'Payment', 4, NULL, '2023-08-08 20:56:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (29, '1O5250', '2023-06-01', '12:07:00', NULL, NULL, 22000, 'Payment', 1, NULL, '2023-08-08 20:57:37', '2023-08-08 21:00:19', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (30, '1O5251', '2023-06-01', '12:08:00', NULL, NULL, 84000, 'Payment', 7, NULL, '2023-08-08 20:58:44', '2023-08-08 20:59:51', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (31, '1O5252', '2023-06-01', '12:41:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 21:01:59', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (32, '1O5253', '2023-06-01', '12:43:00', NULL, NULL, 29000, 'Payment', 6, NULL, '2023-08-08 21:03:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (33, '1O5254', '2023-06-01', '12:50:00', NULL, NULL, 95000, 'Payment', 1, NULL, '2023-08-08 21:04:56', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (34, '1O5255', '2023-06-01', '13:00:00', NULL, NULL, 84000, 'Payment', 7, NULL, '2023-08-08 21:07:07', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (35, '1O5256', '2023-06-01', '13:13:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-08 21:08:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (36, '1O5257', '2023-06-01', '13:29:00', NULL, NULL, 168000, 'Payment', 1, NULL, '2023-08-08 21:09:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (37, '1O5258', '2023-06-01', '13:39:00', NULL, NULL, 88000, 'Payment', 7, NULL, '2023-08-08 21:11:15', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (38, '1O5259', '2023-06-01', '13:59:00', NULL, NULL, 192000, 'Payment', 6, NULL, '2023-08-08 21:12:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (39, '1O525A', '2023-06-01', '14:01:00', NULL, NULL, 106000, 'Payment', 6, NULL, '2023-08-08 21:13:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (40, '1O525B', '2023-06-01', '14:15:00', NULL, NULL, 78000, 'Payment', 1, NULL, '2023-08-08 21:15:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (41, '1O525C', '2023-06-01', '14:26:00', NULL, NULL, 78000, 'Payment', 1, NULL, '2023-08-08 21:16:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (42, '1O525D', '2023-06-01', '14:36:00', NULL, NULL, 66000, 'Payment', 6, NULL, '2023-08-08 21:17:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (43, '1O525E', '2023-06-01', '14:41:00', NULL, NULL, 54000, 'Payment', 1, NULL, '2023-08-08 21:18:59', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (44, '1O525F', '2023-06-01', '14:43:00', NULL, NULL, 58000, 'Payment', 1, NULL, '2023-08-08 21:20:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (45, '1O525G', '2023-06-01', '14:50:00', NULL, NULL, 36000, 'Payment', 6, NULL, '2023-08-08 21:21:19', '2023-08-08 21:21:33', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (46, '1O525H', '2023-06-01', '15:30:00', NULL, NULL, 250000, 'Payment', 1, NULL, '2023-08-08 21:22:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (47, '1O525I', '2023-06-01', '15:38:00', NULL, NULL, 89000, 'Payment', 1, NULL, '2023-08-08 21:24:15', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (48, '1O525J', '2023-06-01', '15:48:00', NULL, NULL, 60000, 'Payment', 1, NULL, '2023-08-08 21:25:56', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (49, '1O525K', '2023-06-01', '15:50:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-08 21:26:39', '2023-08-08 21:26:54', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (50, '1O525L', '2023-06-01', '16:08:00', NULL, NULL, 66000, 'Payment', 7, NULL, '2023-08-08 21:27:42', '2023-08-08 21:27:52', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (51, '1O525M', '2023-06-01', '16:10:00', NULL, NULL, 88000, 'Payment', 1, NULL, '2023-08-08 21:29:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (52, '1O525N', '2023-06-01', '16:41:00', NULL, NULL, 106000, 'Payment', 6, NULL, '2023-08-08 21:30:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (53, '1O525O', '2023-06-01', '17:05:00', NULL, NULL, 112000, 'Payment', 6, NULL, '2023-08-08 21:31:24', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (54, '1O525P', '2023-06-01', '17:06:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-08 21:32:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (55, '1O525Q', '2023-06-01', '17:07:00', NULL, NULL, 224000, 'Payment', 1, NULL, '2023-08-08 21:33:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (56, '1O525R', '2023-06-01', '17:08:00', NULL, NULL, 150000, 'Payment', 1, NULL, '2023-08-08 21:35:30', '2023-08-08 21:36:52', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (57, '1O525S', '2023-06-01', '17:09:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 21:36:39', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (58, '1O525T', '2023-06-02', '09:55:00', NULL, NULL, 180000, 'Payment', 1, NULL, '2023-08-08 22:04:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (59, '1O525U', '2023-06-02', '10:16:00', NULL, NULL, 73000, 'Payment', 7, NULL, '2023-08-08 22:05:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (60, '1O525V', '2023-06-02', '10:26:00', NULL, NULL, 44000, 'Payment', 7, NULL, '2023-08-08 22:07:15', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (61, '1O525W', '2023-06-02', '10:37:00', NULL, NULL, 88000, 'Payment', 1, NULL, '2023-08-08 22:08:15', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (62, '1O525X', '2023-06-02', '10:58:00', NULL, NULL, 84000, 'Payment', 6, NULL, '2023-08-08 22:09:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (63, '1O525Y', '2023-06-02', '11:21:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 22:10:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (64, '1O525Z', '2023-06-02', '11:21:00', NULL, NULL, 88000, 'Payment', 6, NULL, '2023-08-08 22:11:26', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (65, '1O5260', '2023-06-02', '11:38:00', NULL, NULL, 168000, 'Payment', 1, NULL, '2023-08-08 22:12:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (66, '1O5261', '2023-06-02', '12:01:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 22:20:39', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (67, '1O5262', '2023-06-02', '12:10:00', NULL, NULL, 92000, 'Payment', 6, NULL, '2023-08-08 22:22:51', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (68, '1O5263', '2023-06-02', '12:16:00', NULL, NULL, 106000, 'Payment', 1, NULL, '2023-08-08 22:25:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (69, '1O5264', '2023-06-02', '12:28:00', NULL, NULL, 246000, 'Payment', 1, NULL, '2023-08-08 22:27:52', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (70, '1O5265', '2023-06-02', '12:50:00', NULL, NULL, 252000, 'Payment', 1, NULL, '2023-08-08 22:29:02', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (71, '1O5266', '2023-06-02', '12:53:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 22:30:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (72, '1O5267', '2023-06-02', '12:56:00', NULL, NULL, 84000, 'Payment', 6, NULL, '2023-08-08 22:31:37', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (73, '1O5268', '2023-06-02', '13:02:00', NULL, NULL, 46000, 'Payment', 7, NULL, '2023-08-08 22:34:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (74, '1O5269', '2023-06-02', '13:04:00', NULL, NULL, 34000, 'Payment', 7, NULL, '2023-08-08 22:35:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (75, '1O526A', '2023-06-02', '13:36:00', NULL, NULL, 144000, 'Payment', 1, NULL, '2023-08-08 22:39:57', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (76, '1O526B', '2023-06-02', '13:46:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-08 22:41:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (77, '1O526C', '2023-06-02', '13:48:00', NULL, NULL, 106000, 'Payment', 1, NULL, '2023-08-08 22:42:36', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (78, '1O526D', '2023-06-02', '13:56:00', NULL, NULL, 154000, 'Payment', 7, NULL, '2023-08-08 22:43:31', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (79, '1O526E', '2023-06-02', '13:57:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-08 22:44:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (80, '1O526F', '2023-06-02', '14:05:00', NULL, NULL, 28000, 'Payment', 1, NULL, '2023-08-08 22:45:05', '2023-08-08 22:46:48', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (81, '1O526G', '2023-06-02', '14:07:00', NULL, NULL, 28000, 'Payment', 7, NULL, '2023-08-08 22:46:33', '2023-08-08 22:46:57', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (82, '1O526H', '2023-06-02', '14:27:00', NULL, NULL, 84000, 'Payment', 7, NULL, '2023-08-08 22:48:03', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (83, '1O526I', '2023-06-02', '14:43:00', NULL, NULL, 84000, 'Payment', 6, NULL, '2023-08-08 22:49:36', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (84, '1O526J', '2023-06-02', '14:44:00', NULL, NULL, 92000, 'Payment', 6, NULL, '2023-08-08 22:51:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (85, '1O526K', '2023-06-02', '14:47:00', NULL, NULL, 84000, 'Payment', 1, NULL, '2023-08-08 22:52:49', '2023-08-08 22:52:59', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (86, '1O526L', '2023-06-02', '14:53:00', NULL, NULL, 188000, 'Payment', 6, NULL, '2023-08-08 22:55:21', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (87, '1O526M', '2023-06-02', '14:54:00', NULL, NULL, 132000, 'Payment', 6, NULL, '2023-08-08 22:57:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (88, '1O526N', '2023-06-02', '14:55:00', NULL, NULL, 106000, 'Payment', 7, NULL, '2023-08-08 22:59:02', '2023-08-08 23:03:03', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (89, '1O526O', '2023-06-02', '15:00:00', NULL, NULL, 154000, 'Payment', 6, NULL, '2023-08-08 23:00:53', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (90, '1O526P', '2023-06-02', '15:07:00', NULL, NULL, 18000, 'Payment', 7, NULL, '2023-08-08 23:05:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (91, '1O526Q', '2023-06-02', '15:21:00', NULL, NULL, 184000, 'Payment', 1, NULL, '2023-08-08 23:08:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (92, '1O526R', '2023-06-02', '15:23:00', NULL, NULL, 80000, 'Payment', 6, NULL, '2023-08-08 23:09:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (93, '1O526S', '2023-06-02', '16:02:00', NULL, NULL, 117000, 'Payment', 6, NULL, '2023-08-08 23:15:19', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (94, '1O526T', '2023-06-02', '16:47:00', NULL, NULL, 36000, 'Payment', 1, NULL, '2023-08-08 23:17:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (95, '1O526U', '2023-06-02', '16:56:00', NULL, NULL, 182000, 'Payment', 1, NULL, '2023-08-08 23:20:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (96, '1O526V', '2023-06-02', '16:58:00', NULL, NULL, 30000, 'Payment', 7, NULL, '2023-08-08 23:23:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (97, '1O526W', '2023-06-02', '16:59:00', NULL, NULL, 8000, 'Payment', 7, NULL, '2023-08-08 23:25:29', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (98, '1O526X', '2023-06-02', '17:02:00', NULL, NULL, 238000, 'Payment', 1, NULL, '2023-08-08 23:28:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (99, '1O526Y', '2023-06-03', '09:53:00', NULL, NULL, 186000, 'Payment', 1, NULL, '2023-08-08 23:32:39', '2023-08-08 23:34:51', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (100, '1O526Z', '2023-06-03', '09:54:00', NULL, NULL, 94000, 'Payment', 1, NULL, '2023-08-08 23:34:37', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (101, '1O5270', '2023-06-03', '10:09:00', NULL, NULL, 78000, 'Payment', 6, NULL, '2023-08-08 23:37:36', '2023-08-08 23:38:16', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (102, '1O5271', '2023-06-03', '10:12:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 23:40:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (103, '1O5272', '2023-06-03', '10:14:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-08 23:41:27', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (104, '1O5273', '2023-06-03', '10:26:00', NULL, NULL, 28000, 'Payment', 1, NULL, '2023-08-08 23:42:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (105, '1O5274', '2023-06-03', '10:51:00', NULL, NULL, 88000, 'Payment', 3, NULL, '2023-08-08 23:45:20', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (106, '1O5275', '2023-06-03', '11:05:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 23:47:27', '2023-08-08 23:47:40', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (107, '1O5276', '2023-06-03', '11:17:00', NULL, NULL, 30000, 'Payment', 1, NULL, '2023-08-08 23:49:58', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (108, '1O5277', '2023-06-03', '11:18:00', NULL, NULL, 168000, 'Payment', 1, NULL, '2023-08-08 23:51:21', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (109, '1O5278', '2023-06-03', '11:28:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 23:53:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (110, '1O5279', '2023-06-03', '11:32:00', NULL, NULL, 58000, 'Payment', 7, NULL, '2023-08-08 23:54:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (111, '1O527A', '2023-06-03', '11:36:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-08 23:56:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (112, '1O527B', '2023-06-03', '11:40:00', NULL, NULL, 104000, 'Payment', 1, NULL, '2023-08-08 23:57:46', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (113, '1O527C', '2023-06-03', '11:45:00', NULL, NULL, 117000, 'Payment', 1, NULL, '2023-08-09 00:00:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (114, '1O527D', '2023-06-03', '11:49:00', NULL, NULL, 58000, 'Payment', 1, NULL, '2023-08-09 00:03:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (115, '1O527E', '2023-06-03', '11:50:00', NULL, NULL, 30000, 'Payment', 1, NULL, '2023-08-09 11:55:32', '2023-08-09 11:55:52', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (116, '1O527F', '2023-06-03', '12:03:00', NULL, NULL, 108000, 'Payment', 1, NULL, '2023-08-09 11:57:42', '2023-08-09 11:58:17', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (117, '1O527G', '2023-06-03', '12:15:00', NULL, 4000, 66000, 'Payment', 6, NULL, '2023-08-09 11:59:14', '2023-08-09 11:59:38', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (118, '1O527H', '2023-06-03', '12:16:00', NULL, NULL, 86000, 'Payment', 7, NULL, '2023-08-09 12:01:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (119, '1O527I', '2023-06-03', '12:28:00', NULL, 32000, 160000, 'Payment', 1, NULL, '2023-08-09 12:03:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (120, '1O527J', '2023-06-03', '12:29:00', NULL, NULL, 183000, 'Payment', 6, NULL, '2023-08-09 12:05:04', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (121, '1O527K', '2023-06-03', '12:30:00', NULL, NULL, 88000, 'Payment', 7, NULL, '2023-08-09 12:08:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (122, '1O527L', '2023-06-03', '12:39:00', NULL, 4000, 84000, 'Payment', 1, NULL, '2023-08-09 12:13:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (123, '1O527M', '2023-06-03', '13:02:00', NULL, 8000, 302000, 'Payment', 1, NULL, '2023-08-09 12:15:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (124, '1O527N', '2023-06-03', '13:17:00', NULL, NULL, 75000, 'Payment', 7, NULL, '2023-08-09 12:16:13', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (125, '1O527O', '2023-06-03', '13:25:00', NULL, NULL, 25000, 'Payment', 7, NULL, '2023-08-09 12:17:20', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (126, '1O527P', '2023-06-03', '13:36:00', NULL, NULL, 39000, 'Payment', 1, NULL, '2023-08-09 12:18:46', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (127, '1O527Q', '2023-06-03', '13:51:00', NULL, NULL, 120000, 'Payment', 4, NULL, '2023-08-09 12:27:51', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (128, '1O527R', '2023-06-03', '14:06:00', NULL, NULL, 25000, 'Payment', 7, NULL, '2023-08-09 12:28:43', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (129, '1O527S', '2023-06-03', '14:08:00', NULL, NULL, 8000, 'Payment', 7, NULL, '2023-08-09 12:29:39', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (130, '1O527T', '2023-06-03', '14:10:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 12:30:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (131, '1O527U', '2023-06-03', '14:12:00', NULL, 19000, 65000, 'Payment', 1, NULL, '2023-08-09 12:31:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (132, '1O527V', '2023-06-03', '14:14:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 12:32:31', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (133, '1O527W', '2023-06-03', '14:15:00', NULL, NULL, 52000, 'Payment', 1, NULL, '2023-08-09 12:33:49', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (134, '1O527X', '2023-06-03', '15:12:00', NULL, 19000, 65000, 'Payment', 6, NULL, '2023-08-09 12:34:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (135, '1O527Y', '2023-06-03', '15:13:00', NULL, 6000, 60000, 'Payment', 7, NULL, '2023-08-09 12:35:54', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (136, '1O527Z', '2023-06-03', '15:18:00', NULL, NULL, 32000, 'Payment', 6, NULL, '2023-08-09 12:36:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (137, '1O5280', '2023-06-03', '15:22:00', NULL, 8000, 232000, 'Payment', 1, NULL, '2023-08-09 12:38:37', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (138, '1O5281', '2023-06-03', '15:40:00', NULL, NULL, 84000, 'Payment', 1, NULL, '2023-08-09 12:39:53', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (139, '1O5282', '2023-06-03', '15:57:00', NULL, 18000, 90000, 'Payment', 1, NULL, '2023-08-09 12:40:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (140, '1O5283', '2023-06-03', '15:59:00', NULL, 12000, 120000, 'Payment', 1, NULL, '2023-08-09 12:42:04', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (141, '1O5284', '2023-06-03', '16:00:00', NULL, 23000, 131000, 'Payment', 1, NULL, '2023-08-09 12:43:37', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (142, '1O5285', '2023-06-03', '16:01:00', NULL, 4000, 84000, 'Payment', 1, NULL, '2023-08-09 12:44:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (143, '1O5286', '2023-06-03', '16:29:00', NULL, 4000, 146000, 'Payment', 7, NULL, '2023-08-09 12:46:07', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (144, '1O5287', '2023-06-03', '16:49:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 12:47:56', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (145, '1O5288', '2023-06-03', '16:57:00', NULL, NULL, 22000, 'Payment', 4, NULL, '2023-08-09 12:49:19', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (146, '1O5289', '2023-06-03', '17:03:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 12:50:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (147, '1O528A', '2023-06-03', '17:26:00', NULL, 19000, 65000, 'Payment', 1, NULL, '2023-08-09 12:51:53', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (148, '1O528B', '2023-06-03', '17:36:00', NULL, 4000, 98000, 'Payment', 6, NULL, '2023-08-09 12:53:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (149, '1O528C', '2023-06-03', '17:41:00', NULL, 4000, 84000, 'Payment', 6, NULL, '2023-08-09 12:54:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (150, '1O528D', '2023-06-03', '17:42:00', NULL, 20000, 146000, 'Payment', 1, NULL, '2023-08-09 12:55:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (151, '1O528E', '2023-06-03', '18:31:00', NULL, 362000, 612000, 'Payment', 1, NULL, '2023-08-09 12:58:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (152, '1O528F', '2023-06-03', '18:33:00', NULL, NULL, 85000, 'Payment', 7, NULL, '2023-08-09 12:59:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (153, '1O528G', '2023-06-04', '10:16:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 13:27:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (154, '1O528H', '2023-06-04', '10:18:00', NULL, 4000, 92000, 'Payment', 7, NULL, '2023-08-09 13:28:30', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (155, '1O528I', '2023-06-04', '10:28:00', NULL, 4000, 134000, 'Payment', 6, NULL, '2023-08-09 13:30:35', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (156, '1O528J', '2023-06-04', '10:31:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 13:32:19', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (157, '1O528K', '2023-06-04', '10:34:00', NULL, NULL, 183000, 'Payment', 6, NULL, '2023-08-09 13:33:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (158, '1O528L', '2023-06-04', '10:48:00', NULL, 8000, 132000, 'Payment', 6, NULL, '2023-08-09 13:35:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (159, '1O528M', '2023-06-04', '10:49:00', NULL, 8000, 302000, 'Payment', 7, NULL, '2023-08-09 13:36:59', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (160, '1O5280', '2023-06-04', '11:50:00', NULL, NULL, 129000, 'Payment', 6, NULL, '2023-08-09 13:39:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (161, '1O528P', '2023-06-04', '12:34:00', NULL, NULL, 80000, 'Payment', 6, NULL, '2023-08-09 13:40:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (162, '1O528Q', '2023-06-04', '12:36:00', NULL, 8000, 232000, 'Payment', 6, NULL, '2023-08-09 13:42:40', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (163, '1O528R', '2023-06-04', '12:39:00', NULL, 19000, 79000, 'Payment', 1, NULL, '2023-08-09 13:44:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (164, '1O528S', '2023-06-04', '12:45:00', NULL, 6000, 120000, 'Payment', 7, NULL, '2023-08-09 13:46:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (165, '1O528T', '2023-06-04', '12:46:00', NULL, NULL, 28000, 'Payment', 7, NULL, '2023-08-09 13:47:13', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (166, '1O528U', '2023-06-04', '12:50:00', NULL, NULL, 78000, 'Payment', 6, NULL, '2023-08-09 13:50:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (167, '1O528V', '2023-06-04', '12:57:00', NULL, 38000, 130000, 'Payment', 7, NULL, '2023-08-09 13:52:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (168, '1O528W', '2023-06-04', '13:13:00', NULL, 8000, 132000, 'Payment', 7, NULL, '2023-08-09 13:53:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (169, '1O528X', '2023-06-04', '13:19:00', NULL, 6000, 168000, 'Payment', 6, NULL, '2023-08-09 13:55:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (170, '1O528Y', '2023-06-04', '13:23:00', NULL, NULL, 96000, 'Payment', 6, NULL, '2023-08-09 13:57:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (171, '1O528Z', '2023-06-04', '13:25:00', NULL, NULL, 64000, 'Payment', 6, NULL, '2023-08-09 13:58:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (172, '1O5290', '2023-06-04', '13:31:00', NULL, 10000, 137000, 'Payment', 1, NULL, '2023-08-09 13:59:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (173, '1O5291', '2023-06-04', '13:33:00', NULL, 19000, 65000, 'Payment', 7, NULL, '2023-08-09 14:00:51', '2023-08-09 14:01:13', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (174, '1O5292', '2023-06-04', '13:39:00', NULL, NULL, 42000, 'Payment', 7, NULL, '2023-08-09 14:02:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (175, '1O5293', '2023-06-04', '13:45:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 14:03:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (176, '1O5294', '2023-06-04', '13:56:00', NULL, 4000, 66000, 'Payment', 6, NULL, '2023-08-09 14:03:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (177, '1O5295', '2023-06-04', '14:08:00', NULL, NULL, 63000, 'Payment', 1, NULL, '2023-08-09 14:04:49', '2023-08-09 14:04:58', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (178, '1O5296', '2023-06-04', '14:15:00', NULL, 19000, 98000, 'Payment', 6, NULL, '2023-08-09 14:06:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (179, '1O5297', '2023-06-04', '14:23:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 14:07:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (180, '1O5298', '2023-06-04', '14:34:00', NULL, NULL, 36000, 'Payment', 7, NULL, '2023-08-09 14:08:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (181, '1O5299', '2023-06-04', '15:45:00', NULL, NULL, 112000, 'Payment', 6, NULL, '2023-08-09 14:09:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (182, '1O529A', '2023-06-04', '16:06:00', NULL, 19000, 65000, 'Payment', 1, NULL, '2023-08-09 14:11:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (183, '1O529B', '2023-06-04', '16:06:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:08:21', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (184, '1O529C', '2023-06-04', '16:07:00', NULL, 8000, 132000, 'Payment', 1, NULL, '2023-08-09 15:09:19', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (185, '1O529D', '2023-06-04', '16:22:00', NULL, NULL, 66000, 'Payment', 1, NULL, '2023-08-09 15:10:30', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (186, '1O529E', '2023-06-04', '16:42:00', NULL, NULL, 59000, 'Payment', 3, NULL, '2023-08-09 15:11:33', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (187, '1O529F', '2023-06-04', '16:49:00', NULL, 8000, 132000, 'Payment', 1, NULL, '2023-08-09 15:12:23', '2023-08-09 15:14:22', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (188, '1O529G', '2023-06-04', '16:48:00', NULL, 25000, 195000, 'Payment', 1, NULL, '2023-08-09 15:14:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (189, '1O529H', '2023-06-04', '16:50:00', NULL, 6000, 60000, 'Payment', 7, NULL, '2023-08-09 15:15:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (190, '1O529I', '2023-06-04', '17:07:00', NULL, 4000, 66000, 'Payment', 4, NULL, '2023-08-09 15:15:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (191, '1O529J', '2023-06-04', '17:12:00', NULL, NULL, 54000, 'Payment', 7, NULL, '2023-08-09 15:16:52', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (192, '1O529K', '2023-06-06', '09:58:00', NULL, 9000, 93000, 'Payment', 7, NULL, '2023-08-09 15:18:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (193, '1O529L', '2023-06-06', '10:38:00', NULL, NULL, 56000, 'Payment', 1, NULL, '2023-08-09 15:18:58', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (194, '1O529M', '2023-06-06', '10:41:00', NULL, NULL, 88000, 'Payment', 6, NULL, '2023-08-09 15:20:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (195, '1O529N', '2023-06-06', '10:56:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:21:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (196, '1O529O', '2023-06-06', '10:57:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 15:21:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (197, '1O529P', '2023-06-06', '10:58:00', NULL, 4000, 66000, 'Payment', 6, NULL, '2023-08-09 15:22:41', '2023-08-09 15:22:50', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (198, '1O529Q', '2023-06-06', '11:22:00', NULL, 8000, 132000, 'Payment', 6, NULL, '2023-08-09 15:23:44', '2023-08-09 15:25:19', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (199, '1O529R', '2023-06-06', '11:23:00', NULL, 8000, 132000, 'Payment', 6, NULL, '2023-08-09 15:24:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (200, '1O529S', '2023-06-06', '11:25:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 15:26:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (201, '1O529T', '2023-06-06', '11:28:00', NULL, 25000, 193000, 'Payment', 1, NULL, '2023-08-09 15:28:07', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (202, '1O529U', '2023-06-06', '11:29:00', NULL, 22000, 165000, 'Payment', 6, NULL, '2023-08-09 15:29:29', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (203, '1O529V', '2023-06-06', '12:12:00', NULL, 16000, 80000, 'Payment', 7, NULL, '2023-08-09 15:30:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (204, '1O529W', '2023-06-06', '12:29:00', NULL, NULL, 43000, 'Payment', 7, NULL, '2023-08-09 15:31:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (205, '1O529X', '2023-06-06', '12:33:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:32:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (206, '1O529Y', '2023-06-06', '12:35:00', NULL, NULL, 36000, 'Payment', 7, NULL, '2023-08-09 15:32:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (207, '1O529Z', '2023-06-06', '12:47:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:33:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (208, '1O52A0', '2023-06-06', '12:48:00', NULL, NULL, 52000, 'Payment', 1, NULL, '2023-08-09 15:34:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (209, '1O52A1', '2023-06-06', '12:56:00', NULL, NULL, 188000, 'Payment', 1, NULL, '2023-08-09 15:35:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (210, '1O52A2', '2023-06-06', '13:10:00', NULL, NULL, 86000, 'Payment', 7, NULL, '2023-08-09 15:36:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (211, '1O52A3', '2023-06-06', '13:11:00', NULL, NULL, 16000, 'Payment', 7, NULL, '2023-08-09 15:37:36', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (212, '1O52A4', '2023-06-06', '13:14:00', NULL, NULL, 104000, 'Payment', 7, NULL, '2023-08-09 15:38:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (213, '1O52A5', '2023-06-06', '13:15:00', NULL, NULL, 28000, 'Payment', 7, NULL, '2023-08-09 15:39:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (214, '1O52A6', '2023-06-06', '13:21:00', NULL, NULL, 28000, 'Payment', 7, NULL, '2023-08-09 15:40:31', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (215, '1O52A7', '2023-06-06', '13:26:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 15:41:27', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (216, '1O52A8', '2023-06-06', '13:28:00', NULL, NULL, 94000, 'Payment', 6, NULL, '2023-08-09 15:42:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (217, '1O52A9', '2023-06-06', '13:46:00', NULL, 4000, 66000, 'Payment', 6, NULL, '2023-08-09 15:43:35', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (218, '1O52AA', '2023-06-06', '14:03:00', NULL, 6000, 144000, 'Payment', 6, NULL, '2023-08-09 15:44:49', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (219, '1O52AB', '2023-06-06', '14:16:00', NULL, NULL, 82000, 'Payment', 1, NULL, '2023-08-09 15:45:53', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (220, '1O52AC', '2023-06-06', '14:18:00', NULL, NULL, 34000, 'Payment', 7, NULL, '2023-08-09 15:46:41', '2023-08-09 15:47:54', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (221, '1O52AD', '2023-06-06', '14:17:00', NULL, NULL, 102000, 'Payment', 1, NULL, '2023-08-09 15:47:42', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (222, '1O52AE', '2023-06-06', '14:19:00', NULL, NULL, 14000, 'Payment', 7, NULL, '2023-08-09 15:48:35', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (223, '1O52AF', '2023-06-06', '14:21:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 15:49:40', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (224, '1O52AG', '2023-06-06', '14:25:00', NULL, NULL, 90000, 'Payment', 6, NULL, '2023-08-09 15:50:19', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (225, '1O52AH', '2023-06-06', '14:36:00', NULL, NULL, 78000, 'Payment', 7, NULL, '2023-08-09 15:51:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (226, '1O52AI', '2023-06-06', '14:58:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 15:52:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (227, '1O52AJ', '2023-06-06', '15:00:00', NULL, 4000, 84000, 'Payment', 6, NULL, '2023-08-09 15:53:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (228, '1O52AK', '2023-06-06', '15:04:00', NULL, NULL, 83000, 'Payment', 1, NULL, '2023-08-09 15:54:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (229, '1O52AL', '2023-06-06', '15:33:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:55:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (230, '1O52AM', '2023-06-06', '15:37:00', NULL, NULL, 80000, 'Payment', 6, NULL, '2023-08-09 15:55:58', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (231, '1O52AN', '2023-06-06', '15:48:00', NULL, 6000, 60000, 'Payment', 6, NULL, '2023-08-09 15:56:49', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (232, '1O52AO', '2023-06-06', '15:57:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 15:57:40', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (233, '1O52AP', '2023-06-06', '16:00:00', NULL, 8000, 87000, 'Payment', 6, NULL, '2023-08-09 15:58:56', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (234, '1O52AQ', '2023-06-06', '16:08:00', NULL, 4000, 66000, 'Payment', 6, NULL, '2023-08-09 15:59:33', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (235, '1O52AR', '2023-06-06', '16:16:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 16:00:26', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (236, '1O52AS', '2023-06-06', '16:44:00', NULL, NULL, 50000, 'Payment', 7, NULL, '2023-08-09 16:01:26', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (237, '1O52AT', '2023-06-06', '16:49:00', NULL, NULL, 36000, 'Payment', 7, NULL, '2023-08-09 16:02:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (238, '1O52AU', '2023-06-06', '16:50:00', NULL, NULL, 11000, 'Payment', 7, NULL, '2023-08-09 16:03:00', '2023-08-09 16:03:27', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (239, '1O52AV', '2023-06-06', '16:51:00', NULL, 4000, 66000, 'Payment', 7, NULL, '2023-08-09 16:04:21', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (240, '1O52AW', '2023-06-06', '16:52:00', NULL, 4000, 66000, 'Payment', 1, NULL, '2023-08-09 16:05:06', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (241, '1O52AX', '2023-06-06', '16:55:00', NULL, 8000, 132000, 'Payment', 1, NULL, '2023-08-09 16:06:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (242, '1O52AN', '2023-06-06', '17:02:00', -60000, NULL, -60000, 'Refund', 6, NULL, '2023-08-09 16:07:04', '2023-08-09 16:08:42', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (243, '1O52AN', '2023-06-06', '17:02:00', 60000, NULL, 60000, 'Refund', 6, NULL, '2023-08-09 16:07:54', '2023-08-09 16:08:02', '2023-08-09 16:08:02', 1, 1);
+INSERT INTO `orders_new` VALUES (244, '1O52AY', '2023-06-06', '17:03:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 16:09:46', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (245, '1O52AZ', '2023-06-07', '10:15:00', NULL, NULL, 58000, 'Payment', 7, NULL, '2023-08-09 16:10:27', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (246, '1O52AZ', '2023-06-07', '10:15:00', NULL, NULL, 58000, 'Payment', 7, NULL, '2023-08-09 16:11:02', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (247, '1O52B0', '2023-06-07', '11:00:00', NULL, NULL, 36000, 'Payment', 1, NULL, '2023-08-09 16:13:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (248, '1O52B1', '2023-06-06', '11:23:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-09 16:14:33', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (249, '1O52B2', '2023-06-07', '11:25:00', NULL, NULL, 75000, 'Payment', 1, NULL, '2023-08-09 16:15:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (250, '1O52B3', '2023-06-07', '11:26:00', NULL, NULL, 8000, 'Payment', 7, NULL, '2023-08-09 16:16:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (251, '1O52B4', '2023-06-07', '11:30:00', NULL, NULL, 72000, 'Payment', 6, NULL, '2023-08-09 16:17:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (252, '1O52B5', '2023-06-07', '11:42:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-09 16:18:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (253, '1O52B6', '2023-06-07', '11:43:00', NULL, 19000, 165000, 'Payment', 1, NULL, '2023-08-09 16:20:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (254, '1O52B7', '2023-06-07', '11:48:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-09 16:21:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (255, '1O52B8', '2023-06-07', '12:31:00', NULL, NULL, 62000, 'Payment', 7, NULL, '2023-08-09 16:23:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (256, '1O52B9', '2023-06-07', '12:44:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-09 16:27:09', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (257, '1O52BA', '2023-06-07', '13:29:00', NULL, NULL, 82000, 'Payment', 6, NULL, '2023-08-09 16:28:20', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (258, '1O52BB', '2023-06-07', '13:36:00', NULL, NULL, 156000, 'Payment', 3, NULL, '2023-08-09 16:29:57', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (259, '1O52BC', '2023-06-07', '13:37:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-09 16:30:56', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (260, '1O52BD', '2023-06-07', '13:39:00', NULL, NULL, 54000, 'Payment', 7, NULL, '2023-08-09 16:31:58', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (261, '1O52BE', '2023-06-07', '13:46:00', NULL, NULL, 29000, 'Payment', 7, NULL, '2023-08-09 16:33:05', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (262, '1O52BF', '2023-06-07', '13:49:00', NULL, NULL, 70000, 'Payment', 1, NULL, '2023-08-09 16:33:43', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (263, '1O52BG', '2023-06-07', '13:52:00', NULL, NULL, 22000, 'Payment', 1, NULL, '2023-08-09 16:34:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (264, '1O52BH', '2023-06-07', '14:15:00', NULL, NULL, 90000, 'Payment', 1, NULL, '2023-08-09 16:35:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (265, '1O52BI', '2023-06-07', '14:32:00', NULL, NULL, 86000, 'Payment', 6, NULL, '2023-08-09 16:37:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (266, '1O52BJ', '2023-06-07', '14:38:00', NULL, NULL, 44000, 'Payment', 7, NULL, '2023-08-09 16:38:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (267, '1O52BK', '2023-06-07', '14:47:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-09 16:39:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (268, '1O52BL', '2023-06-07', '14:53:00', NULL, NULL, 50000, 'Payment', 7, NULL, '2023-08-09 16:40:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (269, '1O52BM', '2023-06-07', '15:01:00', NULL, NULL, 50000, 'Payment', 7, NULL, '2023-08-09 16:41:18', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (270, '1O52BN', '2023-06-07', '15:03:00', NULL, NULL, 56000, 'Payment', 6, NULL, '2023-08-09 16:42:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (271, '1O52BO', '2023-06-07', '15:25:00', NULL, NULL, 43000, 'Payment', 7, NULL, '2023-08-09 16:43:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (272, '1O52BP', '2023-06-07', '15:27:00', NULL, 18000, 250000, 'Payment', 1, NULL, '2023-08-09 16:45:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (273, '1O52BQ', '2023-06-07', '15:46:00', NULL, NULL, 54000, 'Payment', 1, NULL, '2023-08-09 16:46:26', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (274, '1O52BR', '2023-06-07', '15:47:00', NULL, 56000, 220000, 'Payment', 1, NULL, '2023-08-09 16:47:35', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (275, '1O52BS', '2023-06-07', '16:08:00', NULL, 36000, 180000, 'Payment', 1, NULL, '2023-08-09 16:48:39', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (276, '1O52BT', '2023-06-07', '16:09:00', NULL, 6000, 60000, 'Payment', 1, NULL, '2023-08-09 16:49:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (277, '1O52BU', '2023-06-07', '16:11:00', NULL, NULL, 158000, 'Payment', 1, NULL, '2023-08-09 16:50:52', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (278, '1O52BV', '2023-06-07', '16:15:00', NULL, NULL, 22000, 'Payment', 7, NULL, '2023-08-09 16:52:22', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (279, '1O52BW', '2023-06-07', '16:19:00', NULL, 19000, 65000, 'Payment', 6, NULL, '2023-08-09 16:53:42', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (280, '1O52BX', '2023-06-07', '16:38:00', NULL, NULL, 30000, 'Payment', 7, NULL, '2023-08-09 16:54:40', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (281, '1O52BY', '2023-06-07', '16:47:00', NULL, NULL, 174000, 'Payment', 1, NULL, '2023-08-09 16:55:51', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (282, '1O52BZ', '2023-06-07', '16:53:00', NULL, NULL, 140000, 'Payment', 6, NULL, '2023-08-09 16:56:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (283, '1O52C0', '2023-06-07', '17:30:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-09 16:57:13', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (284, '1O52C1', '2023-06-07', '17:32:00', NULL, NULL, 34000, 'Payment', 7, NULL, '2023-08-09 16:57:57', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (285, '1O52C2', '2023-06-07', '17:42:00', NULL, NULL, 44000, 'Payment', 7, NULL, '2023-08-09 16:58:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (286, '1O52C3', '2023-06-07', '18:07:00', NULL, NULL, 37000, 'Payment', 7, NULL, '2023-08-09 16:59:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (287, '1O52C4', '2023-06-08', '09:53:00', NULL, 18000, 90000, 'Payment', 4, NULL, '2023-08-09 19:36:52', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (288, '1O52C5', '2023-06-08', '10:20:00', NULL, NULL, 86000, 'Payment', 6, NULL, '2023-08-09 19:38:02', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (289, '1O52C6', '2023-06-08', '10:34:00', NULL, 38000, 130000, 'Payment', 1, NULL, '2023-08-09 19:38:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (290, '1O52C7', '2023-06-08', '10:40:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-09 19:39:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (291, '1O52C8', '2023-06-08', '11:17:00', NULL, NULL, 133000, 'Payment', 1, NULL, '2023-08-09 19:41:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (292, '1O52C9', '2023-06-08', '11:19:00', NULL, NULL, 106000, 'Payment', 7, NULL, '2023-08-09 19:42:43', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (293, '1O52CA', '2023-06-08', '11:27:00', NULL, NULL, 16000, 'Payment', 7, NULL, '2023-08-09 19:43:34', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (294, '1O52CB', '2023-06-08', '11:28:00', NULL, 19000, 65000, 'Payment', 7, NULL, '2023-08-09 19:44:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (295, '1O52CC', '2023-06-08', '11:34:00', NULL, NULL, 90000, 'Payment', 6, NULL, '2023-08-09 19:45:57', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (296, '1O52CD', '2023-06-08', '11:52:00', NULL, NULL, 81000, 'Payment', 6, NULL, '2023-08-09 19:47:08', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (297, '1O52CE', '2023-06-08', '12:09:00', NULL, NULL, 65000, 'Payment', 7, NULL, '2023-08-09 19:49:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (298, '1O52CF', '2023-06-08', '12:12:00', NULL, NULL, 88000, 'Payment', 7, NULL, '2023-08-09 19:50:21', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (299, '1O52CG', '2023-06-08', '12:18:00', NULL, NULL, 150000, 'Payment', 1, NULL, '2023-08-09 19:51:59', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (300, '1O52CH', '2023-06-08', '12:48:00', NULL, NULL, 183000, 'Payment', 1, NULL, '2023-08-09 19:53:11', '2023-08-09 19:54:09', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (301, '1O52CI', '2023-06-08', '12:56:00', NULL, 19000, 65000, 'Payment', 1, NULL, '2023-08-09 19:53:51', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (302, '1O52CJ', '2023-06-08', '13:09:00', NULL, NULL, 40000, 'Payment', 1, NULL, '2023-08-09 19:55:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (303, '1O52CK', '2023-06-08', '13:18:00', NULL, NULL, 118000, 'Payment', 1, NULL, '2023-08-09 19:56:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (304, '1O52CL', '2023-06-08', '13:41:00', NULL, NULL, 94000, 'Payment', 6, NULL, '2023-08-09 19:58:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (305, '1O52CM', '2023-06-08', '13:47:00', NULL, NULL, 30000, 'Payment', 7, NULL, '2023-08-09 19:59:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (306, '1O52CN', '2023-06-08', '13:54:00', NULL, 6000, 60000, 'Payment', 7, NULL, '2023-08-09 20:00:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (307, '1O52CO', '2023-06-08', '14:08:00', NULL, NULL, 169000, 'Payment', 1, NULL, '2023-08-09 20:02:16', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (308, '1O52CP', '2023-06-08', '14:53:00', NULL, NULL, 161000, 'Payment', 6, NULL, '2023-08-09 20:05:58', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (309, '1O52CQ', '2023-06-08', '15:02:00', NULL, NULL, 156000, 'Payment', 6, NULL, '2023-08-09 20:08:00', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (310, '1O52CR', '2023-06-08', '15:11:00', NULL, NULL, 100000, 'Payment', 6, NULL, '2023-08-09 20:09:32', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (311, '1O52CS', '2023-06-08', '15:18:00', NULL, 46000, 506000, 'Payment', 1, NULL, '2023-08-09 20:11:55', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (312, '1O52CT', '2023-06-08', '15:36:00', NULL, NULL, 8000, 'Payment', 7, NULL, '2023-08-09 20:12:49', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (313, '1O52CU', '2023-06-08', '15:56:00', NULL, NULL, 131000, 'Payment', 7, NULL, '2023-08-09 20:14:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (314, '1O52CV', '2023-06-08', '16:17:00', NULL, NULL, 98000, 'Payment', 1, NULL, '2023-08-09 20:15:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (315, '1O52CW', '2023-06-08', '16:25:00', NULL, NULL, 75000, 'Payment', 1, NULL, '2023-08-09 20:17:15', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (316, '1O52CX', '2023-06-08', '16:26:00', NULL, 66000, 340000, 'Payment', 1, NULL, '2023-08-09 20:18:48', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (317, '1O52CY', '2023-06-08', '16:32:00', NULL, NULL, 28000, 'Payment', 7, NULL, '2023-08-09 20:19:31', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (318, '1O52CZ', '2023-06-08', '16:40:00', NULL, NULL, 56000, 'Payment', 7, NULL, '2023-08-09 20:20:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (319, '1O52D0', '2023-06-08', '16:51:00', NULL, NULL, 68000, 'Payment', 7, NULL, '2023-08-09 20:22:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (320, '1O52D1', '2023-06-08', '17:37:00', NULL, NULL, 28000, 'Payment', 6, NULL, '2023-08-09 20:23:13', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (321, '1O52D2', '2023-06-08', '21:51:00', NULL, NULL, 204000, 'Payment', 1, NULL, '2023-08-09 20:24:44', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (322, '1O52D3', '2023-06-09', '09:58:00', NULL, NULL, 96000, 'Payment', 7, NULL, '2023-08-09 20:30:49', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (323, '1O52D4', '2023-06-09', '10:22:00', NULL, NULL, 202000, 'Payment', 6, NULL, '2023-08-09 20:32:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (324, '1O52D5', '2023-06-09', '10:25:00', NULL, NULL, 107000, 'Payment', 6, NULL, '2023-08-09 20:34:23', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (325, '1O52D6', '2023-06-09', '10:51:00', NULL, NULL, 140000, 'Payment', 7, NULL, '2023-08-09 20:35:07', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (326, '1O52D7', '2023-06-09', '10:52:00', NULL, NULL, 18000, 'Payment', 7, NULL, '2023-08-09 20:35:59', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (327, '1O52D8', '2023-06-09', '11:14:00', NULL, NULL, 150000, 'Payment', 1, NULL, '2023-08-09 20:37:11', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (328, '1O52D9', '2023-06-09', '11:56:00', NULL, 35000, 145000, 'Payment', 1, NULL, '2023-08-09 20:38:10', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (329, '1O52DA', '2023-06-09', '11:59:00', NULL, 6000, 60000, 'Payment', 7, NULL, '2023-08-09 20:39:27', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (330, '1O52DB', '2023-06-09', '12:53:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-09 20:40:02', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (331, '1O52DC', '2023-06-09', '12:54:00', NULL, 18000, 160000, 'Payment', 1, NULL, '2023-08-09 20:41:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (332, '1O52DD', '2023-06-09', '13:07:00', NULL, NULL, 85000, 'Payment', 7, NULL, '2023-08-09 20:42:20', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (333, '1O52DE', '2023-06-09', '13:40:00', NULL, 15000, 135000, 'Payment', 7, NULL, '2023-08-09 20:43:04', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (334, '1O52DF', '2023-06-09', '13:47:00', NULL, NULL, 122000, 'Payment', 7, NULL, '2023-08-09 20:44:04', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (335, '1O52DG', '2023-06-09', '13:51:00', NULL, 6000, 60000, 'Payment', 7, NULL, '2023-08-09 20:44:46', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (336, '1O52DH', '2023-06-09', '13:57:00', NULL, 19000, 65000, 'Payment', 1, NULL, '2023-08-09 20:45:43', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (337, '1O52DI', '2023-06-09', '14:02:00', NULL, NULL, 140000, 'Payment', 1, NULL, '2023-08-09 20:46:22', '2023-08-09 20:54:37', NULL, 1, 1);
+INSERT INTO `orders_new` VALUES (338, '1O52DJ', '2023-06-09', '14:26:00', NULL, NULL, 42000, 'Payment', 7, NULL, '2023-08-09 20:47:12', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (339, '1O52DK', '2023-06-09', '14:37:00', NULL, NULL, 39000, 'Payment', 1, NULL, '2023-08-09 20:55:57', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (340, '1O52DL', '2023-06-09', '14:47:00', NULL, NULL, 90000, 'Payment', 1, NULL, '2023-08-09 20:59:02', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (341, '1O52DM', '2023-06-09', '15:14:00', NULL, NULL, 90000, 'Payment', 6, NULL, '2023-08-09 21:00:25', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (342, '1O52DN', '2023-06-09', '15:15:00', NULL, NULL, 28000, 'Payment', 6, NULL, '2023-08-09 21:01:28', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (343, '1O52DO', '2023-06-09', '16:09:00', NULL, 19000, 135000, 'Payment', 1, NULL, '2023-08-09 21:02:50', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (344, '1O52DP', '2023-06-09', '16:13:00', NULL, NULL, 86000, 'Payment', 7, NULL, '2023-08-09 21:04:01', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (345, '1O52DQ', '2023-06-09', '16:14:00', NULL, NULL, 16000, 'Payment', 7, NULL, '2023-08-09 21:04:46', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (346, '1O52DR', '2023-06-09', '16:15:00', NULL, NULL, 108000, 'Payment', 1, NULL, '2023-08-09 21:07:03', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (347, '1O52DS', '2023-06-09', '16:16:00', NULL, NULL, 8000, 'Payment', 7, NULL, '2023-08-09 21:07:43', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (348, '1O52DT', '2023-06-09', '16:23:00', NULL, 19000, 65000, 'Payment', 6, NULL, '2023-08-09 21:08:45', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (349, '1O52DU', '2023-06-09', '16:45:00', NULL, NULL, 460000, 'Payment', 1, NULL, '2023-08-09 21:09:47', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (350, '1O52DV', '2023-06-09', '16:46:00', NULL, NULL, 70000, 'Payment', 7, NULL, '2023-08-09 21:10:29', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (351, '1O52DW', '2023-06-09', '16:48:00', NULL, NULL, 70000, 'Payment', 6, NULL, '2023-08-09 21:11:38', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (352, '1O52DX', '2023-06-09', '16:59:00', NULL, 38000, 130000, 'Payment', 6, NULL, '2023-08-09 21:12:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (353, '1O52DY', '2023-06-09', '17:01:00', NULL, NULL, 42000, 'Payment', 7, NULL, '2023-08-09 21:13:39', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (354, '1O52DZ', '2023-06-09', '17:16:00', NULL, NULL, 50000, 'Payment', 7, NULL, '2023-08-09 21:14:41', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (355, '1O52E0', '2023-06-09', '17:37:00', NULL, NULL, 28000, 'Payment', 6, NULL, '2023-08-09 21:15:17', NULL, NULL, 1, NULL);
+INSERT INTO `orders_new` VALUES (356, '1O52E1', '2023-06-09', '17:44:00', NULL, NULL, 14000, 'Payment', 1, NULL, '2023-08-09 21:15:52', NULL, NULL, 1, NULL);
+
+-- ----------------------------
+-- Table structure for password_resets
+-- ----------------------------
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE `password_resets`  (
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  INDEX `password_resets_email_index`(`email` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of password_resets
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for payment_method
+-- ----------------------------
+DROP TABLE IF EXISTS `payment_method`;
+CREATE TABLE `payment_method`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `payment_method` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `note` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of payment_method
+-- ----------------------------
+INSERT INTO `payment_method` VALUES (1, 'Bank Transfer', NULL, '2023-07-22 22:20:52', '2023-07-22 22:21:10', NULL);
+INSERT INTO `payment_method` VALUES (2, 'werwwr', NULL, '2023-07-22 22:21:15', '2023-07-22 15:21:17', '2023-07-22 15:21:17');
+INSERT INTO `payment_method` VALUES (3, 'Ovo', NULL, '2023-07-22 22:21:49', NULL, NULL);
+INSERT INTO `payment_method` VALUES (4, 'Gopay', NULL, '2023-07-22 22:21:55', NULL, NULL);
+INSERT INTO `payment_method` VALUES (5, 'Shopeepay', NULL, '2023-07-22 22:22:05', NULL, NULL);
+INSERT INTO `payment_method` VALUES (6, 'Bank Mandiri', NULL, '2023-07-22 22:22:23', NULL, NULL);
+INSERT INTO `payment_method` VALUES (7, 'Cash', NULL, '2023-07-22 22:23:55', NULL, NULL);
+INSERT INTO `payment_method` VALUES (8, 'Qris', NULL, '2023-07-22 22:24:22', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for personal_access_tokens
+-- ----------------------------
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE `personal_access_tokens`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `personal_access_tokens_token_unique`(`token` ASC) USING BTREE,
+  INDEX `personal_access_tokens_tokenable_type_tokenable_id_index`(`tokenable_type` ASC, `tokenable_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of personal_access_tokens
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for product
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `category_id` int NULL DEFAULT NULL,
+  `price` int NULL DEFAULT NULL,
+  `upload` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `desc` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by` int NULL DEFAULT NULL,
+  `updated_by` int NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of product
+-- ----------------------------
+INSERT INTO `product` VALUES (1, 'Real OG', 1, 11000, '1690104983_og.png', 'Real OG Doughnut', '2023-07-23 16:36:23', '2023-07-23 16:52:09', '2023-07-23 16:52:09', 1, 1);
+INSERT INTO `product` VALUES (2, 'Real OG', 1, 11000, '1691227323_realog.png', NULL, '2023-07-28 00:45:43', '2023-08-05 16:22:03', NULL, 1, 1);
+INSERT INTO `product` VALUES (3, 'Lemon Glaze', 2, 16000, '1691227345_lemonglazed.png', NULL, '2023-07-31 05:03:04', '2023-08-05 16:22:25', NULL, 1, 1);
+INSERT INTO `product` VALUES (4, 'OG Glaze', 1, 11000, '1691227482_ogglaze.png', NULL, '2023-07-31 05:03:57', '2023-08-05 16:24:42', NULL, 1, 1);
+INSERT INTO `product` VALUES (5, 'Chicken Mayo', 2, 18000, '1691227490_chichkenmayo.png', NULL, '2023-07-31 05:04:36', '2023-08-05 16:24:50', NULL, 1, 1);
+INSERT INTO `product` VALUES (6, 'Choco', 1, 14000, '1691228120_chocoog.png', NULL, '2023-08-05 16:32:08', '2023-08-05 16:35:20', NULL, 1, 1);
+INSERT INTO `product` VALUES (7, 'Cheese', 1, 14000, '1691228130_cheeseog.png', NULL, '2023-08-05 16:32:34', '2023-08-05 16:35:30', NULL, 1, 1);
+INSERT INTO `product` VALUES (8, 'Trio', 1, 14000, '1691228138_trioog.png', NULL, '2023-08-05 16:32:50', '2023-08-05 16:36:39', '2023-08-05 16:36:39', 1, 1);
+INSERT INTO `product` VALUES (9, 'Trio', 1, 14000, NULL, NULL, '2023-08-05 16:37:08', '2023-08-05 16:37:54', '2023-08-05 16:37:54', 1, 1);
+INSERT INTO `product` VALUES (10, 'Trio', 1, 14000, '1691228292_trioog.png', NULL, '2023-08-05 16:38:12', '2023-08-05 16:40:04', '2023-08-05 16:40:04', 1, 1);
+INSERT INTO `product` VALUES (11, 'Trio', 1, 14000, '1691228425_trioog.png', NULL, '2023-08-05 16:40:25', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (12, 'Lemon Cream', 2, 18000, NULL, NULL, '2023-08-08 20:09:19', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (13, 'Tuna Mayo', 2, 18000, NULL, NULL, '2023-08-08 20:10:38', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (14, 'Tiramisu', 2, 18000, NULL, NULL, '2023-08-08 20:11:11', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (15, 'Peanut Chunk', 2, 16000, NULL, NULL, '2023-08-08 20:11:36', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (16, 'Strawberry Custard', 2, 18000, NULL, NULL, '2023-08-08 20:12:01', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (17, 'Vanilla Custard', 2, 18000, NULL, NULL, '2023-08-08 20:12:22', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (18, 'Choco Cashew', 2, 16000, NULL, NULL, '2023-08-08 20:12:51', '2023-08-08 20:13:18', NULL, 1, 1);
+INSERT INTO `product` VALUES (19, 'Pistachio Cream Cheese', 2, 18000, NULL, NULL, '2023-08-08 20:14:06', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (20, 'Favorite A', 3, 70000, NULL, '3 Choco + 3 Cheese', '2023-08-08 20:14:48', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (21, 'Favorite B', 3, 70000, NULL, '3 Real OG + 1 Choco + 1 Cheese + 1 Trio', '2023-08-08 20:15:48', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (22, 'Favorite C', 3, 70000, NULL, '2 Real OG + 2 Choco + 2 Cheese', '2023-08-08 20:16:23', '2023-08-08 20:18:13', NULL, 1, 1);
+INSERT INTO `product` VALUES (23, 'Sweet A', 3, 80000, NULL, '3 Lemon Glaze + 3 Choco Cashew', '2023-08-08 20:16:56', '2023-08-08 20:17:57', NULL, 1, 1);
+INSERT INTO `product` VALUES (24, 'Sweet B', 3, 90000, NULL, '3 Vanilla Custard + 3 Pistachio Cream Cheese', '2023-08-08 20:17:35', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (25, 'Choco Berry', 4, 18000, NULL, NULL, '2023-08-08 20:18:38', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (26, 'Red Velvet', 4, 18000, NULL, NULL, '2023-08-08 20:18:52', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (27, 'Pandan', 4, 18000, NULL, NULL, '2023-08-08 20:19:09', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (28, 'Drizzle', 4, 14000, NULL, NULL, '2023-08-08 20:19:23', NULL, NULL, 1, NULL);
+INSERT INTO `product` VALUES (29, 'Pristine 400ml', 5, 8000, NULL, NULL, '2023-08-08 20:55:05', NULL, NULL, 1, NULL);
+
+-- ----------------------------
+-- Table structure for tbl_nilai_kombinasi
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_nilai_kombinasi`;
+CREATE TABLE `tbl_nilai_kombinasi`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NOT NULL,
+  `kd_kombinasi` int NOT NULL,
+  `id_product_a` int NOT NULL,
+  `id_product_b` int NOT NULL,
+  `jumlah_transaksi` int NOT NULL,
+  `support` double(8, 2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tbl_nilai_kombinasi
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tbl_support
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_support`;
+CREATE TABLE `tbl_support`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kd_analysis` int NULL DEFAULT NULL,
+  `id_product` int NULL DEFAULT NULL,
+  `support` double(8, 2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tbl_support
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `role_id` int NULL DEFAULT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `users_email_unique`(`email` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES (1, 'Administrator', 'soughdara@gmail.com', NULL, '$2y$10$TJOW7ohU1CYYN.ooPbqvVOhExeX5To0J77db6cMligv8zY/hOIYaq', NULL, 'admin', '081364243280', 1, 'Cibubur', '2022-12-02 00:49:19', '2023-07-23 07:20:01', NULL);
+INSERT INTO `users` VALUES (6, 'Staff Utama', 'soughdara_first_staff@gmail.com', NULL, '$2y$10$FicxdVSPOFk/eQcWfn0U7.1Kf3qmm6eSBakRWL5x3eBnq4XASSaIC', NULL, 'soughdara_utama', '0823213239', 2, 'Cibubur', '2023-07-31 19:45:12', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for users_role
+-- ----------------------------
+DROP TABLE IF EXISTS `users_role`;
+CREATE TABLE `users_role`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `note` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users_role
+-- ----------------------------
+INSERT INTO `users_role` VALUES (1, 'Admin', 'user for admin role', '2022-11-20 13:09:55', NULL, NULL);
+INSERT INTO `users_role` VALUES (2, 'Staff', NULL, '2022-12-11 02:46:46', NULL, NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;

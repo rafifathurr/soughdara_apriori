@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="page-inner">
-                    <div class="row">
+                    {{-- <div class="row">
                        @isset($menus)
                        @foreach($menus as $menu)
                        <div class="col-md-4">
@@ -37,7 +37,36 @@
                        </div>
                        @endforeach
                        @endisset
-                    </div>
+                    </div> --}}
+                    <div class="row">
+                        @isset($packages)
+                        @foreach($packages as $menu)
+                        <div class="col-md-6">
+                            <div class="card card-post card-round">
+                                <div class="card-title" style="padding:20px;">
+                                    <center>Bundle Packages</center>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_a.'/uploads/'.$menu->dataProduk($menu->id_product_a)->upload)}}" alt="Card image cap">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_b.'/uploads/'.$menu->dataProduk($menu->id_product_b)->upload)}}" alt="Card image cap">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <center><p class="username">{{$menu->dataProduk($menu->id_product_a)->product_name}}</p></center>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <center><p class="username">{{$menu->dataProduk($menu->id_product_b)->product_name}}</p></center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        @endisset
+                     </div>
                 </div>
             </div>
             @include('home.layouts.footer')
