@@ -101,7 +101,7 @@ class AnalysisControllers extends Controller
         $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
-            $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> get();
+            $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
             foreach($qProdukB as $qProdB){
                 $kdProdukB = $qProdB -> id_product;
                 $jumB = Kombinasi::where('kd_analysis', $kd_analysis)->where('id_product_a', $kdProdukB) -> count();

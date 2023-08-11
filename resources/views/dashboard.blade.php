@@ -19,7 +19,7 @@
                 </div>
                 <div class="page-inner mt--5">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-head-row">
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">Top Sales Products</div>
