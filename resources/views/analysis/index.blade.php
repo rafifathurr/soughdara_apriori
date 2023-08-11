@@ -58,6 +58,9 @@
                                                     <center>Min Support</center>
                                                 </th>
                                                 <th width="15%">
+                                                    <center>Min Confidence</center>
+                                                </th>
+                                                <th width="15%">
                                                     <center>Action</center>
                                                 </th>
                                             </tr>
@@ -78,6 +81,9 @@
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_support }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $data->min_confidence }}</center>
                                                     </td>
                                                     <td>
                                                         <center>

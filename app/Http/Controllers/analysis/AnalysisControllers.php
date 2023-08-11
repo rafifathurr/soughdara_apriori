@@ -104,7 +104,7 @@ class AnalysisControllers extends Controller
             $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> get();
             foreach($qProdukB as $qProdB){
                 $kdProdukB = $qProdB -> id_product;
-                $jumB = Kombinasi::where('id_product_a', $kdProdukB) -> count();
+                $jumB = Kombinasi::where('kd_analysis', $kd_analysis)->where('id_product_a', $kdProdukB) -> count();
                 if($jumB > 0){
 
                 }else{
@@ -253,13 +253,16 @@ class AnalysisControllers extends Controller
         $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> get();
-        $totalProduk = Orders::whereYear('orders_new.date', $dataPengujian->year)
-                    ->join('details_order', 'details_order.id_order', '=', 'orders_new.id')
+        $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
+                    ->whereYear('orders_new.date', $dataPengujian->year)
                     ->whereMonth('orders_new.date', $dataPengujian->month)
                     ->whereNull('orders_new.deleted_at')
-                    ->count();
+                    ->whereNull('details_order.deleted_at')
+                    ->groupBy('details_order.id_order')
+                    ->get();
+        $totalProduk = count($totalProduk);
         $data = [
             'title' => "Analysis of ".date("F", mktime(0, 0, 0, $dataPengujian->month, 10))." ".$dataPengujian->year."",
             'min_support' => $dataPengujian->min_support,
