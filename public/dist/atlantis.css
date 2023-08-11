@@ -2295,7 +2295,7 @@ body {
 }
 
 .logo-header[data-background-color] .more {
-    color: #ffffff !important;
+    color: #7F453F;
 }
 
 .logo-header[data-background-color="white"] .navbar-toggler .navbar-toggler-icon,
