@@ -36,7 +36,7 @@
                 </li>
                 <li class="nav-item {{ $title === "Best Seller" ? 'active' : '' }}">
                     <a href="{{ route('menu') }}" aria-expanded="false">
-                        <i class="fas fa-star"></i>
+                        <i class="fa fa-thumbs-up"></i>
                         <p>Recommendation</p>
                     </a>
                 </li>
@@ -55,6 +55,18 @@
                     </a>
                 </li>
                 @endforeach
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Scan Menu</h4>
+                </li>
+                <li class="nav-item {{ $title === "Scan QR" ? 'active' : '' }}">
+                    <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ route('menu') }}" target="_blank" aria-expanded="false">
+                        <i class="fa fa-qrcode"></i>
+                        <p>Scan QR</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
