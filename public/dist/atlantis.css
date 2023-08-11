@@ -529,7 +529,7 @@ body {
     line-height: 20px;
     padding: 0px !important;
     background: transparent !important;
-    color: #575962 !important;
+    color: #7F453F !important;
 }
 
 .btn-toggle:hover,
@@ -2287,7 +2287,7 @@ body {
 }
 
 .btn-toggle {
-    color: #fff !important;
+    color: #7F453F !important;
 }
 
 .logo-header[data-background-color] .navbar-toggler .navbar-toggler-icon {
