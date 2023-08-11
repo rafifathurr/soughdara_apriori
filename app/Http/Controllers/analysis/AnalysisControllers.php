@@ -46,29 +46,38 @@ class AnalysisControllers extends Controller
             "analysis" => $analysis
         ]);
     }
-    public function create($month, $year, $support, $confidence)
+    public function create($month, $year, $min_support, $min_confidence)
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $data['title'] = "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."";
-        $data['min_support'] = $support;
-        $data['min_confidence'] = $confidence;
-        $data['tahun'] = $year;
-        $data['bulan'] = $month;
-        
         $kd_analysis = mt_rand();
         $check = Analysis::where('kd_analysis', $kd_analysis)->first();
 
         if(!is_null($check)){
             $kd_analysis = mt_rand();
+        }else{
+            $store_analysis = Analysis::create([
+                'kd_analysis' => $kd_analysis,
+                'month' => $month,
+                'year' => $year,
+                'min_support' => $min_support,
+                'min_confidence' => $min_confidence,
+                'created_at' => $datenow
+            ]);
         }
 
-        $totalProduk = Product::whereNull('deleted_at')->count();
-        $dataProduk = Product::whereNull('deleted_at')->get();
+        $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+        $dataProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->get();
 
         foreach($dataProduk as $produk){
             $id_product = $produk -> id;
-            $totalTransaksi = Details::where('id_product', $id_product)->whereNull('deleted_at')->count();
+            $totalTransaksi = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
+                            ->where('details_order.id_product', $id_product)
+                            ->whereYear('orders_new.date', $year)
+                            ->whereMonth('orders_new.date', $month)
+                            ->whereNull('orders_new.deleted_at')
+                            ->whereNull('details_order.deleted_at')
+                            ->count();
             $nSupport = ($totalTransaksi / $totalProduk) * 100;
 
             $support_process = Support::create([
@@ -80,13 +89,13 @@ class AnalysisControllers extends Controller
         }
 
         // kombinasi 2 item set
-        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $support) -> get();
+        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
-            $qProdukB = Support::where('kd_pengujian', $kd_analysis) -> where('support', '>=', $support) -> get();
+            $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> get();
             foreach($qProdukB as $qProdB){
                 $kdProdukB = $qProdB -> id_product;
-                $jumB = Kombinasi::where('kd_barang_a', $kdProdukB) -> count();
+                $jumB = Kombinasi::where('id_product_a', $kdProdukB) -> count();
                 if($jumB > 0){
 
                 }else{
@@ -95,7 +104,7 @@ class AnalysisControllers extends Controller
                     }else{
                         $kdKombinasi = mt_rand();
                         $check = Kombinasi::where('kd_kombinasi', $kdKombinasi)->first();
-                
+
                         if(!is_null($check)){
                             $kdKombinasi = mt_rand();
                         }
@@ -108,64 +117,101 @@ class AnalysisControllers extends Controller
                             'kd_analysis' => $kd_analysis,
                             'kd_kombinasi' => $kdKombinasi,
                             'id_product_a' => $kdProdukA,
+                            'id_product_b' => $kdProdukB,
+                            'jumlah_transaksi' => 0,
+                            'support' => 0,
                             'created_at' => $datenow
                         ]);
-
-                        $nk = new Kombinasi();
-                        $nk -> kd_pengujian = $kdPengujian;
-                        $nk -> kd_kombinasi = $kdKombinasi;
-                        $nk -> kd_barang_a = $kdProdukA;
-                        $nk -> kd_barang_b = $kdProdukB;
-                        $nk -> jumlah_transaksi = 0;
-                        $nk -> support = 0;
-                        $nk -> save();
                     }
                 }
             }
         }
 
         // kombinasi 2 itemset phase 2
-        $nilaiKombinasi = M_Nilai_Kombinasi::where('kd_pengujian', $kdPengujian) -> get();
-        $no = 1;
+        $nilaiKombinasi = Kombinasi::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
         foreach($nilaiKombinasi as $nk){
             $kdKombinasi = $nk -> kd_kombinasi;
-            $kdBarangA = $nk -> kd_barang_a;
-            $kdBarangB = $nk -> kd_barang_b;
+            $kdBarangA = $nk -> id_product_a;
+            $kdBarangB = $nk -> id_product_b;
 
             // cari total transaksi
-            $dataFaktur = M_Penjualan::distinct() -> get(['no_faktur']);
+            $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
+                            ->whereYear('orders_new.date', $year)
+                            ->whereMonth('orders_new.date', $month)
+                            ->whereNull('orders_new.deleted_at')
+                            ->whereNull('details_order.deleted_at')
+                            ->distinct()
+                            ->get(['details_order.id_order']);
             $fnTransaksi = 0;
             foreach($dataFaktur as $faktur){
-                $noFaktur = $faktur -> no_faktur;
-                $qBonTransaksiA = M_Penjualan::where('no_faktur', $noFaktur) -> where('kd_barang', $kdBarangA) -> count();
-                $qBonTransaksiB = M_Penjualan::where('no_faktur', $noFaktur) -> where('kd_barang', $kdBarangB) -> count();
+                $noFaktur = $faktur -> id_order;
+                $qBonTransaksiA = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangA) -> count();
+                $qBonTransaksiB = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangB) -> count();
                 if($qBonTransaksiA == 1 && $qBonTransaksiB == 1){
                     $fnTransaksi++;
                 }
             }
             $support = ($fnTransaksi / $totalProduk) * 100;
-            M_Nilai_Kombinasi::where('kd_pengujian', $kdPengujian) -> where('kd_kombinasi', $kdKombinasi) -> update([
+            $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
                 'jumlah_transaksi' => $fnTransaksi,
                 'support' => $support
             ]);
         }
 
-
-        return view('analysis.create', $data);
+        if( $store_analysis && $support_process && $kombinasi_process_1 && $kombinasi_proses_2){
+            $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
+            $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+            $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
+            $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
+            $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+            $data = [
+                'success' => true,
+                'title' => "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."",
+                'min_support' => $min_support,
+                'min_confidence' => $min_confidence,
+                'tahun' => $year,
+                'bulan' => $month,
+                'dataSupport' => $dataSupportProduk,
+                'totalProduk' => $totalProduk,
+                'dataPengujian' => $dataPengujian,
+                'dataMinSupport' => $dataMinSupp,
+                'dataKombinasiItemset' => $dataKombinasiItemset,
+                'dataMinConfidence' => $dataMinConfidence,
+                'kdPengujian' => $kd_analysis
+            ];
+            return view('analysis.create', $data)->with('success','Analysis process successfully!');
+        }else{
+            $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
+            $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+            $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
+            $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_confidence) -> orderBy('support', 'desc') -> get();
+            $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+            $data = [
+                'success' => true,
+                'title' => "Analysis of ".date("F", mktime(0, 0, 0, $month, 10))." ".$year."",
+                'min_support' => $min_support,
+                'min_confidence' => $min_confidence,
+                'tahun' => $year,
+                'bulan' => $month,
+                'dataSupport' => $dataSupportProduk,
+                'totalProduk' => $totalProduk,
+                'dataPengujian' => $dataPengujian,
+                'dataMinSupport' => $dataMinSupp,
+                'dataKombinasiItemset' => $dataKombinasiItemset,
+                'dataMinConfidence' => $dataMinConfidence,
+                'kdPengujian' => $kd_analysis
+            ];
+            return view('analysis.create', $data)->with('success','Analysis process successfully!');
+        }
     }
 
     public function getMonth(Request $req){
-        $analysis_get = Analysis::whereNull('deleted_at')->get();
-        $month = [];
-
-        foreach($analysis_get as $analysis){
-            array_push($month, $analysis->month);
-        }
 
         $months = Orders::selectRaw('MONTH(date) as bulan, MONTHNAME(date) as nama_bulan')
                 ->whereYear('date', $req->tahun)
                 ->where('deleted_at',null)
-                ->whereNotIn(DB::raw("MONTH(date)"), $month)
                 ->groupBy('bulan')
                 ->groupBy('nama_bulan')
                 ->orderBy('bulan', 'asc')
@@ -174,57 +220,52 @@ class AnalysisControllers extends Controller
         return json_encode($months);
     }
 
-    public function store(Request $req){
-        date_default_timezone_set("Asia/Bangkok");
-        $datenow = date('Y-m-d H:i:s');
-
-        $analysis_first = Analysis::create([
-            'month' => $req->month,
-            'year' => $req->year,
-            'total_transaction' => $req->total_order,
-            'min_support' => $req->min_support,
-            'created_at' => $datenow
-        ]);
-
-        if($analysis_first){
-
-            $products = $req->id_product;
-
-            foreach($products as $key=>$prods){
-
-                $details = DetailsAnalysis::create([
-                    'id_analysis' => $analysis_first->id,
-                    'product' => $prods,
-                    'total_all' => $req->total_per_product[$key],
-                    'support_value' => $req->support[$key],
-                    'status' => $req->result[$key],
-                    'created_at' => $datenow
-                ]);
-
-            }
-
-        }
-
-        return redirect()->route('admin.analysis.index')->with(['success' => 'Data successfully stored!']);
+    public function detail($kd_analysis){
+        $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
+        $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+        $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
+        $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
+        $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> get();
+        $totalProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->count();
+        $data = [
+            'title' => "Analysis of ".date("F", mktime(0, 0, 0, $dataPengujian->month, 10))." ".$dataPengujian->year."",
+            'min_support' => $dataPengujian->min_support,
+            'min_confidence' => $dataPengujian->min_confidence,
+            'tahun' => $dataPengujian->year,
+            'bulan' => $dataPengujian->month,
+            'dataSupport' => $dataSupportProduk,
+            'totalProduk' => $totalProduk,
+            'dataPengujian' => $dataPengujian,
+            'dataMinSupport' => $dataMinSupp,
+            'dataKombinasiItemset' => $dataKombinasiItemset,
+            'dataMinConfidence' => $dataMinConfidence,
+            'kdPengujian' => $kd_analysis
+        ];
+        return view('analysis.create', $data);
     }
 
     public function delete(Request $req)
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $exec = Analysis::where('id', $req->id )->update([
+        $exec = Analysis::where('kd_analysis', $req->kd_analysis )->update([
             'deleted_at'=>$datenow,
             'updated_at'=>$datenow
         ]);
 
         if ($exec) {
 
-            $exec_2 = DetailsAnalysis::where('id_analysis', $req->id )->update([
+            $exec_2 = Support::where('kd_analysis', $req->kd_analysis)->update([
                 'deleted_at'=>$datenow,
                 'updated_at'=>$datenow
             ]);
 
-            if ($exec_2) {
+            $exec_3 = Kombinasi::where('kd_analysis', $req->kd_analysis)->update([
+                'deleted_at'=>$datenow,
+                'updated_at'=>$datenow
+            ]);
+
+            if ($exec_2 && $exec_3) {
 
                 Session::flash('success', 'Data successfully deleted!');
 

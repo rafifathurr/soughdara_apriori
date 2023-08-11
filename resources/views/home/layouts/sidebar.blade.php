@@ -37,7 +37,7 @@
                 <li class="nav-item {{ $title === "Best Seller" ? 'active' : '' }}">
                     <a href="{{ route('menu') }}" aria-expanded="false">
                         <i class="fas fa-star"></i>
-                        <p>Best Seller</p>
+                        <p>Recommendation</p>
                     </a>
                 </li>
                 <li class="nav-section">

@@ -4,20 +4,29 @@ namespace App\Models\analysis;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\product\Product;
+use App\Models\order\detail\Details;
 
 class Support extends Model
 {
     protected $primaryKey = 'id';
 
-      protected $table = "tbl_support";
+    protected $table = "tbl_support";
 
-      protected $guarded = [];
+    protected $fillable = [
+        'kd_analysis',
+        'id_product',
+        'support'
+    ];
 
-      public $timestamps = false;
+    public function dataProduk($id_product)
+    {
+        return Product::where('id', $id_product) -> first();
+    }
 
-      public function product()
-      {
-        return $this->belongsTo('App\Models\product\Product', 'id_product', 'id');
-      }
-  
+    public function totalTransaksi($id_product)
+    {
+        return Details::where('id_product', $id_product) -> whereNull('deleted_at') -> count();
+    }
+
   }

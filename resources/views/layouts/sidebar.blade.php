@@ -85,7 +85,7 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item {{ $title === 'Analysis Process' || $title === 'Add Analysis Process'  ? 'active' : '' }}">
+                    <li class="nav-item {{ $title === 'Analysis Process' || str_contains($title, 'Analysis') ? 'active' : '' }}">
                         <a href="{{ route('admin.analysis.index') }}" aria-expanded="false">
                             <i class="fas fa-chart-bar"></i>
                             <p>Analysis Process</p>

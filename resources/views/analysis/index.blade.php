@@ -81,14 +81,14 @@
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            {{-- <a href="{{ route('admin.analysis.detail', $data->id) }}"
+                                                            <a href="{{ route('admin.analysis.detail', $data->kd_analysis) }}"
                                                                 data-toggle="tooltip" title="Detail"
                                                                 class="btn btn-link btn-icon btn-lg"
                                                                 data-original-title="Detail" control-id="ControlID-16">
                                                                 <i class="fa fa-eye"></i>
-                                                            </a> --}}
+                                                            </a>
                                                             <button type="submit"
-                                                                onclick="destroy({{ $data->id }})"
+                                                                onclick="destroy({{ $data->kd_analysis }})"
                                                                 data-toggle="tooltip" title="Delete"
                                                                 class="btn btn-link btn-simple-danger"
                                                                 data-original-title="Delete" control-id="ControlID-17">
@@ -133,7 +133,7 @@
         }).then((willDelete) => {
             if (willDelete) {
                 $.post("{{ route('admin.analysis.delete') }}", {
-                    id: id,
+                    kd_analysis: id,
                     _token: token
                 }, function(data) {
                     location.reload();
