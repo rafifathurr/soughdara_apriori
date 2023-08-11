@@ -104,7 +104,7 @@
 
                                 <hr />
                                 <p class="card-title-desc">
-                                <h5>Kombinasi 2 itemset</h5>
+                                <h5>Kombinasi 2 Produk</h5>
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table mb-0 table-hover" id="tblKombinasiItemset">
@@ -146,7 +146,7 @@
 
                                 <hr />
                                 <p class="card-title-desc">
-                                <h5>Pola hasil analisa</h5>
+                                <h5>Hasil Analisa</h5>
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table mb-0 table-hover" id="tblPolaHasil">
