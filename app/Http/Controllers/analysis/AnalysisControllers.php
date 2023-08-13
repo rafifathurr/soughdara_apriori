@@ -99,11 +99,11 @@ class AnalysisControllers extends Controller
         }
 
         // kombinasi 2 item set
-        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
+        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
             $transaksiProdukA = $qProdA -> total_transaksi;
-            $qProdukB = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
+            $qProdukB = Support::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
             foreach($qProdukB as $qProdB){
                 $kdProdukB = $qProdB -> id_product;
                 $jumB = Kombinasi::where('kd_analysis', $kd_analysis)->where('id_product_a', $kdProdukB) -> count();
@@ -124,17 +124,19 @@ class AnalysisControllers extends Controller
                             $kdKombinasi = mt_rand();
                         }
 
-                        $kombinasi_process_1 = Kombinasi::create([
-                            'kd_analysis' => $kd_analysis,
-                            'kd_kombinasi' => $kdKombinasi,
-                            'id_product_a' => $kdProdukA,
-                            'id_product_b' => $kdProdukB,
-                            'jumlah_transaksi' => 0,
-                            'total_transaksi_product_a' => $transaksiProdukA,
-                            'support' => 0,
-                            'confidence' => 0,
-                            'created_at' => $datenow
-                        ]);
+                        if($transaksiProdukA != 0){
+                            $kombinasi_process_1 = Kombinasi::create([
+                                'kd_analysis' => $kd_analysis,
+                                'kd_kombinasi' => $kdKombinasi,
+                                'id_product_a' => $kdProdukA,
+                                'id_product_b' => $kdProdukB,
+                                'jumlah_transaksi' => 0,
+                                'total_transaksi_product_a' => $transaksiProdukA,
+                                'support' => 0,
+                                'confidence' => 0,
+                                'created_at' => $datenow
+                            ]);
+                        }
                     }
                 }
             }
@@ -165,51 +167,32 @@ class AnalysisControllers extends Controller
                     $fnTransaksi++;
                 }
             }
-            $support = ($fnTransaksi / $totalProduk) * 100;
-            $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
-                'jumlah_transaksi' => $fnTransaksi,
-                'support' => $support
-            ]);
-        }
+            if($fnTransaksi != 0){
+                $support = ($fnTransaksi / $totalProduk) * 100;
+                $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
+                    'jumlah_transaksi' => $fnTransaksi,
+                    'support' => $support
+                ]);
 
-        // kombinasi 2 itemset phase 2
-        $nilaiKombinasi = Kombinasi::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
-        foreach($nilaiKombinasi as $nk){
-            $kdKombinasi = $nk -> kd_kombinasi;
-            $kdBarangA = $nk -> id_product_a;
-            $kdBarangB = $nk -> id_product_b;
-            $transaksiProdukA = $nk -> total_transaksi_product_a;
-
-            // cari total transaksi
-            $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
-                            ->whereYear('orders_new.date', $year)
-                            ->whereMonth('orders_new.date', $month)
-                            ->whereNull('orders_new.deleted_at')
-                            ->whereNull('details_order.deleted_at')
-                            ->distinct()
-                            ->get(['details_order.id_order']);
-            $fnTransaksi = 0;
-            foreach($dataFaktur as $faktur){
-                $noFaktur = $faktur -> id_order;
-                $qBonTransaksiA = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangA) -> count();
-                $qBonTransaksiB = Details::where('id_order', $noFaktur) -> where('id_product', $kdBarangB) -> count();
-                if($qBonTransaksiA == 1 && $qBonTransaksiB == 1){
-                    $fnTransaksi++;
+                if($transaksiProdukA != 0){
+                    $confidence = ($fnTransaksi / $transaksiProdukA) * 100;
+                    $kombinasi_proses_3 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
+                        'confidence' => $confidence
+                    ]);
                 }
+
+            }else{
+                $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> delete();
             }
-            $confidence = ($fnTransaksi / $transaksiProdukA) * 100;
-            $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
-                'confidence' => $confidence
-            ]);
         }
 
-        if( $store_analysis && $support_process && $kombinasi_process_1 && $kombinasi_proses_2){
+        if( $store_analysis && $support_process && $kombinasi_process_1 && $kombinasi_proses_2 && $kombinasi_proses_3){
             $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
             $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
-            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('confidence', '>=', $min_confidence) -> orderBy('confidence', 'desc') -> get();
+            $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> where('confidence', '>=', $min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
             $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
@@ -259,7 +242,7 @@ class AnalysisControllers extends Controller
         $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
-        $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('confidence', '>=', $dataPengujian->min_confidence) -> orderBy('confidence', 'desc') -> get();
+        $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> where('confidence', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)

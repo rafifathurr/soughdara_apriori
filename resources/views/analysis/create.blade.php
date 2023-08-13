@@ -154,6 +154,7 @@
                                                 <th>Produk A</th>
                                                 <th>Produk B</th>
                                                 <th>Jumlah Transaksi</th>
+                                                <th>Jumlah Transaksi Produk A</th>
                                                 <th>Perhitungan Confidence</th>
                                                 <th>Confidence</th>
                                                 <th>Hasil</th>
@@ -166,6 +167,7 @@
                                                     <td>{{ $is->dataProduk($is->id_product_a)->product_name}}</td>
                                                     <td>{{ $is->dataProduk($is->id_product_b)->product_name }}</td>
                                                     <td>{{ $is->jumlah_transaksi }}</td>
+                                                    <td>{{ $is->total_transaksi_product_a }}</td>
                                                     <td>( {{ $is->jumlah_transaksi }} / {{ $is->total_transaksi_product_a }} ) * 100
                                                     </td>
                                                     <td>{{ $is->confidence }}</td>
@@ -192,6 +194,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Pola</th>
+                                                <th>Support</th>
                                                 <th>Confidence</th>
                                             </tr>
                                         </thead>
@@ -205,6 +208,7 @@
                                                         maka pelanggan juga akan membeli produk
                                                         <b>{{ $is->dataProduk($is->id_product_b)->product_name }}</b>
                                                     </td>
+                                                    <td>{{ $is->support }} %</td>
                                                     <td>{{ $is->confidence }} %</td>
                                                 </tr>
                                             @endforeach
