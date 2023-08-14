@@ -99,7 +99,7 @@ class AnalysisControllers extends Controller
         }
 
         // kombinasi 2 item set
-        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
+        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
             $transaksiProdukA = $qProdA -> total_transaksi;
@@ -189,7 +189,6 @@ class AnalysisControllers extends Controller
         if( $store_analysis && $support_process && $kombinasi_process_1 && $kombinasi_proses_2 && $kombinasi_proses_3){
             $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
             $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-            $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> where('confidence', '>=', $min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
@@ -213,7 +212,6 @@ class AnalysisControllers extends Controller
                 'dataSupport' => $dataSupportProduk,
                 'totalProduk' => $totalProduk,
                 'dataPengujian' => $dataPengujian,
-                'dataMinSupport' => $dataMinSupp,
                 'dataKombinasiItemset' => $dataKombinasiItemset,
                 'dataKombinasiItemsetConfidence' => $dataKombinasiItemsetConfidence,
                 'dataMinConfidence' => $dataMinConfidence,
@@ -239,7 +237,6 @@ class AnalysisControllers extends Controller
     public function detail($kd_analysis){
         $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
         $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-        $dataMinSupp = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
         $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> where('confidence', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
@@ -262,7 +259,6 @@ class AnalysisControllers extends Controller
             'dataSupport' => $dataSupportProduk,
             'totalProduk' => $totalProduk,
             'dataPengujian' => $dataPengujian,
-            'dataMinSupport' => $dataMinSupp,
             'dataKombinasiItemset' => $dataKombinasiItemset,
             'dataKombinasiItemsetConfidence' => $dataKombinasiItemsetConfidence,
             'dataMinConfidence' => $dataMinConfidence,

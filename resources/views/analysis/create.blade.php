@@ -88,7 +88,7 @@
                                                         {{ $totalProduk }})
                                                         * 100
                                                     </td>
-                                                    <td>{{ $supp->support }}</td>
+                                                    <td>{{ $supp->support }} %</td>
                                                     <td>
                                                         @if($supp->support>=$min_support)
                                                         <span style="color:green;">Lulus</span>
@@ -128,7 +128,7 @@
                                                     <td>{{ $is->jumlah_transaksi }}</td>
                                                     <td>( {{ $is->jumlah_transaksi }} / {{ $totalProduk }} ) * 100
                                                     </td>
-                                                    <td>{{ $is->support }}</td>
+                                                    <td>{{ $is->support }} %</td>
                                                     <td>
                                                         @if($is->support>=$min_support)
                                                         <span style="color:green;">Lulus</span>
@@ -170,7 +170,7 @@
                                                     <td>{{ $is->total_transaksi_product_a }}</td>
                                                     <td>( {{ $is->jumlah_transaksi }} / {{ $is->total_transaksi_product_a }} ) * 100
                                                     </td>
-                                                    <td>{{ $is->confidence }}</td>
+                                                    <td>{{ $is->confidence }} %</td>
                                                     <td>
                                                         @if($is->confidence>=$min_confidence)
                                                         <span style="color:green;">Lulus</span>
