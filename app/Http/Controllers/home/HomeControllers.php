@@ -44,7 +44,7 @@ class HomeControllers extends Controller
             $menus = Product::whereIn('id', $selected_product)->whereNull('deleted_at')->get();
 
             return view('home.index', [
-                "title" => "Best Seller",
+                "title" => "Recommendation",
                 "category" => $category,
                 "menus" => $menus,
                 "packages"=> $confidence_check
@@ -53,7 +53,7 @@ class HomeControllers extends Controller
         }else{
 
             return view('home.index', [
-                "title" => "Best Seller",
+                "title" => "Recommendation",
                 "category" => $category
             ]);
 
