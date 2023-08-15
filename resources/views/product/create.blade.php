@@ -87,7 +87,7 @@
                                                     <input type="file" id="uploads" name="uploads" class="form-control"
                                                         accept=".png, .jpg, .jpeg">
                                                     <br>
-                                                    @if(isset($products))    
+                                                    @if(isset($products))
                                                         @if($products->upload != null)
                                                             <?php
                                                             $newtext = wordwrap($products->upload, 50, "<br>", true);
@@ -95,7 +95,7 @@
                                                             $explode = explode("_",$products->upload);
                                                             $changename = str_replace( $explode[0]."_","",$products->upload);
                                                             ?>
-                                                            <a href="{{url('/').'/Uploads/Product/'.$products->id.'/uploads/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a>
+                                                            <a href="{{url('/').'/Uploads/Product/'.$products->id.'/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a>
                                                             <br>
                                                             <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                         @else
@@ -105,7 +105,7 @@
                                                         <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                     @endif
                                                 @else
-                                                    @if(isset($products))    
+                                                    @if(isset($products))
                                                         @if($products->upload != null)
                                                             <?php
                                                             $newtext = wordwrap($products->upload, 50, "<br>", true);
