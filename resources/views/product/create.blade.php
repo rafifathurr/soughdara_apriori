@@ -113,7 +113,7 @@
                                                             $explode = explode("_",$products->upload);
                                                             $changename = str_replace( $explode[0]."_","",$products->upload);
                                                             ?>
-                                                            <a href="{{url('/').'/Uploads/Product/'.$products->id.'/uploads/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a><br>
+                                                            <a href="{{url('/').'/Uploads/Product/'.$products->id.'/'.$products->upload}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> &nbsp;<?php echo $changename; ?> </a><br>
                                                         @else
                                                             <span style="font-size: 13px;color: red">*) .png .jpg .jpeg</span>
                                                         @endif
