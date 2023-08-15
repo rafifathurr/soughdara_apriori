@@ -99,6 +99,7 @@ class AnalysisControllers extends Controller
                             ->wheredate('orders_new.date', $date)
                             ->whereNull('orders_new.deleted_at')
                             ->whereNull('details_order.deleted_at')
+                            ->groupBy('details_order.id_product')
                             ->get();
             $totalTransaksi = count($get_transaksi);
             $nSupport = ($totalTransaksi / $totalProduk) * 100;
@@ -160,8 +161,8 @@ class AnalysisControllers extends Controller
 
                     foreach($dataFaktur as $faktur){
                         $noFaktur = $faktur -> id_order;
-                        $qBonTransaksiA = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukA) -> get();
-                        $qBonTransaksiB = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukB) -> get();
+                        $qBonTransaksiA = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukA) -> groupBy('details_order.id_product') -> get();
+                        $qBonTransaksiB = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukB) -> groupBy('details_order.id_product') -> get();
                         if(!is_null($qBonTransaksiA) && !is_null($qBonTransaksiB)){
                             $fnTransaksi++;
                         }
