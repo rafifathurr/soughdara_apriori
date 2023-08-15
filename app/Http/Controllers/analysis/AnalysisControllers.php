@@ -99,7 +99,6 @@ class AnalysisControllers extends Controller
                             ->wheredate('orders_new.date', $date)
                             ->whereNull('orders_new.deleted_at')
                             ->whereNull('details_order.deleted_at')
-                            ->groupBy('details_order.id_product')
                             ->get();
             $totalTransaksi = count($get_transaksi);
             $nSupport = ($totalTransaksi / $totalProduk) * 100;
@@ -116,7 +115,7 @@ class AnalysisControllers extends Controller
         }
 
         // kombinasi 2 item set
-        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> whereNull('deleted_at') -> get();
+        $qProdukA = Support::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
             $kdProdukA = $qProdA -> id_product;
             $transaksiProdukA = $qProdA -> total_transaksi;
@@ -161,9 +160,9 @@ class AnalysisControllers extends Controller
 
                     foreach($dataFaktur as $faktur){
                         $noFaktur = $faktur -> id_order;
-                        $qBonTransaksiA = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukA) -> get();
-                        $qBonTransaksiB = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> select('details_order.id_product') -> wheredate('orders_new.date', $date) -> where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukB) -> get();
-                        if(!is_null($qBonTransaksiA) && !is_null($qBonTransaksiB)){
+                        $qBonTransaksiA = Details::where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukA) -> count();
+                        $qBonTransaksiB = Details::where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukB) -> count();
+                        if($qBonTransaksiA == 1 && $qBonTransaksiB == 1){
                             $fnTransaksi++;
                         }
                     }

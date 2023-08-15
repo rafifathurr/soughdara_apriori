@@ -81,9 +81,9 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $supp->dataProduk($supp->id_product)->product_name }}
                                                     </td>
-                                                    <td>{{ $supp->totalTransaksi($supp->id_product) }}</td>
+                                                    <td>{{ $supp->total_transaksi }}</td>
                                                     <td>
-                                                        ({{ $supp->totalTransaksi($supp->id_product) }} /
+                                                        ({{ $supp->total_transaksi }} /
                                                         {{ $totalProduk }})
                                                         * 100
                                                     </td>
