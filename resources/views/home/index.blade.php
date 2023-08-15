@@ -23,7 +23,7 @@
                        @foreach($menus as $menu)
                        <div class="col-md-4">
                            <div class="card card-post card-round">
-                               <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id.'/uploads/'.$menu->upload)}}" alt="Card image cap">
+                               <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id.'/'.$menu->upload)}}" alt="Card image cap">
                                <div class="card-body">
                                    <div class="d-flex justify-content-center">
                                        <center>
@@ -50,10 +50,10 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-5">
-                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_a.'/uploads/'.$menu->dataProduk($menu->id_product_a)->upload)}}" alt="Card image cap">
+                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_a.'/'.$menu->dataProduk($menu->id_product_a)->upload)}}" alt="Card image cap">
                                     </div>
                                     <div class="col-md-5">
-                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_b.'/uploads/'.$menu->dataProduk($menu->id_product_b)->upload)}}" alt="Card image cap">
+                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_b.'/'.$menu->dataProduk($menu->id_product_b)->upload)}}" alt="Card image cap">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">

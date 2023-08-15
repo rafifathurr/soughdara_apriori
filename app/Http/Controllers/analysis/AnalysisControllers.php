@@ -213,7 +213,7 @@ class AnalysisControllers extends Controller
             $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
             $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-            $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
+            $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('confidence', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> where('confidence', '>=', $min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
             $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
@@ -259,7 +259,7 @@ class AnalysisControllers extends Controller
         $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();
         $dataSupportProduk = Support::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
         $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
-        $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('confidence', 'desc') -> get();
+        $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> orderBy('confidence', 'desc') -> get();
         $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $dataPengujian->min_support) -> where('confidence', '>=', $dataPengujian->min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
