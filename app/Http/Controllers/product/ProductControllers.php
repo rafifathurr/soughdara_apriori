@@ -58,7 +58,7 @@ class ProductControllers extends Controller
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
             $uploadfile = Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
-            chmod($uploadfile, 0777);
+            chmod($uploadfile, 777);
             Product::where('id', $product_pay->id)->update(['upload' => $name_file]);
         }
 
@@ -111,7 +111,8 @@ class ProductControllers extends Controller
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
-            Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
+            $uploadfile = Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
+            chmod($uploadfile, 777);
             Product::where('id', $req->id)->update(['upload' => $name_file]);
           }
 
