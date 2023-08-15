@@ -158,8 +158,8 @@ class AnalysisControllers extends Controller
 
                     foreach($dataFaktur as $faktur){
                         $noFaktur = $faktur -> id_order;
-                        $qBonTransaksiA = Details::where('id_order', $noFaktur) -> where('id_product', $kdProdukA) -> count();
-                        $qBonTransaksiB = Details::where('id_order', $noFaktur) -> where('id_product', $kdProdukB) -> count();
+                        $qBonTransaksiA = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> wheredate('orders_new.date', $date) -> where('id_order', $noFaktur) -> where('id_product', $kdProdukA) -> count();
+                        $qBonTransaksiB = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order') -> wheredate('orders_new.date', $date) -> where('id_order', $noFaktur) -> where('id_product', $kdProdukB) -> count();
                         if($qBonTransaksiA == 1 && $qBonTransaksiB == 1){
                             $fnTransaksi++;
                         }
