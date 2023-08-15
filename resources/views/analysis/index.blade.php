@@ -52,7 +52,7 @@
                                                     <center>Year</center>
                                                 </th>
                                                 <th width="15%">
-                                                    <center>Month</center>
+                                                    <center>Date</center>
                                                 </th>
                                                 <th width="15%">
                                                     <center>Min Support</center>
@@ -75,9 +75,7 @@
                                                         <center>{{ $data->year }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>
-                                                            {{ $monthName = date('F', mktime(0, 0, 0, $data->month, 1)) }}
-                                                        </center>
+                                                        <center>{{ $data->date }}</center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_support }}</center>
@@ -155,17 +153,10 @@
             const div = document.createElement("div");
             $(div).html(
                 "<input name='_token' value='{{ csrf_token() }}' type='hidden'>" +
-                "<select id='tahun' name='tahun' onchange='getMonth()' class='form-control'>" +
-                "<option value='' style='display: none;' selected=''>- Choose Year -</option>" +
-                "@foreach ($years as $year)" +
-                "<option value='{{ $year->year }}'>{{ $year->year }}</option>" +
-                "@endforeach" +
-                "</select><br><br>" +
-                "<select id='bulan' name='month' class='form-control' disabled>" +
-                "<option value='' style='display: none;' selected=''>- Choose Month -</option>" +
-                "</select><br><br>"+
-                "<input type='number' placeholder='Min Support' class='form-control' id='min_support' disabled><br><br>"+
-                "<input type='number' placeholder='Min Confidence' class='form-control' id='min_confidence' disabled><br>"
+                "<input type='date' id='date_analysis' class='form-control' min='{{ $min_date }}' max='{{ $max_date }}'>"+
+                "<br><br>"+
+                "<input type='number' placeholder='Min Support' class='form-control' id='min_support'><br><br>"+
+                "<input type='number' placeholder='Min Confidence' class='form-control' id='min_confidence'><br>"
             );
             swal({
                 title: "Add Analysis Process Order",
@@ -173,13 +164,12 @@
                 buttons: [true, "Process and Save"]
             }).then((result) => {
                 if (result == true) {
-                    if ($('#tahun').val() != '' && $('#bulan').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
-                        tahun = $("#tahun").val();
-                        bulan = $("#bulan").val();
+                    if ($('#date_analysis').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
+                        date = $("#date_analysis").val();
                         support = $("#min_support").val();
                         confidence = $("#min_confidence").val();
                         window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
-                            bulan + "/" + tahun + "/" + support + "/" + confidence;
+                             date + "/" + support + "/" + confidence;
                     } else {
                         swal({
                             icon: 'warning',

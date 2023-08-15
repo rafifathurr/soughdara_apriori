@@ -21,8 +21,7 @@
                         <div class="box box-primary">
                             <div class="box-body">
 
-                                <input type="hidden" name="year" value={{ $tahun }}>
-                                <input type="hidden" name="month" value={{ $bulan }}>
+                                <input type="hidden" name="date" value={{ $date }}>
 
                                 @if(isset($success))
                                     <div id="message-container">

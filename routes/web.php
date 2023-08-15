@@ -57,7 +57,7 @@ Route::namespace('App\Http\Controllers')->group(function (){
         // ROUTE TO ANALYSIS CONTROLLERS
         Route::namespace('analysis')->prefix('analysis')->name('analysis.')->group(function () {
             Route::get('/', 'AnalysisControllers@index')->name('index');
-            Route::get('create/{month}/{year}/{support}/{confidence}', 'AnalysisControllers@create')->name('create');
+            Route::get('create/{date}/{support}/{confidence}', 'AnalysisControllers@create')->name('create');
             Route::post('getMonth', 'AnalysisControllers@getMonth')->name('getMonth');
             Route::post('store', 'AnalysisControllers@store')->name('store');
             Route::post('delete', 'AnalysisControllers@delete')->name('delete');
