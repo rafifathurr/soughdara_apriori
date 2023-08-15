@@ -93,12 +93,14 @@ class AnalysisControllers extends Controller
 
         foreach($dataProduk as $produk){
             $id_product = $produk -> id;
-            $totalTransaksi = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
+            $get_transaksi = Details::select('details_order.id_product')
+                            ->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                             ->where('details_order.id_product', $id_product)
                             ->wheredate('orders_new.date', $date)
                             ->whereNull('orders_new.deleted_at')
                             ->whereNull('details_order.deleted_at')
-                            ->count();
+                            ->get();
+            $totalTransaksi = count($get_transaksi);
             $nSupport = ($totalTransaksi / $totalProduk) * 100;
 
             if($nSupport != 0){
