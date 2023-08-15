@@ -57,7 +57,8 @@ class ProductControllers extends Controller
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
-            Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
+            $uploadfile = Storage::disk('Uploads')->putFileAs($destination,$file,$name_file);
+            chmod($uploadfile, 0777);
             Product::where('id', $product_pay->id)->update(['upload' => $name_file]);
         }
 
