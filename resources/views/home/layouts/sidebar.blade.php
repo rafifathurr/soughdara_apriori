@@ -34,7 +34,7 @@
                     </span>
                     <h4 class="text-section">Recommendation</h4>
                 </li>
-                <li class="nav-item {{ $title === "Best Seller" ? 'active' : '' }}">
+                <li class="nav-item {{ $title === "Recommendation" ? 'active' : '' }}">
                     <a href="{{ route('menu') }}" aria-expanded="false">
                         <i class="fa fa-thumbs-up"></i>
                         <p>Recommendation</p>

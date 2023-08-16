@@ -53,7 +53,7 @@ class ProductControllers extends Controller
             'created_by' => Auth::user()->id
         ]);
 
-        $destination='Uploads/Product/'.$product_pay->id.'\\';
+        $destination='Uploads/Product/';
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
@@ -106,7 +106,7 @@ class ProductControllers extends Controller
             'updated_by' => Auth::user()->id
         ]);
 
-        $destination='Uploads/Product/'.$req->id.'\\';
+        $destination='Uploads/Product/';
         if ($req->hasFile('uploads')) {
             $file = $req->file('uploads');
             $name_file = time().'_'.$req->file('uploads')->getClientOriginalName();
