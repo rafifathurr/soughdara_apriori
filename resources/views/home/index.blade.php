@@ -53,7 +53,7 @@
                                         <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->dataProduk($menu->id_product_a)->upload)}}" alt="Card image cap">
                                     </div>
                                     <div class="col-md-5">
-                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->id_product_b.'/'.$menu->dataProduk($menu->id_product_b)->upload)}}" alt="Card image cap">
+                                        <img class="card-img-top" src="{{asset('Uploads/Product/'.$menu->dataProduk($menu->id_product_b)->upload)}}" alt="Card image cap">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
