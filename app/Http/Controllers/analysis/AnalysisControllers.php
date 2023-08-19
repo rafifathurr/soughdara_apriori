@@ -77,7 +77,7 @@ class AnalysisControllers extends Controller
         $totalProduk = count($totalProduk);
 
         if($totalProduk == 0){
-            Session::flash('gagal', 'Tidak Terdapat Data Order');
+            return redirect()->back()->with(['gagal' => 'Tidak Terdapat Data Order!']);
         }
 
         $kd_analysis = mt_rand();
