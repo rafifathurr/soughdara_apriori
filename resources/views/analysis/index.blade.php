@@ -20,7 +20,7 @@
                     <!-- Button -->
                     <div class="d-flex">
                         @if (Auth::guard('admin')->check())
-                            <a class="btn btn-add btn-round ml-auto mb-3" id="add_analysis" href="#">
+                            <a class="btn btn-add btn-round ml-auto mb-3" data-toggle="modal" data-target="#addAnalysis" style="color:white;">
                                 <i class="fa fa-plus"></i>
                                 Add Analysis Process
                             </a>
@@ -49,16 +49,19 @@
                                                     <center>No</center>
                                                 </th>
                                                 <th width="15%">
-                                                    <center>Year</center>
+                                                    <center>Date From</center>
                                                 </th>
                                                 <th width="15%">
-                                                    <center>Date</center>
+                                                    <center>Date To</center>
                                                 </th>
                                                 <th width="15%">
                                                     <center>Min Support</center>
                                                 </th>
                                                 <th width="15%">
                                                     <center>Min Confidence</center>
+                                                </th>
+                                                <th width="15%">
+                                                    <center>Total Transaksi</center>
                                                 </th>
                                                 <th width="15%">
                                                     <center>Action</center>
@@ -72,16 +75,19 @@
                                                         <center>{{ $key + 1 }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $data->year }}</center>
+                                                        <center>{{ $data->datefrom }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $data->date }}</center>
+                                                        <center>{{ $data->dateto }}</center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_support }}</center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_confidence }}</center>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        <center>{{ $data->total_transaction }}</center>
                                                     </td>
                                                     <td>
                                                         <center>
@@ -119,8 +125,44 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="addAnalysis" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><b>Add Analysis</b></h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Tanggal <span style="color: red;">*</span></label>
+                                <input type='text' id="date_analysis" name='dates' class ='form-control' value='' />
+                            </div>
+                            <div class="form-group">
+                                <label>Min Support <span style="color: red;">*</span></label>
+                                <input type='number' class='form-control' id='min_support'>
+                            </div>
+                            <div class="form-group">
+                                <label>Min Confidence <span style="color: red;">*</span></label>
+                                <input type='number' class='form-control' id='min_confidence'>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button id='add_analysis' class="btn btn-primary" data-dismiss="modal">Simpan</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             @include('layouts.footer')
             <script src="{{ asset('js/app/table.js') }}"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         </div>
     </div>
 </body>
@@ -149,38 +191,65 @@
     }
 
     $(document).ready(function() {
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+
+
         $('#add_analysis').on('click', function() {
-            const div = document.createElement("div");
-            $(div).html(
-                "<input name='_token' value='{{ csrf_token() }}' type='hidden'>" +
-                "<input type='date' id='date_analysis' class='form-control' min='{{ $min_date }}' max='{{ $max_date }}'>"+
-                "<br><br>"+
-                "<input type='number' placeholder='Min Support' class='form-control' id='min_support'><br><br>"+
-                "<input type='number' placeholder='Min Confidence' class='form-control' id='min_confidence'><br>"
-            );
-            swal({
-                title: "Add Analysis Process Order",
-                content: div,
-                buttons: [true, "Process and Save"]
-            }).then((result) => {
-                if (result == true) {
-                    if ($('#date_analysis').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
-                        date = $("#date_analysis").val();
-                        support = $("#min_support").val();
-                        confidence = $("#min_confidence").val();
-                        window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
-                             date + "/" + support + "/" + confidence;
-                    } else {
-                        swal({
-                            icon: 'warning',
-                            title: 'Oops !',
-                            button: false,
-                            text: 'Please Complete The Data!',
-                            timer: 1500
-                        });
-                    }
-                }
-            })
+            // const div = document.createElement("div");
+            // $(div).html(
+            //     "<input name='_token' value='{{ csrf_token() }}' type='hidden'>" +
+            //     "<input type='text' name='dates' class ='form-control' value='' />"+
+            //     "<br><br>"+
+            //     "<input type='number' placeholder='Min Support' class='form-control' id='min_support'><br><br>"+
+            //     "<input type='number' placeholder='Min Confidence' class='form-control' id='min_confidence'><br>"
+            // );
+            // $('input[name="dates"]').daterangepicker();
+            // swal({
+            //     title: "Add Analysis Process Order",
+            //     content: div,
+            //     buttons: [true, "Process and Save"]
+            // }).then((result) => {
+            //     if (result == true) {
+            //         if ($('#date_analysis').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
+            //             date = $("#date_analysis").val();
+            //             support = $("#min_support").val();
+            //             confidence = $("#min_confidence").val();
+            //             window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
+            //                  date + "/" + support + "/" + confidence;
+            //         } else {
+            //             swal({
+            //                 icon: 'warning',
+            //                 title: 'Oops !',
+            //                 button: false,
+            //                 text: 'Please Complete The Data!',
+            //                 timer: 1500
+            //             });
+            //         }
+            //     }
+            // })
+
+            if ($('#date_analysis').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
+                date = $("#date_analysis").val();
+                support = $("#min_support").val();
+                confidence = $("#min_confidence").val();
+
+                date = date.split(' - ')
+
+                window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
+                        date[0] + "/" + date[1] + "/" + support + "/" + confidence;
+            } else {
+                swal({
+                    icon: 'warning',
+                    title: 'Oops !',
+                    button: false,
+                    text: 'Please Complete The Data!',
+                    timer: 1500
+                });
+            }
         })
     });
 

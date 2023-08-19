@@ -21,8 +21,6 @@
                         <div class="box box-primary">
                             <div class="box-body">
 
-                                <input type="hidden" name="date" value={{ $date }}>
-
                                 @if(isset($success))
                                     <div id="message-container">
                                         <div class="row">

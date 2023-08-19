@@ -39,7 +39,7 @@ class AnalysisControllers extends Controller
                 ->whereNull('deleted_at')
                 ->groupBy('year')
                 ->get();
-        $analysis = Analysis::whereNull('deleted_at')->orderBy('month', 'desc')->orderBy('year', 'desc')->orderBy('id','desc')->get();
+        $analysis = Analysis::whereNull('deleted_at')->orderBy('datefrom', 'desc')->orderBy('dateto', 'desc')->orderBy('id','desc')->get();
         $get_min = Orders::select('date')
                     ->whereNull('deleted_at')
                     ->whereYear('date', $year_now)
@@ -59,11 +59,27 @@ class AnalysisControllers extends Controller
             "max_date" => $get_max->date
         ]);
     }
-    public function create($date, $min_support, $min_confidence)
+    public function create($datefrom, $dateto, $min_support, $min_confidence)
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
-        $yeardate = date('Y', strtotime($date));
+        // $yeardate = date('Y', strtotime($date));
+
+        // CHECK DATA FIRST
+        $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
+                    ->join('product', 'product.id', '=', 'details_order.id_product')
+                    ->where('product.category_id', '!=', 3)
+                    ->wherebetween('orders_new.date', [$datefrom, $dateto])
+                    ->whereNull('orders_new.deleted_at')
+                    ->whereNull('details_order.deleted_at')
+                    ->groupBy('details_order.id_order')
+                    ->get();
+        $totalProduk = count($totalProduk);
+
+        if($totalProduk == 0){
+            Session::flash('gagal', 'Tidak Terdapat Data Order');
+        }
+
         $kd_analysis = mt_rand();
         $check = Analysis::where('kd_analysis', $kd_analysis)->first();
 
@@ -72,23 +88,15 @@ class AnalysisControllers extends Controller
         }else{
             $store_analysis = Analysis::create([
                 'kd_analysis' => $kd_analysis,
-                'year' => $yeardate,
-                'date' => $date,
+                'datefrom' => $datefrom,
+                'dateto' => $dateto,
                 'min_support' => $min_support,
                 'min_confidence' => $min_confidence,
+                'total_transaction' => $totalProduk,
                 'created_at' => $datenow
             ]);
         }
 
-        $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
-                    ->join('product', 'product.id', '=', 'details_order.id_product')
-                    ->where('product.category_id', '!=', 3)
-                    ->wheredate('orders_new.date', $date)
-                    ->whereNull('orders_new.deleted_at')
-                    ->whereNull('details_order.deleted_at')
-                    ->groupBy('details_order.id_order')
-                    ->get();
-        $totalProduk = count($totalProduk);
         $dataProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->get();
 
         foreach($dataProduk as $produk){
@@ -96,7 +104,7 @@ class AnalysisControllers extends Controller
             $get_transaksi = Details::select('details_order.id_product')
                             ->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                             ->where('details_order.id_product', $id_product)
-                            ->wheredate('orders_new.date', $date)
+                            ->wherebetween('orders_new.date', [$datefrom, $dateto])
                             ->whereNull('orders_new.deleted_at')
                             ->whereNull('details_order.deleted_at')
                             ->get();
@@ -150,7 +158,7 @@ class AnalysisControllers extends Controller
                     // }
 
                     $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
-                            ->wheredate('orders_new.date', $date)
+                            ->wherebetween('orders_new.date', [$datefrom, $dateto])
                             ->whereNull('orders_new.deleted_at')
                             ->whereNull('details_order.deleted_at')
                             ->distinct()
@@ -218,7 +226,7 @@ class AnalysisControllers extends Controller
             $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
-                    ->wheredate('orders_new.date', $date)
+                    ->wherebetween('orders_new.date', [$datefrom, $dateto])
                     ->whereNull('orders_new.deleted_at')
                     ->whereNull('details_order.deleted_at')
                     ->groupBy('details_order.id_order')
@@ -226,10 +234,9 @@ class AnalysisControllers extends Controller
             $totalProduk = count($totalProduk);
             $data = [
                 'success' => true,
-                'title' => "Analysis of ".$date."",
+                'title' => "Analysis of ".$datefrom." - ".$dateto."",
                 'min_support' => $min_support,
                 'min_confidence' => $min_confidence,
-                'date' => $date,
                 'dataSupport' => $dataSupportProduk,
                 'totalProduk' => $totalProduk,
                 'dataPengujian' => $dataPengujian,
