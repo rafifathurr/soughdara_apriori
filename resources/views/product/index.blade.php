@@ -74,16 +74,15 @@
                                                         <center>{{ $key + 1 }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $prod->product_name }}</center>
+                                                        {{ $prod->product_name }}
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>
                                                             <img src="{{asset('Uploads/Product/'.$prod->upload)}}" style="padding:20px;" width="50%" alt="">
                                                         </center>
                                                     </td>
-                                                    <td class="sorting_1">
-                                                        <center>Rp. {{ number_format($prod->price, 0, ',', '.') }}
-                                                        </center>
+                                                    <td class="sorting_1" style="text-align:right;">
+                                                        Rp. {{ number_format($prod->price, 0, ',', '.') }}
                                                     </td>
                                                     <td>
                                                         <center>

@@ -86,7 +86,7 @@
                                                         <center>{{ $key+1 }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $order->receipt_number }}</center>
+                                                        {{ $order->receipt_number }}
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>
@@ -105,11 +105,11 @@
                                                     <td class="sorting_1">
                                                         <center>{{ $order->event_type }}</center>
                                                     </td>
-                                                    <td class="sorting_1">
+                                                    <td class="sorting_1" style="text-align:right;">
                                                         @if($order->event_type == "Payment")
-                                                            <center>Rp. {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
+                                                            Rp. {{ number_format($order->total_amount, 0, ',', '.') }},-
                                                         @else
-                                                            <center>Rp. - {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
+                                                            Rp. - {{ number_format($order->total_amount, 0, ',', '.') }},-
                                                         @endif
                                                     </td>
                                                     <td>
