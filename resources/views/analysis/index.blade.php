@@ -196,6 +196,9 @@
             locale: {
                 format: 'YYYY-MM-DD'
             }
+            dateLimit: {
+                'days': 7
+            }
         });
 
 

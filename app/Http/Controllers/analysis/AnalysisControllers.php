@@ -245,7 +245,7 @@ class AnalysisControllers extends Controller
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
-                    ->wheredate('orders_new.date', $dataPengujian->date)
+                    ->whereBetween('orders_new.date', [$dataPengujian->datefrom, $dataPengujian->dateto])
                     ->whereNull('orders_new.deleted_at')
                     ->whereNull('details_order.deleted_at')
                     ->groupBy('details_order.id_order')
