@@ -69,6 +69,7 @@ class AnalysisControllers extends Controller
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
+                    ->where('orders_new.event_type', 'Payment')
                     ->wherebetween('orders_new.date', [$datefrom, $dateto])
                     ->whereNull('orders_new.deleted_at')
                     ->whereNull('details_order.deleted_at')
@@ -107,6 +108,7 @@ class AnalysisControllers extends Controller
             $id_product = $produk -> id;
             $get_transaksi = Details::select('details_order.id_product')
                             ->join('orders_new', 'orders_new.id', '=','details_order.id_order')
+                            ->where('orders_new.event_type', 'Payment')
                             ->where('details_order.id_product', $id_product)
                             ->wherebetween('orders_new.date', [$datefrom, $dateto])
                             ->whereNull('orders_new.deleted_at')
@@ -197,15 +199,6 @@ class AnalysisControllers extends Controller
             $dataKombinasiItemset = Kombinasi::where('kd_analysis', $kd_analysis) -> orderBy('support', 'desc') -> get();
             $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('confidence', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> where('confidence', '>=', $min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
-            $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
-                    ->join('product', 'product.id', '=', 'details_order.id_product')
-                    ->where('product.category_id', '!=', 3)
-                    ->wherebetween('orders_new.date', [$datefrom, $dateto])
-                    ->whereNull('orders_new.deleted_at')
-                    ->whereNull('details_order.deleted_at')
-                    ->groupBy('details_order.id_order')
-                    ->get();
-            $totalProduk = count($totalProduk);
             $data = [
                 'success' => true,
                 'title' => "Analysis of ".$datefrom." - ".$dateto."",
@@ -245,6 +238,7 @@ class AnalysisControllers extends Controller
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
                     ->join('product', 'product.id', '=', 'details_order.id_product')
                     ->where('product.category_id', '!=', 3)
+                    ->where('orders_new.event_type', 'Payment')
                     ->whereBetween('orders_new.date', [$dataPengujian->datefrom, $dataPengujian->dateto])
                     ->whereNull('orders_new.deleted_at')
                     ->whereNull('details_order.deleted_at')

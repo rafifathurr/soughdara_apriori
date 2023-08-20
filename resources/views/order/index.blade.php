@@ -98,7 +98,11 @@
                                                         <center>{{ $order->event_type }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>Rp. {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
+                                                        @if($order->event_type == "Payment")
+                                                            <center>Rp. {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
+                                                        @else
+                                                            <center>Rp. - {{ number_format($order->total_amount, 0, ',', '.') }},-</center>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <center>

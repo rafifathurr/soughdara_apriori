@@ -248,7 +248,7 @@
                                                 Back
                                             </a>
                                             <button id="save_data" type="submit" class="btn btn-primary"
-                                                style="margin-left:10px;">
+                                                style="margin-left:10px;" disabled>
                                                 <i class="fa fa-check"></i>&nbsp;
                                                 Save
                                             </button>
@@ -707,7 +707,7 @@
                                                 Back
                                             </a>
                                             <button id="save_data" type="submit" class="btn btn-primary"
-                                                style="margin-left:10px;">
+                                                style="margin-left:10px;" disabled>
                                                 <i class="fa fa-check"></i>&nbsp;
                                                 Save
                                             </button>
@@ -847,9 +847,11 @@
                 $("#icon-message").removeClass("fa-ban");
                 $("#icon-message").addClass("fa-check");
                 $("#icon-message").css("color", "green");
+                $("#save_data").attr('disabled', false);
             } else {
                 if (total_amount == 0 || total_price == 0) {
                     $("#message-container").css("display", "none");
+                    $("#save_data").attr('disabled', true);
                 } else {
                     $("#message-container").css("display", "block");
                     $("#message").text("Total Harga Product Tidak Sesuai Dengan Harga Yang Masuk!");
@@ -861,6 +863,7 @@
                     $("#icon-message").removeClass("fa-check");
                     $("#icon-message").addClass("fa-ban");
                     $("#icon-message").css("color", "red");
+                    $("#save_data").attr('disabled', true);
                 }
 
             }
