@@ -76,16 +76,19 @@ class AnalysisControllers extends Controller
                     ->get();
         $totalProduk = count($totalProduk);
 
+        // IF DATA IS EMPTY, DIRECT BACK AGAIN
         if($totalProduk == 0){
             return redirect()->back()->with(['gagal' => 'Tidak Terdapat Data Order!']);
         }
 
+        // CREATE RANDOM NUMBER
         $kd_analysis = mt_rand();
         $check = Analysis::where('kd_analysis', $kd_analysis)->first();
 
         if(!is_null($check)){
             $kd_analysis = mt_rand();
         }else{
+            // STORE ANALYSIS FIRST
             $store_analysis = Analysis::create([
                 'kd_analysis' => $kd_analysis,
                 'datefrom' => $datefrom,
@@ -97,6 +100,7 @@ class AnalysisControllers extends Controller
             ]);
         }
 
+        // PROCESSING TO INPUT SUPPORT DATA IN EACH PRODUCT
         $dataProduk = Product::where('category_id', '!=', 3)->whereNull('deleted_at')->get();
 
         foreach($dataProduk as $produk){
@@ -122,6 +126,7 @@ class AnalysisControllers extends Controller
             }
         }
 
+        // COMBINATION 2 PRODUCT
         // kombinasi 2 item set
         $qProdukA = Support::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
         foreach($qProdukA as $qProdA){
@@ -143,20 +148,6 @@ class AnalysisControllers extends Controller
                         $kdKombinasi = mt_rand();
                     }
 
-                    // if($transaksiProdukA != 0){
-                    //     $kombinasi_process_1 = Kombinasi::create([
-                    //         'kd_analysis' => $kd_analysis,
-                    //         'kd_kombinasi' => $kdKombinasi,
-                    //         'id_product_a' => $kdProdukA,
-                    //         'id_product_b' => $kdProdukB,
-                    //         'jumlah_transaksi' => 0,
-                    //         'total_transaksi_product_a' => $transaksiProdukA,
-                    //         'support' => 0,
-                    //         'confidence' => 0,
-                    //         'created_at' => $datenow
-                    //     ]);
-                    // }
-
                     $dataFaktur = Details::join('orders_new', 'orders_new.id', '=','details_order.id_order')
                             ->wherebetween('orders_new.date', [$datefrom, $dateto])
                             ->whereNull('orders_new.deleted_at')
@@ -166,6 +157,7 @@ class AnalysisControllers extends Controller
 
                     $fnTransaksi = 0;
 
+                    // CHECKING DATA IF PRODUCT A and PRODUCT B HAVE DATA IN ORDER OR NOT
                     foreach($dataFaktur as $faktur){
                         $noFaktur = $faktur -> id_order;
                         $qBonTransaksiA = Details::where('details_order.id_order', $noFaktur) -> where('details_order.id_product', $kdProdukA) -> count();
@@ -175,18 +167,12 @@ class AnalysisControllers extends Controller
                         }
                     }
 
+                    // IF HAVE DATA, INPUT TO tbl_kombinasi
                     if($transaksiProdukA != 0){
                         if($fnTransaksi != 0){
                             $support = ($fnTransaksi / $totalProduk) * 100;
-                            // $kombinasi_proses_2 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
-                            //     'jumlah_transaksi' => $fnTransaksi,
-                            //     'support' => $support
-                            // ]);
                             if($transaksiProdukA != 0){
                                 $confidence = ($fnTransaksi / $transaksiProdukA) * 100;
-                                // $kombinasi_proses_3 = Kombinasi::where('kd_analysis', $kd_analysis) -> where('kd_kombinasi', $kdKombinasi) -> update([
-                                //     'confidence' => $confidence
-                                // ]);
                                 $kombinasi_process = Kombinasi::create([
                                     'kd_analysis' => $kd_analysis,
                                     'kd_kombinasi' => $kdKombinasi,
@@ -204,18 +190,6 @@ class AnalysisControllers extends Controller
                 }
             }
         }
-
-        // kombinasi 2 itemset phase 1 (support)
-        // $nilaiKombinasi = Kombinasi::where('kd_analysis', $kd_analysis) -> whereNull('deleted_at') -> get();
-        // foreach($nilaiKombinasi as $nk){
-        //     $kdKombinasi = $nk -> kd_kombinasi;
-        //     $kdBarangA = $nk -> id_product_a;
-        //     $kdBarangB = $nk -> id_product_b;
-        //     $transaksiProdukA = $nk -> total_transaksi_product_a;
-
-        //     // cari total transaksi
-
-        // }
 
         if( $store_analysis && $support_process && $kombinasi_process){
             $dataPengujian = Analysis::where('kd_analysis', $kd_analysis) -> first();

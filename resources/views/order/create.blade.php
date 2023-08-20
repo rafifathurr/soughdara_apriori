@@ -43,10 +43,10 @@
                                         <div class="col-md-4">
                                             <label class="col-md-12">Date Order <span style="color: red;">*</span></label>
                                             <div class="col-md-12">
-                                                <input type="date" name="tgl" id="tgl" class="form-control tgl_date"
-                                                    data-date-format="DD/MM/YYYY"
-                                                    @isset($orders) value="{{ $orders->date }}" @endisset
-                                                    required {{ $disabled_ }}>
+                                                <input type="date" max="{{date('Y-m-d')}}" name="tgl" id="tgl" class="form-control tgl_date"
+                                                    autocomplete="off" data-date="" data-date-format="DD/MM/YYYY"
+                                                    @isset($orders) value="{{ $orders->date}}" @endisset
+                                                    required {{$disabled_}}>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -728,6 +728,7 @@
         var sell_price = 0;
         var base_price = 0;
 
+        // GET PRODUCT FROM SELECT GET PRODUCT
         function getDetails() {
 
             var id_prods = $("#prods").val();
@@ -750,12 +751,15 @@
 
         }
 
+        // REMOVE DATA PRODUCT FROM TABLE
         function removedata(id) {
 
+            // REMOVE PRODUCT ONLY SPECIFIC COLUMN
             if (id) {
 
                 document.getElementById(id).remove();
 
+            // DELETE ALL DATA PRODUCT TABLE
             } else {
 
                 $('#table_body').empty();
@@ -763,10 +767,12 @@
 
             }
 
+            // GET TOTAL PRICE
             allprice();
 
         }
 
+        // GET PRICE UPDATE FROM SPESIFIC QTY INPUT IN TABLE
         function price_update(e) {
 
             let id_prods = $('#product_id_' + e + '').val();
@@ -799,10 +805,12 @@
                 removeMaskOnSubmit: true
             });
 
+            // GET TOTAL PRICE
             allprice();
 
         }
 
+        // GET TOTAL PRICE FROM DATA PRODUCT
         function allprice() {
 
             let total_price = 0;
@@ -827,6 +835,7 @@
 
             });
 
+            // CHECKING IF TOTAL AMOUNT SAME AS TOTAL PRICE PRODUCT
             if (total_price == total_amount && total_price > 0 && total_amount > 0) {
                 $("#message-container").css("display", "block");
                 $("#message").text("Total Harga Product Sesuai Dengan Harga Yang Masuk!");
@@ -856,12 +865,14 @@
 
             }
 
+            // CHANGING TOTAL PRICE
             $('#total_price').val(total_price);
 
         }
 
         $(document).ready(function() {
 
+            // TO SHOW FOR ADD PRODUCT
             $("#btn-collapse").click(function() {
 
                 $("#collapse").collapse('show');
@@ -872,6 +883,7 @@
 
             });
 
+            // QTY KEYUP FUNCTION
             $('#qty').on('keyup textInput input', function() {
                 let qty = $("#qty").val();
                 let price = $("#price").val();
@@ -881,6 +893,7 @@
 
             });
 
+            // SETUP DATE INPUT ATTRIBUTE
             $("#tgl_date").on("change", function() {
                 if (this.value == "") {
                     this.setAttribute("data-date", "DD-MM-YYYY")
@@ -893,6 +906,7 @@
                 }
             }).trigger("change");
 
+            // BUTTON ADD PRODUCT TO TABLE
             $('#btn_tambahToTableUser').on('click', function() {
                 var table_body = $('#tabel_body');
 
@@ -908,6 +922,7 @@
 
                 let length = $('#product_id_' + id_product).length;
 
+                // CHECK IF DATA PRODUCT EXIST, IT WILL BE INCREASING QTY AND PRICE
                 if (data.length > 0 && length > 0) {
 
                     let id_prods = $('#product_id_' + id_product).val();
@@ -944,6 +959,7 @@
                     $('#price').val("");
                     $('#price_').val("");
 
+                // CHECK IF DATA PRODUCT NOT EXIST, IT WILL BE ADDING DATA TO TABLE
                 } else {
 
                     let price_ = $('#price').val();
@@ -981,6 +997,7 @@
 
                 }
 
+                // GET TOTAL PRICE
                 allprice();
 
                 $('#btn_tambahToTableUser').attr('disabled', true);

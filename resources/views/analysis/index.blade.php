@@ -126,6 +126,7 @@
                 </div>
             </div>
 
+            {{-- ADD ANALYSIS MODAL --}}
             <div class="modal fade" id="addAnalysis" role="dialog">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -199,6 +200,9 @@
 
 
         $('#add_analysis').on('click', function() {
+
+            // OLD FUNCTION TO ADD ANALYSIS WITH SWEET ALERT
+
             // const div = document.createElement("div");
             // $(div).html(
             //     "<input name='_token' value='{{ csrf_token() }}' type='hidden'>" +
@@ -232,6 +236,7 @@
             //     }
             // })
 
+            // NEW FUNCTION WITH MODAL
             if ($('#date_analysis').val() != '' && $("#min_support").val() != '' && $("#min_confidence").val() != '') {
                 date = $("#date_analysis").val();
                 support = $("#min_support").val();
@@ -239,8 +244,11 @@
 
                 date = date.split(' - ')
 
+                // DIRECT TO URL
                 window.location.href = "{{ url('/admin/analysis/create') }}" + "/" +
                         date[0] + "/" + date[1] + "/" + support + "/" + confidence;
+
+            // IF THE DATA NOT COMPLETE INPUTED, IT WILL BE SHOW POPUP
             } else {
                 swal({
                     icon: 'warning',
@@ -252,34 +260,6 @@
             }
         })
     });
-
-    function getMonth() {
-        var tahun = document.getElementById("tahun").value;
-        var token = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            url: "{{ route('admin.analysis.getMonth') }}",
-            type: "POST",
-            data: {
-                '_token': token,
-                'tahun': tahun
-            },
-        }).done(function(result) {
-            $('#bulan').empty();
-            $('#bulan').removeAttr('disabled');
-            $('#min_support').removeAttr('disabled');
-            $('#min_confidence').removeAttr('disabled');
-            $('#bulan').append($('<option hidden>', {
-                value: '',
-                text: '- Choose Month -'
-            }));
-            $.each(JSON.parse(result), function(i, item) {
-                $('#bulan').append($('<option>', {
-                    value: item.bulan,
-                    text: item.nama_bulan
-                }));
-            });
-        });
-    }
 </script>
 
 @include('layouts.swal')
