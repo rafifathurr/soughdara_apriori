@@ -63,6 +63,7 @@ class AnalysisControllers extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
+        ini_set('max_execution_time', 30000);
         // $yeardate = date('Y', strtotime($date));
 
         // CHECK DATA FIRST
