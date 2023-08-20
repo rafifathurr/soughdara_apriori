@@ -195,9 +195,9 @@
         $('input[name="dates"]').daterangepicker({
             locale: {
                 format: 'YYYY-MM-DD'
-            }
+            },
             dateLimit: {
-                'days': 7
+                days: '7'
             }
         });
 
