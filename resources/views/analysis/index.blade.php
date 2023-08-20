@@ -75,10 +75,28 @@
                                                         <center>{{ $key + 1 }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $data->datefrom }}</center>
+                                                        <center>
+                                                            <?php
+                                                                $time = $data->datefrom;
+                                                                $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                                                $pisah = explode(" ", $time);
+                                                                $pisahfix = explode("-", $pisah[0]);
+                                                                $blnf = $pisahfix[1] - 1;
+                                                            ?>
+                                                            {{$pisahfix[2] . " " . $bulan[$blnf] . " " . $pisahfix[0] . " " }}
+                                                        </center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $data->dateto }}</center>
+                                                        <center>
+                                                            <?php
+                                                                $time = $data->dateto;
+                                                                $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                                                $pisah = explode(" ", $time);
+                                                                $pisahfix = explode("-", $pisah[0]);
+                                                                $blnf = $pisahfix[1] - 1;
+                                                            ?>
+                                                            {{$pisahfix[2] . " " . $bulan[$blnf] . " " . $pisahfix[0] . " " }}
+                                                        </center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $data->min_support }}</center>

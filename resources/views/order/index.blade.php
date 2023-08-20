@@ -89,7 +89,15 @@
                                                         <center>{{ $order->receipt_number }}</center>
                                                     </td>
                                                     <td class="sorting_1">
-                                                        <center>{{ $order->date }}</center>
+                                                        <center>
+                                                        <?php
+                                                            $time = $order->date;
+                                                            $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                                            $pisahfix = explode("-", $time);
+                                                            $blnf = $pisahfix[1] - 1;
+                                                        ?>
+                                                        {{$pisahfix[2] . " " . $bulan[$blnf] . " " . $pisahfix[0] . " " }}
+                                                        </center>
                                                     </td>
                                                     <td class="sorting_1">
                                                         <center>{{ $order->time }}</center>
