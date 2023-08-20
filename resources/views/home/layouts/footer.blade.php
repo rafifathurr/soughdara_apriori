@@ -20,7 +20,7 @@
             </ul>
         </nav> --}}
         <div class="copyright ml-auto">
-            Copyright ©2023<a class="ml-1 txt-footer" href="#">Soughdara Donuts</a>
+            Copyright ©2023<a class="ml-1 txt-footer" href="#">Soughdara</a>
         </div>
     </div>
 </footer>
