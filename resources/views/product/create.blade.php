@@ -85,7 +85,7 @@
                                             <div class="col-md-12">
                                                 @if ($title == 'Add Products' || $title == 'Edit Products')
                                                     <input type="file" id="uploads" name="uploads" class="form-control"
-                                                        accept=".png, .jpg, .jpeg">
+                                                        accept="image/png, image/jpg, image/jpeg">
                                                     <br>
                                                     @if(isset($products))
                                                         @if($products->upload != null)
