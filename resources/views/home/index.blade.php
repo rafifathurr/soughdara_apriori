@@ -46,7 +46,7 @@
                         <div class="col-md-6">
                             <div class="card card-post card-round">
                                 <div class="card-title" style="padding:20px;">
-                                    <center>Bundle Packages</center>
+                                    <center>{{ $menu->package_name }}</center>
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-5">

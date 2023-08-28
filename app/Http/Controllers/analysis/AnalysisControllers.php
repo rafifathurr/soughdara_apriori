@@ -6,15 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\analysis\Analysis;
 use App\Models\analysis\Support;
 use App\Models\analysis\Kombinasi;
-use App\Models\analysis\DetailsAnalysis;
+use App\Models\analysis\Recommend;
 use App\Models\order\Orders;
 use App\Models\order\detail\Details;
 use App\Models\product\Product;
-use App\Models\category\Category;
-use App\Models\payment_method\PaymentMethod;
-use App\Exports\ReportOrderExport;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -65,6 +60,19 @@ class AnalysisControllers extends Controller
         $datenow = date('Y-m-d H:i:s');
         ini_set('max_execution_time', 30000);
         // $yeardate = date('Y', strtotime($date));
+
+        // DATE CONFIG
+        $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $time_from = $datefrom;
+        $pisahfix_from = explode("-", $time_from);
+        $blnf_from = $pisahfix_from[1] - 1;
+        $new_datefrom = $pisahfix_from[2] . " " . $bulan[$blnf_from] . " " . $pisahfix_from[0] . " ";
+
+        $time_to = $dateto;
+        $pisahfix_to = explode("-", $time_to);
+        $blnf_to = $pisahfix_to[1] - 1;
+        $new_dateto = $pisahfix_to[2] . " " . $bulan[$blnf_to] . " " . $pisahfix_to[0] . " ";
 
         // CHECK DATA FIRST
         $totalProduk = Details::selectRaw('details_order.id_order')->join('orders_new', 'orders_new.id', '=','details_order.id_order')
@@ -201,8 +209,9 @@ class AnalysisControllers extends Controller
             $dataKombinasiItemsetConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> orderBy('confidence', 'desc') -> get();
             $dataMinConfidence = Kombinasi::where('kd_analysis', $kd_analysis) -> where('support', '>=', $min_support) -> where('confidence', '>=', $min_confidence) -> orderBy('support', 'desc') -> orderBy('confidence', 'desc') -> get();
             $data = [
+                'detail' => false,
                 'success' => true,
-                'title' => "Analysis of ".$datefrom." - ".$dateto."",
+                'title' => "Analysis of $new_datefrom - $new_dateto",
                 'min_support' => $min_support,
                 'min_confidence' => $min_confidence,
                 'dataSupport' => $dataSupportProduk,
@@ -215,6 +224,35 @@ class AnalysisControllers extends Controller
             ];
             return view('analysis.create', $data)->with('success','Analysis process successfully!');
         }
+    }
+
+    public function store(Request $req){
+        date_default_timezone_set("Asia/Bangkok");
+        $datenow = date('Y-m-d');
+        $now = date('Y-m-d H:i:s');
+
+        $packages = $req->package_name;
+        $products_a = $req->product_a;
+        $products_b = $req->product_b;
+
+        for($i = 0; $i<count($packages); $i++){
+            $store = Recommend::create([
+                'kd_analysis' => $req->kd_analysis,
+                'package_name' => $packages[$i],
+                'id_product_a' => $products_a[$i],
+                'id_product_b' => $products_b[$i],
+                'analysis_date' => $req->datenow,
+                'created_at' => $datenow,
+                'updated_at' => $now
+            ]);
+        }
+
+        if($store){
+            return redirect()->route('admin.analysis.index')->with(['success' => 'Data successfully stored!']);
+        }else{
+            return redirect()->back()->with(['gagal' => 'Data failed stored!']);
+        }
+
     }
 
     public function getMonth(Request $req){
@@ -246,8 +284,24 @@ class AnalysisControllers extends Controller
                     ->groupBy('details_order.id_order')
                     ->get();
         $totalProduk = count($totalProduk);
+        $rec_menu = Recommend::where('kd_analysis', $kd_analysis)->orderBy('id', 'asc')->get();
+
+        // DATE CONFIG
+        $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $time_from = $dataPengujian->datefrom;
+        $pisahfix_from = explode("-", $time_from);
+        $blnf_from = $pisahfix_from[1] - 1;
+        $new_datefrom = $pisahfix_from[2] . " " . $bulan[$blnf_from] . " " . $pisahfix_from[0] . " ";
+
+        $time_to = $dataPengujian->dateto;
+        $pisahfix_to = explode("-", $time_to);
+        $blnf_to = $pisahfix_to[1] - 1;
+        $new_dateto = $pisahfix_to[2] . " " . $bulan[$blnf_to] . " " . $pisahfix_to[0] . " ";
+
         $data = [
-            'title' => "Analysis of ".$dataPengujian->date."",
+            'detail' => true,
+            'title' => "Analysis of $new_datefrom - $new_dateto",
             'min_support' => $dataPengujian->min_support,
             'min_confidence' => $dataPengujian->min_confidence,
             'date' => $dataPengujian->date,
@@ -257,6 +311,7 @@ class AnalysisControllers extends Controller
             'dataKombinasiItemset' => $dataKombinasiItemset,
             'dataKombinasiItemsetConfidence' => $dataKombinasiItemsetConfidence,
             'dataMinConfidence' => $dataMinConfidence,
+            'recommendMenu' => $rec_menu,
             'kdPengujian' => $kd_analysis
         ];
         return view('analysis.create', $data);

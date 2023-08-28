@@ -213,7 +213,99 @@
                                     </table>
                                 </div>
 
-                                <br>
+                                {{-- STORE MENU PACKAGE FROM ANALYSIS --}}
+                                @if(!$detail)
+
+                                <hr />
+                                <p class="card-title-desc">
+                                <h5>Menu Recommendation</h5>
+                                </p>
+                                <div class="table-responsive">
+                                    <form action="{{ route('admin.analysis.store') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="kd_analysis" value="{{ $kdPengujian }}">
+                                        <table class="table mb-0 table-hover" id="tblPolaHasil">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Package</th>
+                                                    <th width="30%">Nama Package</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($dataMinConfidence as $is)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>
+                                                            <b>
+                                                                {{ $is->dataProduk($is->id_product_a)->product_name }} -
+                                                                {{ $is->dataProduk($is->id_product_b)->product_name }}
+                                                            </b>
+                                                            <input type="hidden" name="product_a[]" value="{{ $is->id_product_a }}">
+                                                            <input type="hidden" name="product_b[]" value="{{ $is->id_product_b }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="package_name[]" class="form-control" style='height:25px !important;' required>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <br>
+
+                                        <div class="modal-footer">
+                                            <div style="float:right;">
+                                                <div class="col-md-10" style="margin-right: 20px;">
+                                                    <button type="submit" class="btn btn-primary" style="margin-left:10px;">
+                                                        <i class="fa fa-check"></i>&nbsp;
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                @else
+                                @if(count($recommendMenu) != 0)
+
+                                <hr />
+                                <p class="card-title-desc">
+                                <h5>Menu Recommendation</h5>
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table mb-0 table-hover" id="tblPolaHasil">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Package</th>
+                                                <th width="30%">Nama Package</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($recommendMenu as $is)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <b>
+                                                            {{ $is->dataProduk($is->id_product_a)->product_name }} -
+                                                            {{ $is->dataProduk($is->id_product_b)->product_name }}
+                                                        </b>
+                                                        <input type="hidden" name="product_a" value="{{ $is->id_product_a }}">
+                                                        <input type="hidden" name="product_b" value="{{ $is->id_product_b }}">
+                                                    </td>
+                                                    <td>
+                                                        {{ $is->package_name }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                @endif
+                                @endif
+
                                 <br>
                                 <div class="modal-footer">
                                     <div style="float:right;">
